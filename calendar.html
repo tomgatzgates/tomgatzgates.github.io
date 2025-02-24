@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar</title>
+    <style>
+        @page {
+            size: letter landscape;
+            margin: 0.5in;
+        }
+        
+        body {
+            font-family: monospace, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .calendar {
+            width: 100%;
+            font-size: 1rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .calendar th {
+            padding: 0.25rem;
+        }
+        .calendar td {
+            width: 7.2%; /* 100% / (12 months + 1 day column) ≈ 7.69% */
+            height: 0.2in;
+            padding-left: 0.2rem;
+            border: 0.5px solid #333;
+            box-sizing: border-box;
+        }
+        .calendar td:first-of-type {
+            width: 3.6%; /* Half of regular column */
+            text-align: center;
+            border: none;
+        }
+
+        .weekend {
+            background-color: #ccc;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+            .title {
+                display: none;
+            }
+            .controls {
+                display: none;
+            }
+            .calendar {
+                width: 100% !important;      
+                border-collapse: collapse;
+            }
+            .weekend {
+                background-color: #ccc !important; /* Force background color */
+                -webkit-print-color-adjust: exact; /* For Chrome/Safari */
+                print-color-adjust: exact;         /* Standard property */
+            }
+            @page {
+                size: letter landscape;
+                margin: 0.5in;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <label for="yearSelect">Select Year: </label>
+        <select id="yearSelect"></select>
+    </div>
+    <h1 class="title" id="calendarTitle">Calendar</h1>
+    <table class="calendar" id="calendar">
+        <thead>
+            <tr id="monthHeaders"></tr>
+        </thead>
+        <tbody id="calendarBody"></tbody>
+    </table>
+
+    <script>
+        function populateYearDropdown() {
+            const select = document.getElementById('yearSelect');
+            for (let year = 1900; year <= 2100; year++) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                select.appendChild(option);
+            }
+            select.value = new Date().getFullYear();;
+        }
+
+        function generateCalendar(year) {
+            const months = [
+                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+            ];
+            // Account for leap years
+            const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+            const daysInMonth = [31, isLeapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            
+            // Update title
+            const titleText = `${year} Calendar`;
+            document.title = titleText; // Set document title
+            document.getElementById('calendarTitle').textContent = titleText;
+
+            // Calculate first day of each month
+            const firstDayOfMonth = [];
+            let currentDate = new Date(year, 0, 1);
+            for (let i = 0; i < 12; i++) {
+                firstDayOfMonth.push(currentDate.getDay());
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+
+            // Generate month headers
+            const headerRow = document.getElementById('monthHeaders');
+            headerRow.innerHTML = `<th>${year}</th>`;
+            months.forEach(month => {
+                headerRow.innerHTML += `<th>${month}</th>`;
+            });
+
+            // Generate calendar body
+            const tbody = document.getElementById('calendarBody');
+            tbody.innerHTML = ''; // Clear previous content
+            let dayCounter = Array(12).fill(0);
+
+            for (let day = 1; day <= 31; day++) {
+                let row = `<tr><td>${day}</td>`;
+                
+                for (let month = 0; month < 12; month++) {
+                    let cellContent = '';
+                    let className = '';
+
+                    if (day <= daysInMonth[month]) {
+                        const date = new Date(year, month, day);
+                        const dayOfWeek = date.getDay();
+                        dayCounter[month]++;
+                        cellContent = date.toLocaleString('en-US', { weekday: 'narrow' });
+                        className = dayOfWeek === 0 || dayOfWeek === 6 ? 'weekend' : '';
+                    }
+
+                    row += `<td class="${className}">${cellContent}</td>`;
+                }
+                row += '</tr>';
+                tbody.innerHTML += row;
+            }
+        }
+
+        // Initialize page
+        window.onload = function() {
+            populateYearDropdown();
+            const currentYear = new Date().getFullYear();
+            generateCalendar(currentYear); // Default year
+            
+            // Add event listener for year selection
+            document.getElementById('yearSelect').addEventListener('change', function(e) {
+                generateCalendar(parseInt(e.target.value));
+            });
+        }
+    </script>
+</body>
+</html>
