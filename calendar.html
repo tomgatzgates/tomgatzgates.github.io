@@ -121,6 +121,11 @@
             margin-bottom: 4px;
         }
 
+        .event-duration {
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
         .event-item .delete-btn {
             position: absolute;
             top: 5px;
@@ -475,6 +480,22 @@
             updatePrintEventsList();
         }
 
+        // Calculate number of days between two dates
+        function getDaysBetween(startDate, endDate) {
+            if (!startDate || !endDate) return 1;
+            
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            
+            // Reset time part to ensure we're counting full days
+            start.setHours(0, 0, 0, 0);
+            end.setHours(0, 0, 0, 0);
+            
+            // Calculate difference in milliseconds and convert to days
+            const diffTime = Math.abs(end - start);
+            return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include both start and end days
+        }
+
         function formatDateString(date) {
             return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
         }
@@ -541,8 +562,17 @@
                     dateDisplay += ` to ${formatDisplayDate(event.endDate)}`;
                 }
                 
+                // Calculate event duration
+                let durationHtml = '';
+                if (event.endDate) {
+                    const days = getDaysBetween(event.startDate, event.endDate);
+                    if (days > 1) {
+                        durationHtml = `<span class="event-duration">(${days} days)</span>`;
+                    }
+                }
+                
                 eventEl.innerHTML = `
-                    <div class="event-title">${event.title}</div>
+                    <div class="event-title">${event.title} ${durationHtml}</div>
                     <div class="event-date">${dateDisplay}</div>
                     ${event.notes ? `<div class="event-notes">${event.notes}</div>` : ''}
                     <button class="delete-btn" data-event-id="${event.id}">&times;</button>
@@ -602,8 +632,17 @@
                     dateDisplay += ` to ${formatDisplayDate(event.endDate)}`;
                 }
                 
+                // Calculate event duration for print view
+                let durationHtml = '';
+                if (event.endDate) {
+                    const days = getDaysBetween(event.startDate, event.endDate);
+                    if (days > 1) {
+                        durationHtml = `<span class="event-duration">(${days} days)</span>`;
+                    }
+                }
+                
                 eventEl.innerHTML = `
-                    <div class="event-title">${event.title}</div>
+                    <div class="event-title">${event.title} ${durationHtml}</div>
                     <div class="event-date">${dateDisplay}</div>
                     ${event.notes ? `<div class="event-notes">${event.notes}</div>` : ''}
                 `;
