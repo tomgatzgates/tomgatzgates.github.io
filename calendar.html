@@ -48,9 +48,13 @@
             width: 7.2%; /* 100% / (12 months + 1 day column) ≈ 7.69% */
             height: 0.2in;
             padding-left: 0.2rem;
-            border: 0.5px solid #333;
+            border: 2px solid #fff;
             box-sizing: border-box;
             position: relative;
+            background-color:#FFF;
+        }
+        .calendar td.weekend {
+            background-color:#EAEAEA;
         }
         .calendar td:first-of-type {
             width: 3.6%; /* Half of regular column */
@@ -58,12 +62,12 @@
             border: none;
         }
 
-        .weekend {
-            background-color: #ccc;
+        .calendar td.weekday {
+            background-color: #F8F8F8;
         }
         
         .current-day {
-            background-color: #ffeb3b;
+            background-color: #ffeb3b !important;
             font-weight: bold;
             color: #000;
         }
@@ -408,11 +412,14 @@
                         const date = new Date(year, month, day);
                         const dayOfWeek = date.getDay();
                         dayCounter[month]++;
-                        cellContent = date.toLocaleString('en-US', { weekday: 'narrow' });
+                        cellContent = date.toLocaleString('en-US', { weekday: 'short' });
+                        cellContent = cellContent.substring(0,cellContent.length - 1);
                         
                         // Add weekend class if applicable
                         if (dayOfWeek === 0 || dayOfWeek === 6) {
                             classes.push('weekend');
+                        }else{
+                            classes.push('weekday');
                         }
                         
                         // Add current-day class if this cell is today
