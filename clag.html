@@ -8,1364 +8,1178 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@300;400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
-
 <style>
-  :root {
-    --ink: #1a1a14;
-    --paper: #2a2a1e;
-    --panel: #1e1e14;
-    --amber: #e8a820;
-    --amber-dim: #a07010;
-    --amber-glow: rgba(232, 168, 32, 0.15);
-    --green: #4a7c3f;
-    --green-bright: #6db560;
-    --red: #c0392b;
-    --cream: #d4c89a;
-    --cream-dim: #8a7e5a;
-    --border: rgba(232, 168, 32, 0.3);
-    --border-dim: rgba(212, 200, 154, 0.15);
-    --grid: rgba(232, 168, 32, 0.06);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background-color: var(--ink);
-    color: var(--cream);
-    font-family: 'Share Tech Mono', monospace;
-    min-height: 100vh;
-    overflow-x: hidden;
-    background-image:
-      repeating-linear-gradient(0deg, var(--grid) 0px, var(--grid) 1px, transparent 1px, transparent 40px),
-      repeating-linear-gradient(90deg, var(--grid) 0px, var(--grid) 1px, transparent 1px, transparent 40px);
-  }
-
-  /* Scanline overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 4px
-    );
-    pointer-events: none;
-    z-index: 1000;
-  }
-
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 16px 60px;
-  }
-
-  /* HEADER */
-  header {
-    border-bottom: 2px solid var(--amber);
-    padding: 24px 0 20px;
-    margin-bottom: 32px;
-    position: relative;
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .roundel {
-    width: 52px;
-    height: 52px;
-    flex-shrink: 0;
-  }
-
-  .title-block {
-    flex: 1;
-  }
-
-  .clag-title {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: clamp(2.2rem, 6vw, 3.8rem);
-    letter-spacing: 0.25em;
-    color: var(--amber);
-    line-height: 1;
-    text-shadow: 0 0 30px rgba(232,168,32,0.4);
-  }
-
-  .clag-subtitle {
-    font-family: 'Special Elite', cursive;
-    font-size: 0.72rem;
-    color: var(--cream-dim);
-    letter-spacing: 0.18em;
-    margin-top: 4px;
-  }
-
-  .header-meta {
-    text-align: right;
-    font-size: 0.7rem;
-    color: var(--cream-dim);
-    letter-spacing: 0.1em;
-    line-height: 1.8;
-  }
-
-  /* SETUP SCREEN */
-  #setup-screen {
-    max-width: 560px;
-    margin: 0 auto;
-  }
-
-  .section-label {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    color: var(--amber-dim);
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border-dim);
-  }
-
-  .panel {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    padding: 24px;
-    margin-bottom: 20px;
-    position: relative;
-  }
-
-  .panel::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--amber), transparent);
-  }
-
-  /* Player inputs */
-  .player-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .player-input-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid var(--border-dim);
-    padding: 8px 12px;
-    transition: border-color 0.2s;
-  }
-
-  .player-input-row:focus-within {
-    border-color: var(--amber);
-  }
-
-  .player-num {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.7rem;
-    color: var(--amber-dim);
-    letter-spacing: 0.1em;
-    min-width: 22px;
-  }
-
-  .player-input-row input {
-    background: transparent;
-    border: none;
-    color: var(--cream);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 16px;
-    width: 100%;
-    outline: none;
-    letter-spacing: 0.05em;
-  }
-
-  .player-input-row input::placeholder {
-    color: var(--cream-dim);
-    opacity: 0.5;
-  }
-
-  /* Game type */
-  .game-type-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .radio-card {
-    position: relative;
-    cursor: pointer;
-  }
-
-  .radio-card input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-  }
-
-  .radio-label {
-    display: block;
-    border: 1px solid var(--border-dim);
-    padding: 12px 14px;
-    cursor: pointer;
-    transition: all 0.15s;
-    background: rgba(0,0,0,0.2);
-  }
-
-  .radio-card input:checked + .radio-label {
-    border-color: var(--amber);
-    background: var(--amber-glow);
-  }
-
-  .radio-label-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.1em;
-    color: var(--cream);
-    display: block;
-    margin-bottom: 3px;
-  }
-
-  .radio-label-sub {
-    font-size: 0.65rem;
-    color: var(--cream-dim);
-    letter-spacing: 0.05em;
-  }
-
-  /* Scoring variant */
-  .scoring-row {
-    display: flex;
-    gap: 10px;
-  }
-
-  .scoring-row .radio-card {
-    flex: 1;
-  }
-
-  /* Buttons */
-  .btn {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    padding: 13px 28px;
-    transition: all 0.15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .btn-primary {
-    background: var(--amber);
-    color: var(--ink);
-    width: 100%;
-    justify-content: center;
-    font-weight: 600;
-  }
-
-  .btn-primary:hover {
-    background: #f0b830;
-    box-shadow: 0 0 20px rgba(232,168,32,0.4);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--cream-dim);
-    border: 1px solid var(--border-dim);
-    font-size: 0.75rem;
-    padding: 8px 16px;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--amber-dim);
-    color: var(--cream);
-  }
-
-  .btn-danger {
-    background: transparent;
-    color: var(--red);
-    border: 1px solid rgba(192,57,43,0.3);
-    font-size: 0.7rem;
-    padding: 6px 12px;
-  }
-
-  .btn-danger:hover {
-    background: rgba(192,57,43,0.1);
-  }
-
-  /* GAME SCREEN */
-  #game-screen { display: none; }
-
-  /* Round indicator */
-  .round-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border-dim);
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .round-info {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-  }
-
-  .round-label {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    color: var(--amber-dim);
-    text-transform: uppercase;
-  }
-
-  .round-name {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--amber);
-    letter-spacing: 0.05em;
-  }
-
-  .round-detail {
-    font-size: 0.75rem;
-    color: var(--cream-dim);
-    margin-top: 2px;
-  }
-
-  .round-controls {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-
-  /* Round progress dots */
-  .round-progress {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-    align-items: center;
-  }
-
-  .progress-segment {
-    display: flex;
-    gap: 3px;
-    align-items: center;
-  }
-
-  .progress-segment + .progress-segment {
-    padding-left: 6px;
-    border-left: 1px solid var(--border-dim);
-    margin-left: 2px;
-  }
-
-  .prog-dot {
-    width: 10px;
-    height: 10px;
-    border: 1px solid var(--border-dim);
-    border-radius: 0;
-    transition: all 0.2s;
-    cursor: pointer;
-    position: relative;
-  }
-
-  .prog-dot.done {
-    background: var(--amber-dim);
-    border-color: var(--amber-dim);
-  }
-
-  .prog-dot.current {
-    background: var(--amber);
-    border-color: var(--amber);
-    box-shadow: 0 0 8px rgba(232,168,32,0.6);
-  }
-
-  .prog-dot.special {
-    border-radius: 50%;
-    border-color: var(--green);
-  }
-
-  .prog-dot.special.done { background: var(--green); border-color: var(--green); }
-  .prog-dot.special.current { background: var(--green-bright); border-color: var(--green-bright); box-shadow: 0 0 8px rgba(107,181,96,0.6); }
-
-  /* Phase label */
-  .phase-label {
-    font-size: 0.6rem;
-    color: var(--cream-dim);
-    letter-spacing: 0.15em;
-    margin-bottom: 4px;
-  }
-
-  /* SCOREBOARD */
-  .scoreboard {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-
-  .scoreboard th {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--amber-dim);
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-    background: rgba(0,0,0,0.2);
-    white-space: nowrap;
-  }
-
-  .scoreboard th.player-col {
-    text-align: center;
-    min-width: 90px;
-  }
-
-  .scoreboard td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border-dim);
-    font-size: 0.82rem;
-    vertical-align: middle;
-  }
-
-  .scoreboard td.round-cell {
-    color: var(--cream-dim);
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-  }
-
-  .scoreboard td.round-cell .r-name {
-    color: var(--cream);
-    font-family: 'Special Elite', cursive;
-  }
-
-  .scoreboard td.round-cell .r-cards {
-    color: var(--amber-dim);
-    font-size: 0.65rem;
-  }
-
-  .scoreboard tr.current-row td {
-    background: var(--amber-glow);
-  }
-
-  .scoreboard tr.current-row td.round-cell .r-name {
-    color: var(--amber);
-  }
-
-  /* Score cell */
-  .score-cell {
-    text-align: center;
-    position: relative;
-  }
-
-  .score-display {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
-
-  .bid-track {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    justify-content: center;
-  }
-
-  .bid-input-wrap {
-    position: relative;
-  }
-
-  .bid-box {
-    width: 36px;
-    height: 30px;
-    background: rgba(0,0,0,0.4);
-    border: 1px solid var(--border-dim);
-    color: var(--amber);
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.15s;
-    -moz-appearance: textfield;
-  }
-
-  .bid-box::-webkit-inner-spin-button,
-  .bid-box::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-  .bid-box:focus { border-color: var(--amber); box-shadow: 0 0 8px rgba(232,168,32,0.3); }
-
-  .tricks-box {
-    width: 36px;
-    height: 30px;
-    background: rgba(0,0,0,0.4);
-    border: 1px solid var(--border-dim);
-    color: var(--green-bright);
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    outline: none;
-    transition: border-color 0.15s;
-    -moz-appearance: textfield;
-  }
-
-  .tricks-box::-webkit-inner-spin-button,
-  .tricks-box::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-  .tricks-box:focus { border-color: var(--green-bright); box-shadow: 0 0 8px rgba(107,181,96,0.3); }
-
-  .box-label {
-    font-size: 0.55rem;
-    color: var(--cream-dim);
-    letter-spacing: 0.1em;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .arrow-sep {
-    color: var(--cream-dim);
-    font-size: 0.7rem;
-    padding-top: 2px;
-  }
-
-  /* Locked score display */
-  .locked-score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
-
-  .locked-pts {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-  }
-
-  .locked-pts.hit { color: var(--amber); }
-  .locked-pts.miss { color: var(--cream-dim); }
-
-  .locked-meta {
-    font-size: 0.6rem;
-    color: var(--cream-dim);
-    letter-spacing: 0.05em;
-  }
-
-  .locked-meta.hit { color: var(--green-bright); }
-
-  .running-total {
-    font-family: 'Oswald', sans-serif;
-    font-size: 0.8rem;
-    color: var(--cream-dim);
-    letter-spacing: 0.05em;
-  }
-
-  /* TOTALS ROW */
-  .scoreboard tfoot td {
-    background: var(--panel);
-    border-top: 2px solid var(--amber);
-    padding: 14px 12px;
-    font-family: 'Oswald', sans-serif;
-  }
-
-  .total-cell {
-    text-align: center;
-  }
-
-  .total-pts {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--amber);
-    display: block;
-  }
-
-  .total-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    color: var(--amber-dim);
-  }
-
-  .rank-badge {
-    display: inline-block;
-    font-size: 0.6rem;
-    padding: 1px 5px;
-    margin-top: 3px;
-    letter-spacing: 0.1em;
-  }
-
-  .rank-1 { background: var(--amber); color: var(--ink); }
-  .rank-2 { background: rgba(232,168,32,0.2); color: var(--amber); }
-  .rank-3 { background: transparent; color: var(--cream-dim); border: 1px solid var(--border-dim); }
-
-  /* BIDDING PHASE CALLOUT */
-  .bid-constraint {
-    background: rgba(192,57,43,0.1);
-    border: 1px solid rgba(192,57,43,0.4);
-    padding: 10px 16px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.75rem;
-    color: var(--cream-dim);
-  }
-
-  .bid-constraint strong {
-    color: #e74c3c;
-    font-weight: normal;
-    font-family: 'Oswald', sans-serif;
-    letter-spacing: 0.05em;
-  }
-
-  .bid-constraint .forbidden {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.1rem;
-    color: #e74c3c;
-    font-weight: 700;
-    background: rgba(192,57,43,0.2);
-    padding: 2px 8px;
-    flex-shrink: 0;
-  }
-
-  /* SPECIAL ROUND BADGE */
-  .special-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(74,124,63,0.15);
-    border: 1px solid var(--green);
-    padding: 4px 10px;
-    font-size: 0.7rem;
-    color: var(--green-bright);
-    letter-spacing: 0.1em;
-    margin-bottom: 16px;
-    font-family: 'Oswald', sans-serif;
-  }
-
-  /* GAME OVER */
-  #gameover-screen { display: none; }
-
-  .gameover-panel {
-    max-width: 560px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 40px;
-    background: var(--panel);
-    border: 2px solid var(--amber);
-    position: relative;
-  }
-
-  .gameover-panel::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--amber), transparent);
-  }
-
-  .gameover-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--amber);
-    letter-spacing: 0.3em;
-    text-shadow: 0 0 40px rgba(232,168,32,0.5);
-    margin-bottom: 8px;
-  }
-
-  .gameover-sub {
-    font-family: 'Special Elite', cursive;
-    color: var(--cream-dim);
-    letter-spacing: 0.15em;
-    font-size: 0.8rem;
-    margin-bottom: 32px;
-  }
-
-  .final-standings {
-    text-align: left;
-    margin-bottom: 32px;
-  }
-
-  .standing-row {
-    display: flex;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border-dim);
-    gap: 16px;
-  }
-
-  .standing-rank {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--amber-dim);
-    min-width: 32px;
-  }
-
-  .standing-row.rank-1 .standing-rank { color: var(--amber); }
-
-  .standing-name {
-    font-family: 'Special Elite', cursive;
-    font-size: 1rem;
-    flex: 1;
-    letter-spacing: 0.05em;
-  }
-
-  .standing-pts {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--amber);
-  }
-
-  /* Utilities */
-  .hidden { display: none !important; }
-
-  .flex-gap {
-    display: flex;
-    gap: 10px;
-  }
-
-  .mt-8 { margin-top: 8px; }
-  .mt-16 { margin-top: 16px; }
-
-  /* Tooltip for prog dots */
-  .prog-dot[title]:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--panel);
-    border: 1px solid var(--border);
-    color: var(--cream);
-    font-size: 0.65rem;
-    padding: 3px 7px;
-    white-space: nowrap;
-    letter-spacing: 0.05em;
-    pointer-events: none;
-    z-index: 10;
-  }
-
-  /* responsive */
-  @media (max-width: 600px) {
-    .player-grid { grid-template-columns: 1fr; }
-    .game-type-grid { grid-template-columns: 1fr; }
-    .scoreboard th.player-col { min-width: 70px; }
-    .bid-box, .tricks-box { width: 30px; font-size: 0.9rem; }
-  }
+:root {
+  --ink: #1a1a14;
+  --panel: #1e1e14;
+  --amber: #e8a820;
+  --amber-dim: #a07010;
+  --amber-glow: rgba(232,168,32,0.12);
+  --green: #4a7c3f;
+  --green-bright: #6db560;
+  --red: #c0392b;
+  --cream: #d4c89a;
+  --cream-dim: #8a7e5a;
+  --border: rgba(232,168,32,0.3);
+  --border-dim: rgba(212,200,154,0.15);
+  --grid: rgba(232,168,32,0.055);
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–ink);
+color: var(–cream);
+font-family: ‘Share Tech Mono’, monospace;
+min-height: 100vh;
+overflow-x: hidden;
+background-image:
+repeating-linear-gradient(0deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px),
+repeating-linear-gradient(90deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px);
+}
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+pointer-events: none;
+z-index: 999;
+}
+
+.container {
+max-width: 520px;
+margin: 0 auto;
+padding: 0 16px 80px;
+}
+
+/* ── HEADER ── */
+header {
+border-bottom: 2px solid var(–amber);
+padding: 18px 0 14px;
+margin-bottom: 22px;
+}
+.header-inner { display: flex; align-items: center; gap: 13px; }
+.roundel { width: 42px; height: 42px; flex-shrink: 0; }
+.clag-title {
+font-family: ‘Oswald’, sans-serif;
+font-weight: 700;
+font-size: 2.1rem;
+letter-spacing: 0.25em;
+color: var(–amber);
+line-height: 1;
+text-shadow: 0 0 28px rgba(232,168,32,0.35);
+}
+.clag-sub {
+font-family: ‘Special Elite’, cursive;
+font-size: 0.6rem;
+color: var(–cream-dim);
+letter-spacing: 0.12em;
+margin-top: 3px;
+}
+
+/* ── SCREENS ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── RESUME BANNER ── */
+.resume-banner {
+background: rgba(232,168,32,0.08);
+border: 1px solid var(–border);
+padding: 13px 15px;
+margin-bottom: 16px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 12px;
+}
+.resume-text { font-size: 0.75rem; color: var(–cream-dim); letter-spacing: 0.04em; line-height: 1.5; }
+.resume-text strong { font-family: ‘Oswald’, sans-serif; color: var(–amber); font-weight: 400; font-size: 0.85rem; }
+.resume-btns { display: flex; gap: 8px; flex-shrink: 0; }
+
+/* ── PANEL ── */
+.panel {
+background: var(–panel);
+border: 1px solid var(–border);
+padding: 18px;
+margin-bottom: 14px;
+position: relative;
+}
+.panel::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 2px;
+background: linear-gradient(90deg, var(–amber), transparent);
+}
+
+/* ── SECTION LABEL ── */
+.slabel {
+font-family: ‘Oswald’, sans-serif;
+font-size: 0.58rem;
+letter-spacing: 0.28em;
+color: var(–amber-dim);
+text-transform: uppercase;
+margin-bottom: 10px;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+.slabel::after { content: ‘’; flex: 1; height: 1px; background: var(–border-dim); }
+
+/* ── PLAYER INPUTS ── */
+.pinput-row {
+display: flex;
+align-items: center;
+gap: 8px;
+background: rgba(0,0,0,0.3);
+border: 1px solid var(–border-dim);
+padding: 10px 13px;
+margin-bottom: 7px;
+transition: border-color 0.15s;
+}
+.pinput-row:focus-within { border-color: var(–amber); }
+.pnum { font-family: ‘Oswald’, sans-serif; font-size: 0.62rem; color: var(–amber-dim); letter-spacing: 0.1em; min-width: 20px; }
+.pinput-row input {
+background: transparent; border: none;
+color: var(–cream);
+font-family: ‘Share Tech Mono’, monospace;
+font-size: 16px; /* prevents iOS zoom */
+width: 100%; outline: none;
+letter-spacing: 0.04em;
+}
+.pinput-row input::placeholder { color: var(–cream-dim); opacity: 0.45; }
+
+/* ── RADIO CARDS ── */
+.radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.rcard { position: relative; cursor: pointer; }
+.rcard input { position: absolute; opacity: 0; width: 0; }
+.rlabel {
+display: block;
+border: 1px solid var(–border-dim);
+padding: 10px 12px;
+cursor: pointer;
+background: rgba(0,0,0,0.2);
+transition: all 0.12s;
+}
+.rcard input:checked + .rlabel { border-color: var(–amber); background: var(–amber-glow); }
+.rlabel-title { font-family: ‘Oswald’, sans-serif; font-size: 0.78rem; letter-spacing: 0.1em; color: var(–cream); display: block; margin-bottom: 2px; }
+.rlabel-sub { font-size: 0.6rem; color: var(–cream-dim); }
+
+/* ── BUTTONS ── */
+.btn {
+font-family: ‘Oswald’, sans-serif;
+font-size: 0.82rem;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+border: none;
+cursor: pointer;
+padding: 12px 18px;
+transition: background 0.12s, opacity 0.12s;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 7px;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+user-select: none;
+}
+.btn-primary { background: var(–amber); color: var(–ink); width: 100%; font-weight: 600; }
+.btn-primary:active { background: #f0b830; }
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-secondary {
+background: transparent;
+color: var(–cream-dim);
+border: 1px solid var(–border-dim);
+font-size: 0.68rem;
+padding: 9px 14px;
+}
+.btn-secondary:active { border-color: var(–amber-dim); color: var(–cream); }
+.btn-ghost {
+background: transparent;
+color: var(–cream-dim);
+font-size: 0.68rem;
+letter-spacing: 0.14em;
+padding: 10px 0;
+width: 100%;
+}
+.btn-ghost:active { color: var(–cream); }
+.btn-danger {
+background: transparent;
+color: rgba(192,57,43,0.7);
+border: 1px solid rgba(192,57,43,0.25);
+font-size: 0.62rem;
+padding: 8px 13px;
+}
+.btn-danger:active { background: rgba(192,57,43,0.1); }
+
+.btn-row { display: flex; gap: 8px; }
+.btn-row .btn { flex: 1; }
+.mt8 { margin-top: 8px; }
+.mt14 { margin-top: 14px; }
+.mt18 { margin-top: 18px; }
+
+/* ── PHASE HEADER ── */
+.phase-hdr {
+display: flex;
+align-items: baseline;
+justify-content: space-between;
+margin-bottom: 18px;
+padding-bottom: 12px;
+border-bottom: 1px solid var(–border-dim);
+}
+.phase-title {
+font-family: ‘Oswald’, sans-serif;
+font-size: 1.25rem;
+font-weight: 600;
+letter-spacing: 0.15em;
+color: var(–amber);
+}
+.phase-rd {
+font-family: ‘Share Tech Mono’, monospace;
+font-size: 0.68rem;
+color: var(–cream-dim);
+letter-spacing: 0.08em;
+}
+
+/* ── ROUND INFO ── */
+.rinfo { margin-bottom: 14px; }
+.rinfo-name {
+font-family: ‘Oswald’, sans-serif;
+font-size: 1.3rem;
+font-weight: 600;
+letter-spacing: 0.07em;
+color: var(–cream);
+}
+.rinfo-desc { font-size: 0.7rem; color: var(–cream-dim); margin-top: 4px; letter-spacing: 0.04em; }
+
+/* ── SPECIAL BADGE ── */
+.sbadge {
+display: inline-flex;
+align-items: center;
+gap: 6px;
+background: rgba(74,124,63,0.12);
+border: 1px solid var(–green);
+padding: 5px 10px;
+font-size: 0.67rem;
+color: var(–green-bright);
+letter-spacing: 0.08em;
+margin-bottom: 13px;
+font-family: ‘Oswald’, sans-serif;
+}
+
+/* ── BID BAR ── */
+.bid-bar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 9px 13px;
+background: rgba(0,0,0,0.3);
+border: 1px solid var(–border-dim);
+margin-bottom: 13px;
+font-size: 0.72rem;
+color: var(–cream-dim);
+letter-spacing: 0.07em;
+transition: border-color 0.15s, background 0.15s;
+}
+.bid-bar.warn { border-color: rgba(192,57,43,0.45); background: rgba(192,57,43,0.07); }
+.bid-bar-lhs { display: flex; align-items: baseline; gap: 6px; }
+.bid-total {
+font-family: ‘Oswald’, sans-serif;
+font-size: 1rem;
+font-weight: 600;
+color: var(–amber);
+transition: color 0.15s;
+}
+.bid-total.warn { color: #e74c3c; }
+.bid-forbidden { font-family: ‘Oswald’, sans-serif; font-size: 0.7rem; }
+.bid-forbidden span { color: #e74c3c; font-size: 1rem; font-weight: 700; }
+
+/* ── STEPPER ROW ── */
+.stepper-row {
+background: rgba(0,0,0,0.18);
+border: 1px solid var(–border-dim);
+padding: 12px 14px;
+margin-bottom: 9px;
+display: flex;
+align-items: center;
+gap: 10px;
+transition: border-color 0.15s;
+}
+.stepper-row.is-dealer { border-left: 2px solid var(–amber-dim); }
+.stepper-row.is-eldest { border-left: 2px solid rgba(74,124,63,0.6); }
+
+.sinfo { flex: 1; min-width: 0; }
+.sname {
+font-family: ‘Oswald’, sans-serif;
+font-size: 0.95rem;
+letter-spacing: 0.07em;
+color: var(–cream);
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+.stag {
+font-size: 0.55rem;
+color: var(–amber-dim);
+letter-spacing: 0.12em;
+text-transform: uppercase;
+margin-top: 2px;
+}
+.ssub {
+font-size: 0.63rem;
+color: var(–cream-dim);
+margin-top: 3px;
+letter-spacing: 0.04em;
+min-height: 14px;
+}
+.ssub.hit { color: var(–green-bright); }
+.ssub.miss { color: var(–cream-dim); }
+.ssub.warn { color: #e06050; }
+
+.scontrols { display: flex; align-items: center; flex-shrink: 0; }
+.sbtn {
+width: 50px;
+height: 54px;
+background: rgba(0,0,0,0.38);
+border: 1px solid var(–border-dim);
+color: var(–cream);
+font-size: 1.35rem;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: background 0.1s;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+user-select: none;
+line-height: 1;
+}
+.sbtn.dec { border-right: none; }
+.sbtn.inc { border-left: none; }
+.sbtn:active { background: var(–amber-glow); }
+.sbtn:disabled { opacity: 0.2; cursor: not-allowed; }
+.sval {
+min-width: 52px;
+height: 54px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘Oswald’, sans-serif;
+font-size: 1.9rem;
+font-weight: 700;
+color: var(–amber);
+background: rgba(0,0,0,0.45);
+border: 1px solid var(–border-dim);
+}
+.sval.green { color: var(–green-bright); }
+
+.sind { font-size: 1rem; flex-shrink: 0; width: 18px; text-align: center; }
+
+/* ── TRICK TOTAL BAR ── */
+.tricks-bar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 8px 13px;
+background: rgba(0,0,0,0.25);
+border: 1px solid var(–border-dim);
+margin-bottom: 13px;
+font-size: 0.7rem;
+color: var(–cream-dim);
+letter-spacing: 0.07em;
+}
+.tricks-bar.warn { border-color: rgba(192,57,43,0.35); }
+.tricks-remaining {
+font-family: ‘Oswald’, sans-serif;
+font-size: 1rem;
+font-weight: 600;
+color: var(–green-bright);
+}
+.tricks-remaining.warn { color: #e74c3c; }
+
+/* ── PROGRESS PIPS ── */
+.progress-strip { display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 18px; }
+.pip {
+width: 8px; height: 8px;
+border: 1px solid var(–border-dim);
+cursor: pointer;
+transition: all 0.15s;
+flex-shrink: 0;
+}
+.pip.done { background: var(–amber-dim); border-color: var(–amber-dim); }
+.pip.current { background: var(–amber); border-color: var(–amber); box-shadow: 0 0 6px rgba(232,168,32,0.65); }
+.pip.special { border-radius: 50%; }
+.pip.special.done { background: var(–green); border-color: var(–green); }
+.pip.special.current { background: var(–green-bright); border-color: var(–green-bright); box-shadow: 0 0 6px rgba(107,181,96,0.65); }
+
+/* ── SCORE TABLE ── */
+.sc-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.sc-table { width: 100%; border-collapse: collapse; font-size: 0.73rem; }
+.sc-table th {
+font-family: ‘Oswald’, sans-serif;
+font-size: 0.58rem;
+letter-spacing: 0.14em;
+color: var(–amber-dim);
+padding: 7px 9px;
+border-bottom: 1px solid var(–border);
+text-align: left;
+background: rgba(0,0,0,0.2);
+white-space: nowrap;
+}
+.sc-table th.pcol { text-align: center; min-width: 72px; }
+.sc-table td { padding: 7px 9px; border-bottom: 1px solid var(–border-dim); vertical-align: middle; }
+.sc-table td.rtd { white-space: nowrap; font-size: 0.66rem; }
+.sc-table td.rtd .rn { font-family: ‘Special Elite’, cursive; color: var(–cream); }
+.sc-table td.rtd .rc { color: var(–cream-dim); font-size: 0.6rem; }
+.sc-table td.ptd { text-align: center; }
+.spts { font-family: ‘Oswald’, sans-serif; font-size: 0.95rem; font-weight: 600; }
+.spts.hit { color: var(–amber); }
+.spts.miss { color: var(–cream-dim); }
+.spts.neg { color: var(–red); }
+.smeta { font-size: 0.58rem; color: var(–cream-dim); display: block; }
+.smeta.hit { color: var(–green-bright); }
+.srun { font-size: 0.62rem; color: var(–cream-dim); display: block; }
+.sc-table tfoot td { padding: 11px 9px; border-top: 2px solid var(–amber); background: var(–panel); }
+.ttl { font-family: ‘Oswald’, sans-serif; font-size: 1.25rem; font-weight: 700; color: var(–amber); display: block; text-align: center; }
+.ttl-lbl { font-family: ‘Oswald’, sans-serif; font-size: 0.53rem; letter-spacing: 0.14em; color: var(–amber-dim); display: block; text-align: center; }
+.rbadge { display: inline-block; font-family: ‘Oswald’, sans-serif; font-size: 0.53rem; padding: 1px 4px; margin-top: 2px; letter-spacing: 0.08em; }
+.rbadge.r1 { background: var(–amber); color: var(–ink); }
+.rbadge.r2 { background: rgba(232,168,32,0.18); color: var(–amber); }
+.rbadge.r3 { background: transparent; color: var(–cream-dim); border: 1px solid var(–border-dim); }
+
+/* ── GAME OVER ── */
+.go-panel {
+text-align: center;
+padding: 36px 18px;
+background: var(–panel);
+border: 2px solid var(–amber);
+position: relative;
+margin-bottom: 18px;
+}
+.go-panel::before {
+content: ‘’;
+position: absolute;
+top: 0; left: 0; right: 0;
+height: 4px;
+background: linear-gradient(90deg, transparent, var(–amber), transparent);
+}
+.go-title {
+font-family: ‘Oswald’, sans-serif;
+font-size: 2.4rem;
+font-weight: 700;
+color: var(–amber);
+letter-spacing: 0.3em;
+text-shadow: 0 0 36px rgba(232,168,32,0.45);
+margin-bottom: 5px;
+}
+.go-sub {
+font-family: ‘Special Elite’, cursive;
+color: var(–cream-dim);
+letter-spacing: 0.12em;
+font-size: 0.72rem;
+margin-bottom: 26px;
+}
+.stand-row {
+display: flex;
+align-items: center;
+padding: 11px 0;
+border-bottom: 1px solid var(–border-dim);
+gap: 13px;
+text-align: left;
+}
+.stand-rank { font-family: ‘Oswald’, sans-serif; font-size: 1.2rem; font-weight: 700; color: var(–amber-dim); min-width: 26px; }
+.stand-row.p1 .stand-rank { color: var(–amber); }
+.stand-name { font-family: ‘Special Elite’, cursive; font-size: 0.95rem; flex: 1; }
+.stand-pts { font-family: ‘Oswald’, sans-serif; font-size: 1.15rem; font-weight: 600; color: var(–amber); }
 </style>
 
 </head>
 <body>
 <div class="container">
 
-  <header>
-    <div class="header-inner">
-      <!-- RAF Roundel SVG -->
-      <svg class="roundel" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="48" fill="#003087"/>
-        <circle cx="50" cy="50" r="34" fill="#fff"/>
-        <circle cx="50" cy="50" r="20" fill="#cf111a"/>
-      </svg>
-      <div class="title-block">
-        <div class="clag-title">CLAG</div>
-        <div class="clag-subtitle">CLOUDS LOW AIRCRAFT GROUNDED — ROYAL AIR FORCE</div>
-      </div>
-      <div class="header-meta" id="header-meta" style="display:none">
-        <div id="meta-players">—</div>
-        <div id="meta-round">—</div>
-        <div id="meta-scoring">—</div>
-      </div>
-    </div>
-  </header>
-
-  <!-- SETUP SCREEN -->
-
-  <div id="setup-screen">
-
-```
-<div class="panel">
-  <div class="section-label">Personnel — 3 to 7 players</div>
-  <div class="player-grid" id="player-grid">
-    <!-- populated by JS -->
-  </div>
-</div>
-
-<div class="panel">
-  <div class="section-label">Game Type</div>
-  <div class="game-type-grid">
-    <label class="radio-card">
-      <input type="radio" name="gametype" value="standard6" checked>
-      <span class="radio-label">
-        <span class="radio-label-title">STANDARD (20 rounds)</span>
-        <span class="radio-label-sub">Phase 2: 6 special deals (Foss)</span>
-      </span>
-    </label>
-    <label class="radio-card">
-      <input type="radio" name="gametype" value="standard8">
-      <span class="radio-label">
-        <span class="radio-label-title">EXTENDED (22 rounds)</span>
-        <span class="radio-label-sub">Phase 2: 8 special deals (McLeod)</span>
-      </span>
-    </label>
-    <label class="radio-card">
-      <input type="radio" name="gametype" value="scottish">
-      <span class="radio-label">
-        <span class="radio-label-title">SCOTTISH (18 rounds)</span>
-        <span class="radio-label-sub">7→1 cards, 4 specials, 1→7 cards</span>
-      </span>
-    </label>
-    <label class="radio-card">
-      <input type="radio" name="gametype" value="quick">
-      <span class="radio-label">
-        <span class="radio-label-title">QUICK (custom)</span>
-        <span class="radio-label-sub">Choose your own rounds</span>
-      </span>
-    </label>
-  </div>
-</div>
-
-<div class="panel">
-  <div class="section-label">Scoring Variant</div>
-  <div class="scoring-row">
-    <label class="radio-card">
-      <input type="radio" name="scoring" value="2" checked>
-      <span class="radio-label">
-        <span class="radio-label-title">STANDARD</span>
-        <span class="radio-label-sub">10 correct + 2 per trick</span>
-      </span>
-    </label>
-    <label class="radio-card">
-      <input type="radio" name="scoring" value="1">
-      <span class="radio-label">
-        <span class="radio-label-title">SCOTTISH</span>
-        <span class="radio-label-sub">10 correct + 1 per trick</span>
-      </span>
-    </label>
-  </div>
-</div>
-
-<button class="btn btn-primary" onclick="startGame()">▶ BEGIN SORTIE</button>
-```
-
-  </div>
-
-  <!-- GAME SCREEN -->
-
-  <div id="game-screen">
-
-```
-<div class="round-bar">
-  <div>
-    <div class="round-label">Current Round</div>
-    <div class="round-name" id="gs-round-name">—</div>
-    <div class="round-detail" id="gs-round-detail">—</div>
-  </div>
-  <div class="round-controls">
-    <button class="btn btn-secondary" onclick="endGame()">⏹ END GAME</button>
-  </div>
-</div>
-
-<div id="special-badge-area"></div>
-<div id="bid-constraint-area"></div>
-
-<div class="phase-label">MISSION PROGRESS</div>
-<div class="round-progress" id="round-progress"></div>
-
-<div class="panel" style="overflow-x:auto; padding: 0;">
-  <table class="scoreboard" id="scoreboard">
-    <thead></thead>
-    <tbody></tbody>
-    <tfoot></tfoot>
-  </table>
-</div>
-
-<div class="flex-gap mt-16">
-  <button class="btn btn-secondary" onclick="prevRound()" id="btn-prev">◀ PREV</button>
-  <button class="btn btn-primary" style="flex:1" onclick="nextRound()" id="btn-next">NEXT ROUND ▶</button>
-</div>
-```
-
-  </div>
-
-  <!-- GAME OVER -->
-
-  <div id="gameover-screen">
-    <div class="gameover-panel">
-      <div class="gameover-title">DEBRIEF</div>
-      <div class="gameover-sub">Mission complete — final standings</div>
-      <div class="final-standings" id="final-standings"></div>
-      <button class="btn btn-primary" onclick="resetGame()">▶ NEW SORTIE</button>
+<header>
+  <div class="header-inner">
+    <svg class="roundel" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="48" fill="#003087"/>
+      <circle cx="50" cy="50" r="34" fill="#fff"/>
+      <circle cx="50" cy="50" r="20" fill="#cf111a"/>
+    </svg>
+    <div>
+      <div class="clag-title">CLAG</div>
+      <div class="clag-sub">CLOUDS LOW AIRCRAFT GROUNDED</div>
     </div>
   </div>
+</header>
 
+<!-- RESUME BANNER -->
+
+<div id="resume-banner" style="display:none">
+  <div class="resume-banner">
+    <div class="resume-text"><strong id="resume-desc"></strong><br>Resume saved game?</div>
+    <div class="resume-btns">
+      <button class="btn btn-secondary" onclick="resumeGame()">RESUME</button>
+      <button class="btn btn-danger" onclick="discardSave()">NEW</button>
+    </div>
+  </div>
 </div>
+
+<!-- SETUP -->
+
+<div id="setup-screen" class="screen active">
+  <div class="panel">
+    <div class="slabel">Personnel — 3 to 7 players</div>
+    <div id="player-inputs"></div>
+  </div>
+  <div class="panel">
+    <div class="slabel">Game Type</div>
+    <div class="radio-grid">
+      <label class="rcard"><input type="radio" name="gametype" value="standard6" checked>
+        <span class="rlabel"><span class="rlabel-title">STANDARD</span><span class="rlabel-sub">20 rounds (Foss)</span></span></label>
+      <label class="rcard"><input type="radio" name="gametype" value="standard8">
+        <span class="rlabel"><span class="rlabel-title">EXTENDED</span><span class="rlabel-sub">22 rounds (McLeod)</span></span></label>
+      <label class="rcard"><input type="radio" name="gametype" value="scottish">
+        <span class="rlabel"><span class="rlabel-title">SCOTTISH</span><span class="rlabel-sub">18 rounds</span></span></label>
+      <label class="rcard"><input type="radio" name="gametype" value="quick">
+        <span class="rlabel"><span class="rlabel-title">QUICK</span><span class="rlabel-sub">13 rounds</span></span></label>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="slabel">Scoring</div>
+    <div class="radio-grid">
+      <label class="rcard"><input type="radio" name="scoring" value="2" checked>
+        <span class="rlabel"><span class="rlabel-title">STANDARD</span><span class="rlabel-sub">+10 bid / +2 trick</span></span></label>
+      <label class="rcard"><input type="radio" name="scoring" value="1">
+        <span class="rlabel"><span class="rlabel-title">SCOTTISH</span><span class="rlabel-sub">+10 bid / +1 trick</span></span></label>
+    </div>
+  </div>
+  <button class="btn btn-primary" onclick="startGame()">▶ BEGIN SORTIE</button>
+</div>
+
+<!-- BID SCREEN -->
+
+<div id="bid-screen" class="screen">
+  <div class="phase-hdr">
+    <div class="phase-title">BIDDING</div>
+    <div class="phase-rd" id="bid-rd"></div>
+  </div>
+  <div class="rinfo">
+    <div class="rinfo-name" id="bid-rname"></div>
+    <div class="rinfo-desc" id="bid-rdesc"></div>
+  </div>
+  <div id="bid-sbadge"></div>
+  <div id="bid-bar"></div>
+  <div id="bid-players"></div>
+  <button class="btn btn-primary mt14" id="btn-confirm-bids" onclick="confirmBids()">CONFIRM BIDS →</button>
+  <button class="btn btn-ghost mt8" onclick="openScorecard('bid')">VIEW SCORECARD</button>
+</div>
+
+<!-- TRICKS SCREEN -->
+
+<div id="tricks-screen" class="screen">
+  <div class="phase-hdr">
+    <div class="phase-title">TRICK ENTRY</div>
+    <div class="phase-rd" id="tricks-rd"></div>
+  </div>
+  <div class="rinfo">
+    <div class="rinfo-name" id="tricks-rname"></div>
+  </div>
+  <div id="tricks-sbadge"></div>
+  <div id="tricks-bar"></div>
+  <div id="tricks-players"></div>
+  <button class="btn btn-primary mt14" onclick="confirmTricks()">CONFIRM TRICKS →</button>
+  <button class="btn btn-ghost mt8" onclick="openScorecard('tricks')">VIEW SCORECARD</button>
+</div>
+
+<!-- SCORECARD SCREEN -->
+
+<div id="scorecard-screen" class="screen">
+  <div class="phase-hdr">
+    <div class="phase-title">SCORECARD</div>
+    <div class="phase-rd" id="sc-rd"></div>
+  </div>
+  <div class="progress-strip" id="sc-pips"></div>
+  <div class="sc-wrap">
+    <table class="sc-table" id="sc-table"></table>
+  </div>
+  <div class="btn-row mt18">
+    <button class="btn btn-secondary" id="btn-sc-back" onclick="scorecardBack()" style="display:none">◀ BACK</button>
+    <button class="btn btn-primary" id="btn-sc-advance" onclick="scorecardAdvance()">NEXT ROUND ▶</button>
+  </div>
+  <button class="btn btn-ghost mt8" onclick="endGameEarly()">END GAME EARLY</button>
+</div>
+
+<!-- GAME OVER -->
+
+<div id="gameover-screen" class="screen">
+  <div class="go-panel">
+    <div class="go-title">DEBRIEF</div>
+    <div class="go-sub">Mission complete — final standings</div>
+    <div id="go-standings"></div>
+  </div>
+  <div class="sc-wrap mt14">
+    <table class="sc-table" id="go-table"></table>
+  </div>
+  <button class="btn btn-primary mt18" onclick="resetGame()">▶ NEW SORTIE</button>
+</div>
+
+</div><!-- /container -->
 
 <script>
 // ─── ROUND DEFINITIONS ────────────────────────────────────────────────────────
 
-const PHASE2_FOSS = [
-  { name: 'NO TRUMPS',        cards: 7, special: 'notrumps',   desc: 'No trump suit — highest of led suit wins' },
-  { name: "GUESS 'EM",        cards: 7, special: 'guess',      desc: 'Trumps revealed after all bids are locked in' },
-  { name: 'MISÈRE (NO TP)',   cards: 7, special: 'misere_nt',  desc: '−2 per trick, +10 for zero tricks. No trumps.' },
-  { name: 'MISÈRE',           cards: 7, special: 'misere',     desc: '−3 per trick taken. Trumps apply.' },
-  { name: 'BLIND',            cards: 7, special: 'blind',      desc: 'Bid before receiving your cards' },
-  { name: "ROLL 'EM",         cards: 7, special: 'rollem',     desc: 'Stack face-down, play from the top in order' },
+const FOSS_SPECIALS = [
+  { name:'NO TRUMPS',     cards:7, special:'notrumps',    desc:'No trump suit — highest of led suit wins' },
+  { name:"GUESS 'EM",    cards:7, special:'guess',        desc:'Trumps revealed only after all bids are locked in' },
+  { name:'MISÈRE NT',    cards:7, special:'misere_nt',    desc:'No trumps — −2 per trick. +10 for taking zero.' },
+  { name:'MISÈRE',       cards:7, special:'misere',       desc:'Trumps apply — −3 per trick. +10 for taking zero.' },
+  { name:'BLIND',        cards:7, special:'blind',        desc:'Bid before receiving your cards' },
+  { name:"ROLL 'EM",     cards:7, special:'rollem',       desc:'Stack face-down — play from the top in order' },
+];
+const MCLEOD_SPECIALS = [
+  { name:'NO TRUMPS',    cards:7, special:'notrumps',    desc:'No trump suit — highest of led suit wins' },
+  { name:'MISÈRE',       cards:7, special:'misere',      desc:'Trumps apply — +10 for taking zero tricks' },
+  { name:'GUESS TRUMPS', cards:7, special:'guess',       desc:'Trumps revealed only after all bids are locked in' },
+  { name:'BLIND',        cards:7, special:'blind',       desc:'Bid before receiving your cards' },
+  { name:'TWOS WILD',    cards:7, special:'twos',        desc:'Played Twos: name rank/suit — beats the natural card' },
+  { name:'ACES LOW',     cards:7, special:'aceslow',     desc:'Aces rank as the lowest cards in the deck' },
+  { name:'DEALER CALLS', cards:7, special:'dealercalls', desc:'Dealer names trumps after viewing their hand' },
+  { name:'MOST TRICKS',  cards:7, special:'mosttricks',  desc:'No bidding — player taking the most tricks scores 10' },
+];
+const SCOTTISH_SPECIALS = [
+  { name:'NO TRUMPS',    cards:7, special:'notrumps',  desc:'No trump suit — highest of led suit wins' },
+  { name:'MISÈRE',       cards:7, special:'misere',    desc:'−2 per trick. +10 for taking zero tricks.' },
+  { name:"GUESS 'EM",   cards:7, special:'guess',      desc:'Bid before trumps are revealed' },
+  { name:'BLIND',        cards:7, special:'blind',     desc:'Bid without seeing cards or trumps' },
 ];
 
-const PHASE2_MCLEOD = [
-  { name: 'NO TRUMPS',        cards: 7, special: 'notrumps',   desc: 'No trump suit — highest of led suit wins' },
-  { name: 'MISÈRE',           cards: 7, special: 'misere',     desc: '+10 for zero tricks. Trumps apply.' },
-  { name: 'GUESS TRUMPS',     cards: 7, special: 'guess',      desc: 'Trumps revealed after all bids are locked in' },
-  { name: 'BLIND',            cards: 7, special: 'blind',      desc: 'Bid before receiving your cards' },
-  { name: 'TWOS WILD',        cards: 7, special: 'twos',       desc: 'Played Twos: player names rank/suit; beats natural card' },
-  { name: 'ACES LOW',         cards: 7, special: 'aceslow',    desc: 'Aces rank as lowest cards' },
-  { name: 'DEALER CALLS TP',  cards: 7, special: 'dealercalls',desc: 'Dealer names trumps after viewing their hand' },
-  { name: 'HIGHEST NUMBER',   cards: 7, special: 'highestnumber', desc: 'No bidding — player taking most tricks scores 10. Ties: 0.' },
-];
-
-const PHASE2_SCOTTISH = [
-  { name: 'NO TRUMPS',        cards: 7, special: 'notrumps',   desc: 'No trump suit — highest of led suit wins' },
-  { name: 'MISÈRE',           cards: 7, special: 'misere',     desc: '−2 per trick, +10 for zero tricks' },
-  { name: "GUESS 'EM",        cards: 7, special: 'guess',      desc: 'Bid before trumps are revealed' },
-  { name: 'BLIND',            cards: 7, special: 'blind',      desc: 'Bid without seeing cards or trumps' },
-];
+const mk = n => ({ name:`${n} CARD${n>1?'S':''}`, cards:n, special:null, desc:`Standard — ${n} card${n>1?'s':''} each` });
 
 function buildRounds(type) {
-  const up = [1,2,3,4,5,6,7].map(n => ({ name: `${n} CARD${n>1?'S':''}`, cards: n, special: null, desc: `Standard round — ${n} card${n>1?'s':''} each` }));
-  const down = [7,6,5,4,3,2,1].map(n => ({ name: `${n} CARD${n>1?'S':''}`, cards: n, special: null, desc: `Standard round — ${n} card${n>1?'s':''} each` }));
-
-  if (type === 'standard6') return [...up, ...PHASE2_FOSS, ...down];
-  if (type === 'standard8') return [...up, ...PHASE2_MCLEOD, ...down];
-  if (type === 'scottish')  return [...down, ...PHASE2_SCOTTISH, ...up];
-  if (type === 'quick')     return [...up.slice(0,5), ...PHASE2_FOSS.slice(0,3), ...down.slice(0,5)];
-  return [...up, ...PHASE2_FOSS, ...down];
+  const up   = [1,2,3,4,5,6,7].map(mk);
+  const down = [7,6,5,4,3,2,1].map(mk);
+  if (type==='standard6') return [...up,   ...FOSS_SPECIALS,    ...down];
+  if (type==='standard8') return [...up,   ...MCLEOD_SPECIALS,  ...down];
+  if (type==='scottish')  return [...down, ...SCOTTISH_SPECIALS, ...up];
+  if (type==='quick')     return [...up.slice(0,5), ...FOSS_SPECIALS.slice(0,3), ...down.slice(0,5)];
+  return [...up, ...FOSS_SPECIALS, ...down];
 }
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
 
-let state = {
-  players: [],
-  rounds: [],
-  currentRound: 0,
-  perTrick: 2,
-  // scores[roundIdx][playerIdx] = { bid, tricks }
-  scores: [],
-};
+let G = null;                   // game state
+let scReturnPhase = null;       // which phase the scorecard "Back" returns to
 
-// ─── SETUP ────────────────────────────────────────────────────────────────────
+const SAVE_KEY  = 'clag_v3';
+const NAMES_KEY = 'clag_names';
+
+const save      = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(G)); } catch(e){} };
+const loadSave  = () => { try { return JSON.parse(localStorage.getItem(SAVE_KEY)); } catch(e){ return null; } };
+const clearSave = () => localStorage.removeItem(SAVE_KEY);
+const saveNames = n  => { try { localStorage.setItem(NAMES_KEY, JSON.stringify(n)); } catch(e){} };
+const loadNames = () => { try { return JSON.parse(localStorage.getItem(NAMES_KEY))||[]; } catch(e){ return []; } };
+
+// ─── SCORING ──────────────────────────────────────────────────────────────────
+
+const isMisere     = r => r.special==='misere' || r.special==='misere_nt';
+const isMostTricks = r => r.special==='mosttricks';
+
+function roundPts(round, entry, perTrick) {
+  const t = parseInt(entry.tricks);
+  if (isNaN(t)) return null;
+  if (isMostTricks(round)) return 0; // handled at round level
+
+  if (round.special === 'misere_nt') return t===0 ? 10 : t*-2;
+  if (round.special === 'misere')    return t===0 ? 10 : t*-3;
+
+  const b = parseInt(entry.bid);
+  if (isNaN(b)) return null;
+  return b===t ? 10 + t*perTrick : 0;
+}
+
+function mostTricksWinner(ri) {
+  const counts = G.players.map((_,pi) => parseInt(G.scores[ri][pi].tricks)||0);
+  const max = Math.max(...counts);
+  const sole = counts.filter(c=>c===max).length === 1;
+  return { counts, max, sole };
+}
+
+function playerTotal(pi, upTo) {
+  let t = 0;
+  for (let ri=0; ri<=upTo; ri++) {
+    const r = G.rounds[ri], e = G.scores[ri][pi];
+    if (isMostTricks(r)) {
+      if (e.tricks===''||e.tricks===null||e.tricks===undefined) continue;
+      const {counts,max,sole} = mostTricksWinner(ri);
+      if (counts[pi]===max && sole) t+=10;
+    } else {
+      const p = roundPts(r, e, G.perTrick);
+      if (p!==null) t+=p;
+    }
+  }
+  return t;
+}
+
+// ─── BID ORDER / DEALER ───────────────────────────────────────────────────────
+
+const dealerFor = ri => ri % G.players.length;
+
+function bidOrder(ri) {
+  const n = G.players.length, d = dealerFor(ri), order=[];
+  for (let i=1; i<=n; i++) order.push((d+i)%n);
+  return order; // last = dealer
+}
+
+// ─── SCREENS ─────────────────────────────────────────────────────────────────
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ─── SETUP ───────────────────────────────────────────────────────────────────
 
 function initSetup() {
-  const grid = document.getElementById('player-grid');
-  grid.innerHTML = '';
-  for (let i = 0; i < 7; i++) {
-    const row = document.createElement('div');
-    row.className = 'player-input-row';
-    row.innerHTML = `
-      <span class="player-num">P${i+1}</span>
-      <input type="text" placeholder="${i < 3 ? 'Required' : 'Optional'}" id="p${i}" maxlength="16">
-    `;
-    grid.appendChild(row);
+  const saved = loadNames();
+  const c = document.getElementById('player-inputs');
+  c.innerHTML = '';
+  for (let i=0; i<7; i++) {
+    const d = document.createElement('div');
+    d.className = 'pinput-row';
+    d.innerHTML = `<span class="pnum">P${i+1}</span>
+      <input type="text" id="pi${i}" value="${saved[i]||''}"
+        placeholder="${i<3?'Required':'Optional'}"
+        maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false">`;
+    c.appendChild(d);
   }
+
+  const sv = loadSave();
+  const banner = document.getElementById('resume-banner');
+  if (sv && sv.players && sv.rounds) {
+    document.getElementById('resume-desc').textContent =
+      `${sv.players.join(', ')} — Rd ${sv.currentRound+1}/${sv.rounds.length}`;
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
+  }
+}
+
+function resumeGame() {
+  const sv = loadSave();
+  if (!sv) return;
+  G = sv;
+  document.getElementById('resume-banner').style.display = 'none';
+  goPhase(G.phase||'bid');
+}
+
+function discardSave() {
+  clearSave();
+  document.getElementById('resume-banner').style.display = 'none';
 }
 
 function startGame() {
   const players = [];
-  for (let i = 0; i < 7; i++) {
-    const val = document.getElementById(`p${i}`).value.trim();
-    if (i < 3 && !val) { alert(`Player ${i+1} name is required.`); return; }
-    if (val) players.push(val);
+  for (let i=0; i<7; i++) {
+    const v = document.getElementById(`pi${i}`).value.trim();
+    if (i<3 && !v) { alert(`Player ${i+1} name is required.`); return; }
+    if (v) players.push(v);
   }
-
   const gameType = document.querySelector('input[name="gametype"]:checked').value;
   const perTrick = parseInt(document.querySelector('input[name="scoring"]:checked').value);
+  const rounds = buildRounds(gameType);
 
-  state = {
+  G = {
     players,
-    rounds: buildRounds(gameType),
+    rounds,
     currentRound: 0,
+    phase: 'bid',
     perTrick,
-    scores: buildRounds(gameType).map(() => players.map(() => ({ bid: '', tricks: '' }))),
+    scores: rounds.map(()=>players.map(()=>({bid:0, tricks:0}))),
   };
 
-  document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('game-screen').style.display = 'block';
-  document.getElementById('header-meta').style.display = 'block';
-  document.getElementById('meta-players').textContent = players.join(' · ');
-  document.getElementById('meta-scoring').textContent = `+10 bid / +${perTrick} per trick`;
-
-  renderGame();
+  saveNames(players);
+  save();
+  goPhase('bid');
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
+// ─── PHASE NAVIGATION ────────────────────────────────────────────────────────
 
-function renderGame() {
-  const { players, rounds, currentRound, scores, perTrick } = state;
-  const round = rounds[currentRound];
+function goPhase(phase) {
+  G.phase = phase;
+  save();
+  if (phase==='bid')       { show('bid-screen');       renderBid(); }
+  if (phase==='tricks')    { show('tricks-screen');    renderTricks(); }
+  if (phase==='scorecard') { show('scorecard-screen'); renderScorecard(); }
+}
 
-  // Header meta
-  document.getElementById('meta-round').textContent = `RD ${currentRound+1}/${rounds.length}`;
+function openScorecard(fromPhase) {
+  scReturnPhase = fromPhase;
+  goPhase('scorecard');
+}
 
-  // Round info
-  document.getElementById('gs-round-name').textContent = round.name;
-  document.getElementById('gs-round-detail').textContent = round.desc;
+function scorecardBack() {
+  if (scReturnPhase) { goPhase(scReturnPhase); scReturnPhase = null; }
+}
 
-  // Special badge
-  const badgeArea = document.getElementById('special-badge-area');
-  if (round.special) {
-    badgeArea.innerHTML = `<div class="special-badge">⚡ SPECIAL RULE: ${round.desc}</div>`;
-  } else {
-    badgeArea.innerHTML = '';
+function scorecardAdvance() {
+  if (G.currentRound === G.rounds.length-1) { showGameOver(); return; }
+  G.currentRound++;
+  // fresh entries for new round (keep defaults at 0)
+  G.players.forEach((_,pi)=>{ G.scores[G.currentRound][pi]={bid:0,tricks:0}; });
+  scReturnPhase = null;
+  save();
+  goPhase('bid');
+}
+
+// ─── BID SCREEN ───────────────────────────────────────────────────────────────
+
+function renderBid() {
+  const ri = G.currentRound, round = G.rounds[ri];
+
+  // MOST TRICKS has no bidding — skip straight to tricks
+  if (isMostTricks(round)) { goPhase('tricks'); return; }
+
+  document.getElementById('bid-rd').textContent = `ROUND ${ri+1} / ${G.rounds.length}`;
+  document.getElementById('bid-rname').textContent = round.name;
+  document.getElementById('bid-rdesc').textContent = round.desc;
+  document.getElementById('bid-sbadge').innerHTML = round.special
+    ? `<div class="sbadge">⚡ ${round.desc}</div>` : '';
+
+  const order = bidOrder(ri);
+  const dealer = dealerFor(ri);
+  const mis = isMisere(round);
+
+  const c = document.getElementById('bid-players');
+  c.innerHTML = '';
+  order.forEach((pi, oi) => {
+    const isDealer  = pi === dealer;
+    const isEldest  = oi === 0;
+    const val = parseInt(G.scores[ri][pi].bid)||0;
+
+    const row = document.createElement('div');
+    row.className = 'stepper-row' + (isDealer?' is-dealer':(isEldest?' is-eldest':''));
+    row.id = `br${pi}`;
+
+    let tag = isDealer ? 'DEALER — BIDS LAST' : (isEldest ? 'ELDEST HAND — LEADS FIRST' : '');
+
+    row.innerHTML = `
+      <div class="sinfo">
+        <div class="sname">${G.players[pi].toUpperCase()}</div>
+        ${tag ? `<div class="stag">${tag}</div>` : ''}
+        <div class="ssub" id="bsub${pi}"></div>
+      </div>
+      <div class="scontrols">
+        <button class="sbtn dec" id="bdec${pi}" onclick="adjBid(${pi},-1)" ${mis?'disabled':''}>−</button>
+        <div class="sval" id="bval${pi}">${mis?0:val}</div>
+        <button class="sbtn inc" id="binc${pi}" onclick="adjBid(${pi},+1)" ${mis?'disabled':''}>+</button>
+      </div>`;
+    c.appendChild(row);
+  });
+
+  if (mis) G.players.forEach((_,pi)=>{ G.scores[ri][pi].bid=0; });
+
+  updateBidBar();
+  updateBidBtns();
+}
+
+function bidTotal() {
+  const ri = G.currentRound;
+  return G.players.reduce((s,_,pi)=>s+(parseInt(G.scores[ri][pi].bid)||0),0);
+}
+
+function updateBidBar() {
+  const ri = G.currentRound, round = G.rounds[ri];
+  const total = bidTotal(), forbidden = round.cards;
+  const warn = total === forbidden;
+  document.getElementById('bid-bar').innerHTML = `
+    <div class="bid-bar${warn?' warn':''}">
+      <div class="bid-bar-lhs">
+        <span style="font-size:0.7rem">Total bids:</span>
+        <span class="bid-total${warn?' warn':''}">${total}</span>
+      </div>
+      <span class="bid-forbidden">Forbidden: <span>${forbidden}</span></span>
+    </div>`;
+  const btn = document.getElementById('btn-confirm-bids');
+  if (btn) btn.disabled = warn;
+}
+
+function adjBid(pi, delta) {
+  const ri = G.currentRound, round = G.rounds[ri];
+  const dealer = dealerFor(ri);
+  let v = (parseInt(G.scores[ri][pi].bid)||0) + delta;
+  if (v<0 || v>round.cards) return;
+
+  if (pi === dealer) {
+    const others = G.players.reduce((s,_,i)=>i===pi?s:s+(parseInt(G.scores[ri][i].bid)||0),0);
+    const forb = round.cards - others;
+    if (v === forb) { v += delta; if (v<0||v>round.cards) return; }
   }
 
-  // Bid constraint
-  renderConstraint();
+  G.scores[ri][pi].bid = v;
+  document.getElementById(`bval${pi}`).textContent = v;
+  save();
+  updateBidBar();
+  updateBidBtns();
+}
 
-  // Progress dots
-  renderProgress();
+function updateBidBtns() {
+  const ri = G.currentRound, round = G.rounds[ri];
+  const dealer = dealerFor(ri);
+  G.players.forEach((_,pi) => {
+    const v = parseInt(G.scores[ri][pi].bid)||0;
+    const dec = document.getElementById(`bdec${pi}`);
+    const inc = document.getElementById(`binc${pi}`);
+    const sub = document.getElementById(`bsub${pi}`);
+    if (!dec||!inc) return;
+    dec.disabled = v<=0;
+
+    if (pi===dealer) {
+      const others = G.players.reduce((s,_,i)=>i===pi?s:s+(parseInt(G.scores[ri][i].bid)||0),0);
+      const forb = round.cards - others;
+      const next = v+1===forb ? v+2 : v+1;
+      inc.disabled = next>round.cards;
+      if (sub && forb>=0 && forb<=round.cards) {
+        sub.textContent = `Cannot bid ${forb}`;
+        sub.className = 'ssub warn';
+      }
+    } else {
+      inc.disabled = v>=round.cards;
+    }
+  });
+}
+
+function confirmBids() {
+  const ri = G.currentRound, round = G.rounds[ri];
+  if (bidTotal()===round.cards) { alert(`Total bids equal ${round.cards} — dealer must adjust.`); return; }
+  goPhase('tricks');
+}
+
+// ─── TRICKS SCREEN ────────────────────────────────────────────────────────────
+
+function renderTricks() {
+  const ri = G.currentRound, round = G.rounds[ri];
+  const mis = isMisere(round), hn = isMostTricks(round);
+
+  document.getElementById('tricks-rd').textContent = `ROUND ${ri+1} / ${G.rounds.length}`;
+  document.getElementById('tricks-rname').textContent = round.name;
+  document.getElementById('tricks-sbadge').innerHTML = round.special
+    ? `<div class="sbadge">⚡ ${round.desc}</div>` : '';
+
+  const c = document.getElementById('tricks-players');
+  c.innerHTML = '';
+
+  G.players.forEach((name,pi) => {
+    const bid = parseInt(G.scores[ri][pi].bid)||0;
+    const val = parseInt(G.scores[ri][pi].tricks)||0;
+    const row = document.createElement('div');
+    row.className = 'stepper-row';
+    row.id = `tr${pi}`;
+    row.innerHTML = `
+      <div class="sinfo">
+        <div class="sname">${name.toUpperCase()}</div>
+        <div class="ssub" id="tsub${pi}">${mis?'Must take 0': hn?'Most tricks wins':`Bid: ${bid}`}</div>
+      </div>
+      <div class="scontrols">
+        <button class="sbtn dec" id="tdec${pi}" onclick="adjTricks(${pi},-1)">−</button>
+        <div class="sval green" id="tval${pi}">${val}</div>
+        <button class="sbtn inc" id="tinc${pi}" onclick="adjTricks(${pi},+1)">+</button>
+      </div>
+      <div class="sind" id="tind${pi}"></div>`;
+    c.appendChild(row);
+  });
+
+  updateTricksBar();
+  updateTrickIndicators();
+}
+
+function tricksTotal() {
+  const ri = G.currentRound;
+  return G.players.reduce((s,_,pi)=>s+(parseInt(G.scores[ri][pi].tricks)||0),0);
+}
+
+function updateTricksBar() {
+  const ri = G.currentRound, round = G.rounds[ri];
+  const total = tricksTotal(), remaining = round.cards - total;
+  const warn = remaining < 0;
+  document.getElementById('tricks-bar').innerHTML = `
+    <div class="tricks-bar${warn?' warn':''}">
+      <span>Tricks remaining:</span>
+      <span class="tricks-remaining${warn?' warn':''}">${remaining}</span>
+    </div>`;
+}
+
+function adjTricks(pi, delta) {
+  const ri = G.currentRound, round = G.rounds[ri];
+  const cur = parseInt(G.scores[ri][pi].tricks)||0;
+  const newv = cur+delta;
+  if (newv<0) return;
+  const total = tricksTotal();
+  if (delta>0 && (total-cur+newv)>round.cards) return;
+  G.scores[ri][pi].tricks = newv;
+  document.getElementById(`tval${pi}`).textContent = newv;
+  save();
+  updateTricksBar();
+  updateTrickIndicators();
+}
+
+function updateTrickIndicators() {
+  const ri = G.currentRound, round = G.rounds[ri];
+  const mis = isMisere(round), hn = isMostTricks(round);
+  const total = tricksTotal(), remaining = round.cards - total;
+
+  G.players.forEach((_,pi) => {
+    const tricks = parseInt(G.scores[ri][pi].tricks)||0;
+    const bid    = parseInt(G.scores[ri][pi].bid)||0;
+    const dec = document.getElementById(`tdec${pi}`);
+    const inc = document.getElementById(`tinc${pi}`);
+    const sub = document.getElementById(`tsub${pi}`);
+    const ind = document.getElementById(`tind${pi}`);
+    if (dec) dec.disabled = tricks<=0;
+    if (inc) { const after=(total-tricks)+(tricks+1); inc.disabled=after>round.cards; }
+
+    if (hn) {
+      if (sub) sub.textContent = 'Most tricks wins';
+      if (ind) { ind.textContent=''; }
+      return;
+    }
+    if (mis) {
+      const pts = round.special==='misere_nt' ? (tricks===0?10:tricks*-2) : (tricks===0?10:tricks*-3);
+      if (sub) { sub.textContent=`${pts>=0?'+':''}${pts} pts`; sub.className=`ssub ${tricks===0?'hit':'miss'}`; }
+      if (ind) { ind.textContent=tricks===0?'✓':'✗'; ind.style.color=tricks===0?'var(--green-bright)':'var(--red)'; }
+      return;
+    }
+    const hit = tricks===bid;
+    if (sub) {
+      if (hit) { const p=10+tricks*G.perTrick; sub.textContent=`Bid ${bid} ✓ +${p} pts`; sub.className='ssub hit'; }
+      else      { sub.textContent=`Bid ${bid} — 0 pts`; sub.className='ssub miss'; }
+    }
+    if (ind) { ind.textContent=hit?'✓':(tricks>bid?'↑':'↓'); ind.style.color=hit?'var(--green-bright)':'var(--cream-dim)'; }
+  });
+}
+
+function confirmTricks() {
+  const ri = G.currentRound, round = G.rounds[ri];
+  const total = tricksTotal();
+  if (total!==round.cards) {
+    if (!confirm(`Total tricks (${total}) ≠ cards dealt (${round.cards}). Continue anyway?`)) return;
+  }
+  scReturnPhase = null;
+  goPhase('scorecard');
+}
+
+// ─── SCORECARD ────────────────────────────────────────────────────────────────
+
+function renderScorecard() {
+  const ri = G.currentRound;
+  document.getElementById('sc-rd').textContent = `ROUND ${ri+1} / ${G.rounds.length}`;
+
+  const isLast = ri===G.rounds.length-1;
+  document.getElementById('btn-sc-advance').textContent = isLast ? 'FINISH SORTIE ▶' : 'NEXT ROUND ▶';
+  const backBtn = document.getElementById('btn-sc-back');
+  backBtn.style.display = scReturnPhase ? 'inline-flex' : 'none';
+
+  // Pips
+  const strip = document.getElementById('sc-pips');
+  strip.innerHTML = '';
+  G.rounds.forEach((r,i) => {
+    const p = document.createElement('div');
+    p.className = 'pip' + (r.special?' special':'');
+    if (i<ri) p.classList.add('done');
+    if (i===ri) p.classList.add('current');
+    strip.appendChild(p);
+  });
 
   // Table
-  renderTable();
-
-  // Nav buttons
-  document.getElementById('btn-prev').disabled = currentRound === 0;
-  document.getElementById('btn-next').textContent = currentRound === rounds.length - 1 ? 'FINISH SORTIE ▶' : 'NEXT ROUND ▶';
+  buildScoreTable('sc-table', ri);
 }
 
-function renderConstraint() {
-  const { players, rounds, currentRound, scores } = state;
-  const round = rounds[currentRound];
-  const area = document.getElementById('bid-constraint-area');
+function buildScoreTable(tableId, upTo) {
+  const { players, rounds, scores, perTrick } = G;
+  const totals = players.map((_,pi)=>playerTotal(pi,upTo));
+  const sorted = [...totals].sort((a,b)=>b-a);
 
-  if (round.special === 'highestnumber') {
-    area.innerHTML = `<div class="bid-constraint">⚡ No bidding this round — player who takes the most tricks scores 10 points. Ties score nothing.</div>`;
-    return;
-  }
-
-  const totalBid = scores[currentRound].reduce((sum, s) => sum + (parseInt(s.bid) || 0), 0);
-  const forbidden = round.cards;
-  const remaining = forbidden - totalBid;
-
-  area.innerHTML = `<div class="bid-constraint">
-    <span class="forbidden">${forbidden}</span>
-    <span>Total bids must not equal <strong>${forbidden}</strong> (cards dealt). Current total: <strong>${totalBid}</strong>. Dealer cannot bid <strong>${remaining <= 0 || remaining > round.cards ? '—' : remaining}</strong>.</span>
-  </div>`;
-}
-
-function renderProgress() {
-  const { rounds, currentRound } = state;
-  const container = document.getElementById('round-progress');
-  container.innerHTML = '';
-
-  // Group into phases
-  const phases = detectPhases(rounds);
-
-  phases.forEach((phase, pi) => {
-    const seg = document.createElement('div');
-    seg.className = 'progress-segment';
-
-    phase.forEach((ri) => {
-      const dot = document.createElement('div');
-      dot.className = 'prog-dot' + (rounds[ri].special ? ' special' : '');
-      if (ri < currentRound) dot.classList.add('done');
-      if (ri === currentRound) dot.classList.add('current');
-      dot.title = `${ri+1}: ${rounds[ri].name}`;
-      dot.style.position = 'relative';
-      dot.onclick = () => { state.currentRound = ri; renderGame(); };
-      seg.appendChild(dot);
-    });
-
-    container.appendChild(seg);
-  });
-}
-
-function detectPhases(rounds) {
-  const phases = [];
-  let current = [];
-  let inSpecial = false;
-
-  rounds.forEach((r, i) => {
-    if (!!r.special !== inSpecial) {
-      if (current.length) phases.push(current);
-      current = [];
-      inSpecial = !!r.special;
-    }
-    current.push(i);
-  });
-  if (current.length) phases.push(current);
-  return phases;
-}
-
-function renderTable() {
-  const { players, rounds, currentRound, scores, perTrick } = state;
-  const table = document.getElementById('scoreboard');
-
-  // THEAD
-  const thead = table.querySelector('thead');
-  thead.innerHTML = `<tr>
-    <th>Round</th>
-    ${players.map(p => `<th class="player-col">${p.toUpperCase()}</th>`).join('')}
-  </tr>`;
-
-  // TBODY
-  const tbody = table.querySelector('tbody');
-  tbody.innerHTML = '';
+  let h = `<thead><tr><th>Round</th>${players.map(p=>`<th class="pcol">${p.toUpperCase()}</th>`).join('')}</tr></thead><tbody>`;
 
   rounds.forEach((round, ri) => {
-    const tr = document.createElement('tr');
-    if (ri === currentRound) tr.classList.add('current-row');
+    if (ri>upTo) return;
+    const cur = ri===upTo;
+    h += `<tr${cur?' style="background:rgba(232,168,32,0.05)"':''}>
+      <td class="rtd"><span class="rn">${ri+1}. ${round.name}</span><br><span class="rc">${round.cards}c</span></td>`;
 
-    // Round cell
-    const roundTd = document.createElement('td');
-    roundTd.className = 'round-cell';
-    roundTd.innerHTML = `<div class="r-name">${ri+1}. ${round.name}</div><div class="r-cards">${round.cards} card${round.cards>1?'s':''}</div>`;
-    tr.appendChild(roundTd);
+    players.forEach((_,pi) => {
+      const e = scores[ri][pi];
+      let cell = '';
 
-    // Player cells
-    players.forEach((_, pi) => {
-      const td = document.createElement('td');
-      td.className = 'score-cell';
-
-      if (ri === currentRound) {
-        // Active input row
-        if (round.special === 'highestnumber') {
-          // No bidding, just tricks
-          td.innerHTML = `
-            <div class="score-display">
-              <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-                <input type="number" class="tricks-box" min="0" max="${round.cards}"
-                  value="${scores[ri][pi].tricks}"
-                  onchange="updateScore(${ri},${pi},'tricks',this.value)"
-                  oninput="updateScore(${ri},${pi},'tricks',this.value)">
-                <div class="box-label">tricks</div>
-              </div>
-            </div>`;
-        } else {
-          td.innerHTML = `
-            <div class="score-display">
-              <div class="bid-track">
-                <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-                  <input type="number" class="bid-box" min="0" max="${round.cards}"
-                    value="${scores[ri][pi].bid}"
-                    onchange="updateScore(${ri},${pi},'bid',this.value)"
-                    oninput="updateScore(${ri},${pi},'bid',this.value)">
-                  <div class="box-label">bid</div>
-                </div>
-                <span class="arrow-sep">→</span>
-                <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
-                  <input type="number" class="tricks-box" min="0" max="${round.cards}"
-                    value="${scores[ri][pi].tricks}"
-                    onchange="updateScore(${ri},${pi},'tricks',this.value)"
-                    oninput="updateScore(${ri},${pi},'tricks',this.value)">
-                  <div class="box-label">got</div>
-                </div>
-              </div>
-            </div>`;
-        }
-      } else if (scores[ri][pi].tricks !== '' && scores[ri][pi].tricks !== null) {
-        // Locked display
-        const pts = calcPoints(round, scores[ri][pi], perTrick);
-        const hit = round.special === 'highestnumber' ? null :
-          (scores[ri][pi].bid !== '' && parseInt(scores[ri][pi].bid) === parseInt(scores[ri][pi].tricks));
-        const running = calcRunningTotal(pi, ri);
-
-        if (round.special === 'highestnumber') {
-          td.innerHTML = `<div class="locked-score">
-            <span class="locked-pts ${pts>0?'hit':'miss'}">${pts > 0 ? '+'+pts : '—'}</span>
-            <span class="locked-meta">${scores[ri][pi].tricks}T</span>
-            <span class="running-total">${running}</span>
-          </div>`;
-        } else {
-          td.innerHTML = `<div class="locked-score">
-            <span class="locked-pts ${hit?'hit':'miss'}">${pts >= 0 ? '+'+pts : pts}</span>
-            <span class="locked-meta ${hit?'hit':''}">${scores[ri][pi].bid}→${scores[ri][pi].tricks}</span>
-            <span class="running-total">${running}</span>
-          </div>`;
-        }
+      if (isMostTricks(round)) {
+        const t = parseInt(e.tricks);
+        if (!isNaN(t)) {
+          const {counts,max,sole} = mostTricksWinner(ri);
+          const won = counts[pi]===max && sole;
+          const run = playerTotal(pi,ri);
+          cell = `<span class="spts ${won?'hit':'miss'}">${won?'+10':'0'}</span>
+            <span class="smeta">${t}T</span>
+            <span class="srun">${run}</span>`;
+        } else { cell='—'; }
       } else {
-        // Future round
-        td.innerHTML = `<div style="color:var(--cream-dim);font-size:0.7rem;text-align:center">—</div>`;
+        const pts = roundPts(round,e,perTrick);
+        if (pts===null) { cell='—'; }
+        else {
+          const bid=parseInt(e.bid), tr2=parseInt(e.tricks);
+          const hit = !isNaN(bid)&&!isNaN(tr2)&&bid===tr2&&!isMisere(round);
+          const cls = pts>0?'hit':pts<0?'neg':'miss';
+          const meta = isMisere(round)?`${tr2}T`:`${bid}→${tr2}`;
+          const run = playerTotal(pi,ri);
+          cell = `<span class="spts ${cls}">${pts>=0?'+'+pts:pts}</span>
+            <span class="smeta ${hit?'hit':''}">${meta}</span>
+            <span class="srun">${run}</span>`;
+        }
       }
-
-      tr.appendChild(td);
+      h += `<td class="ptd">${cell}</td>`;
     });
-
-    tbody.appendChild(tr);
+    h += '</tr>';
   });
 
-  // TFOOT totals
-  const tfoot = table.querySelector('tfoot');
-  const totals = players.map((_, pi) => calcTotal(pi));
-  const sorted = [...totals].sort((a,b) => b-a);
-
-  tfoot.innerHTML = `<tr>
-    <td style="font-family:'Oswald',sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--amber-dim)">TOTAL SCORE</td>
-    ${players.map((_, pi) => {
-      const t = totals[pi];
-      const rank = sorted.indexOf(t) + 1;
-      const badge = rank <= 3 ? `<span class="rank-badge rank-${rank}">${['1ST','2ND','3RD'][rank-1]}</span>` : '';
-      return `<td class="total-cell">
-        <span class="total-pts">${t}</span>
-        <span class="total-label">pts</span><br>${badge}
-      </td>`;
-    }).join('')}
-  </tr>`;
+  h += `</tbody><tfoot><tr><td style="font-family:'Oswald',sans-serif;font-size:0.58rem;letter-spacing:0.14em;color:var(--amber-dim)">TOTAL</td>`;
+  players.forEach((_,pi) => {
+    const t=totals[pi], rank=sorted.indexOf(t)+1;
+    const b = rank<=3?`<span class="rbadge r${rank}">${['1ST','2ND','3RD'][rank-1]}</span>`:'';
+    h += `<td class="ptd"><span class="ttl">${t}</span><span class="ttl-lbl">pts</span><br>${b}</td>`;
+  });
+  h += '</tr></tfoot>';
+  document.getElementById(tableId).innerHTML = h;
 }
 
-// ─── SCORING ──────────────────────────────────────────────────────────────────
+// ─── GAME OVER ────────────────────────────────────────────────────────────────
 
-function calcPoints(round, entry, perTrick) {
-  const bid = parseInt(entry.bid);
-  const tricks = parseInt(entry.tricks);
-  if (isNaN(tricks)) return 0;
-
-  if (round.special === 'highestnumber') {
-    // handled separately at total level
-    return 0;
-  }
-
-  if (round.special === 'misere_nt') {
-    if (tricks === 0) return 10;
-    return tricks * -2;
-  }
-
-  if (round.special === 'misere') {
-    if (tricks === 0) return 10;
-    return tricks * -3;
-  }
-
-  if (isNaN(bid)) return 0;
-  if (bid === tricks) {
-    return 10 + (tricks * perTrick);
-  }
-  return 0;
-}
-
-function calcRunningTotal(playerIdx, upToRound) {
-  const { rounds, scores, perTrick } = state;
-  let total = 0;
-  for (let ri = 0; ri <= upToRound; ri++) {
-    if (rounds[ri].special === 'highestnumber') {
-      // find max tricks in this round
-      const trickCounts = state.players.map((_, pi2) => parseInt(scores[ri][pi2].tricks) || 0);
-      const max = Math.max(...trickCounts);
-      const winners = trickCounts.filter(t => t === max).length;
-      if (trickCounts[playerIdx] === max && winners === 1) total += 10;
-    } else {
-      const entry = scores[ri][playerIdx];
-      if (entry.tricks !== '') total += calcPoints(rounds[ri], entry, perTrick);
-    }
-  }
-  return total;
-}
-
-function calcTotal(playerIdx) {
-  return calcRunningTotal(playerIdx, state.rounds.length - 1);
-}
-
-function updateScore(ri, pi, field, val) {
-  state.scores[ri][pi][field] = val === '' ? '' : parseInt(val);
-  renderConstraint();
-  // Re-render table without losing focus — partial update
-  renderTableTotals();
-}
-
-function renderTableTotals() {
-  // Just re-render constraint and totals without full table re-render
-  renderConstraint();
-  const { players, perTrick } = state;
-  const totals = players.map((_, pi) => calcTotal(pi));
-  const sorted = [...totals].sort((a,b) => b-a);
-  const tfoot = document.querySelector('#scoreboard tfoot');
-  if (!tfoot) return;
-  tfoot.innerHTML = `<tr>
-    <td style="font-family:'Oswald',sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--amber-dim)">TOTAL SCORE</td>
-    ${players.map((_, pi) => {
-      const t = totals[pi];
-      const rank = sorted.indexOf(t) + 1;
-      const badge = rank <= 3 ? `<span class="rank-badge rank-${rank}">${['1ST','2ND','3RD'][rank-1]}</span>` : '';
-      return `<td class="total-cell">
-        <span class="total-pts">${t}</span>
-        <span class="total-label">pts</span><br>${badge}
-      </td>`;
-    }).join('')}
-  </tr>`;
-}
-
-// ─── NAVIGATION ───────────────────────────────────────────────────────────────
-
-function nextRound() {
-  if (state.currentRound < state.rounds.length - 1) {
-    state.currentRound++;
-    renderGame();
-    window.scrollTo(0, 0);
-  } else {
-    showGameOver();
-  }
-}
-
-function prevRound() {
-  if (state.currentRound > 0) {
-    state.currentRound--;
-    renderGame();
-  }
-}
-
-function endGame() {
-  if (confirm('End the game early and see final standings?')) showGameOver();
+function endGameEarly() {
+  if (!confirm('End the game early and see final standings?')) return;
+  showGameOver();
 }
 
 function showGameOver() {
-  document.getElementById('game-screen').style.display = 'none';
-  document.getElementById('gameover-screen').style.display = 'block';
+  clearSave();
+  const ri = G.currentRound;
+  const tots = G.players.map((p,pi)=>({name:p,pts:playerTotal(pi,ri)}));
+  tots.sort((a,b)=>b.pts-a.pts);
 
-  const { players } = state;
-  const totals = players.map((p, pi) => ({ name: p, pts: calcTotal(pi) }));
-  totals.sort((a,b) => b.pts - a.pts);
+  document.getElementById('go-standings').innerHTML = tots.map((p,i)=>`
+    <div class="stand-row${i===0?' p1':''}">
+      <div class="stand-rank">${i+1}</div>
+      <div class="stand-name">${p.name}</div>
+      <div class="stand-pts">${p.pts} pts</div>
+    </div>`).join('');
 
-  const standings = document.getElementById('final-standings');
-  standings.innerHTML = totals.map((p, i) => `
-    <div class="standing-row rank-${i+1}">
-      <div class="standing-rank">${i+1}</div>
-      <div class="standing-name">${p.name}</div>
-      <div class="standing-pts">${p.pts} pts</div>
-    </div>
-  `).join('');
+  buildScoreTable('go-table', ri);
+  show('gameover-screen');
 }
 
 function resetGame() {
-  document.getElementById('gameover-screen').style.display = 'none';
-  document.getElementById('header-meta').style.display = 'none';
-  document.getElementById('setup-screen').style.display = 'block';
+  G = null; clearSave();
+  show('setup-screen');
   initSetup();
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-
 initSetup();
 </script>
 
