@@ -27,19 +27,15 @@
 
 - { box-sizing: border-box; margin: 0; padding: 0; }
 
-html {
-background-color: #1a1a14;
-}
-
 body {
-background-color: #1a1a14;
-background-image:
-repeating-linear-gradient(0deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px),
-repeating-linear-gradient(90deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px);
+background: var(–ink);
 color: var(–cream);
 font-family: ‘Share Tech Mono’, monospace;
 min-height: 100vh;
 overflow-x: hidden;
+background-image:
+repeating-linear-gradient(0deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px),
+repeating-linear-gradient(90deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px);
 }
 body::before {
 content: ‘’;
@@ -82,8 +78,6 @@ margin-top: 3px;
 }
 
 /* ── SCREENS ── */
-.screen { display: none; }
-.screen.active { display: block; }
 .screen { display: none; }
 .screen.active { display: block; }
 
@@ -497,6 +491,130 @@ text-align: left;
 .stand-row.p1 .stand-rank { color: var(–amber); }
 .stand-name { font-family: ‘Special Elite’, cursive; font-size: 0.95rem; flex: 1; }
 .stand-pts { font-family: ‘Oswald’, sans-serif; font-size: 1.15rem; font-weight: 600; color: var(–amber); }
+
+/* ── RULES BUTTON ── */
+.rules-btn {
+background: transparent;
+border: 1px solid var(–border-dim);
+color: var(–cream-dim);
+font-family: ‘Oswald’, sans-serif;
+font-size: 0.65rem;
+letter-spacing: 0.18em;
+padding: 5px 10px;
+cursor: pointer;
+margin-left: auto;
+flex-shrink: 0;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+}
+.rules-btn:active { border-color: var(–amber-dim); color: var(–cream); }
+
+/* ── RULES SCREEN ── */
+.rules-back {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 20px;
+padding-bottom: 14px;
+border-bottom: 1px solid var(–border-dim);
+}
+.rules-back-btn {
+background: transparent;
+border: 1px solid var(–border-dim);
+color: var(–cream-dim);
+font-family: ‘Oswald’, sans-serif;
+font-size: 0.72rem;
+letter-spacing: 0.15em;
+padding: 8px 13px;
+cursor: pointer;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+}
+.rules-back-btn:active { border-color: var(–amber); color: var(–cream); }
+.rules-title {
+font-family: ‘Oswald’, sans-serif;
+font-size: 1.1rem;
+font-weight: 600;
+letter-spacing: 0.18em;
+color: var(–amber);
+}
+
+/* Accordion */
+.acc-item {
+border: 1px solid var(–border-dim);
+margin-bottom: 7px;
+background: var(–panel);
+}
+.acc-trigger {
+width: 100%;
+background: transparent;
+border: none;
+color: var(–cream);
+font-family: ‘Oswald’, sans-serif;
+font-size: 0.85rem;
+letter-spacing: 0.12em;
+text-align: left;
+padding: 13px 14px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+}
+.acc-trigger:active { background: var(–amber-glow); }
+.acc-trigger.open { color: var(–amber); border-bottom: 1px solid var(–border-dim); }
+.acc-chevron {
+font-size: 0.75rem;
+color: var(–amber-dim);
+transition: transform 0.2s;
+flex-shrink: 0;
+}
+.acc-trigger.open .acc-chevron { transform: rotate(180deg); }
+.acc-body {
+display: none;
+padding: 14px;
+font-size: 0.78rem;
+color: var(–cream-dim);
+line-height: 1.7;
+letter-spacing: 0.02em;
+}
+.acc-body.open { display: block; }
+
+/* Rules typography */
+.rules-h {
+font-family: ‘Oswald’, sans-serif;
+font-size: 0.65rem;
+letter-spacing: 0.25em;
+color: var(–amber-dim);
+text-transform: uppercase;
+margin-bottom: 6px;
+margin-top: 14px;
+}
+.rules-h:first-child { margin-top: 0; }
+.rules-p { margin-bottom: 9px; }
+.rules-p:last-child { margin-bottom: 0; }
+.rules-hl { color: var(–cream); }
+.rules-amber { color: var(–amber); font-family: ‘Oswald’, sans-serif; letter-spacing: 0.05em; }
+.rules-green { color: var(–green-bright); }
+.rules-red { color: #e06050; }
+.rules-dl { margin-top: 6px; }
+.rules-dt {
+font-family: ‘Oswald’, sans-serif;
+color: var(–cream);
+font-size: 0.78rem;
+letter-spacing: 0.08em;
+margin-top: 10px;
+margin-bottom: 2px;
+}
+.rules-dd { padding-left: 0; margin-bottom: 4px; }
+.rules-suit { font-size: 1rem; line-height: 1; }
+.rules-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.74rem; }
+.rules-table th { font-family: ‘Oswald’, sans-serif; font-size: 0.58rem; letter-spacing: 0.12em; color: var(–amber-dim); padding: 5px 8px; border-bottom: 1px solid var(–border-dim); text-align: left; }
+.rules-table td { padding: 5px 8px; border-bottom: 1px solid rgba(212,200,154,0.07); color: var(–cream-dim); }
+.rules-table td:first-child { color: var(–cream); font-family: ‘Oswald’, sans-serif; letter-spacing: 0.05em; font-size: 0.76rem; white-space: nowrap; }
+.rules-divider { height: 1px; background: var(–border-dim); margin: 12px 0; }
 </style>
 
 </head>
@@ -514,6 +632,7 @@ text-align: left;
       <div class="clag-title">CLAG</div>
       <div class="clag-sub">CLOUDS LOW AIRCRAFT GROUNDED</div>
     </div>
+    <button class="rules-btn" onclick="openRules()">? RULES</button>
   </div>
 </header>
 
@@ -612,6 +731,204 @@ text-align: left;
     <button class="btn btn-primary" id="btn-sc-advance" onclick="scorecardAdvance()">NEXT ROUND ▶</button>
   </div>
   <button class="btn btn-ghost mt8" onclick="endGameEarly()">END GAME EARLY</button>
+</div>
+
+<!-- RULES -->
+
+<div id="rules-screen" class="screen">
+  <div class="rules-back">
+    <button class="rules-back-btn" onclick="closeRules()">◀ BACK</button>
+    <div class="rules-title">BRIEFING NOTES</div>
+  </div>
+
+  <!-- HOW TO PLAY -->
+
+  <div class="acc-item">
+    <button class="acc-trigger open" onclick="toggleAcc(this)">
+      HOW TO PLAY <span class="acc-chevron">▼</span>
+    </button>
+    <div class="acc-body open">
+      <div class="rules-h">The Basics</div>
+      <p class="rules-p">Clag is a <span class="rules-hl">trick-taking</span> card game. Each round, every player is dealt a hand of cards, one suit is named <span class="rules-hl">trumps</span>, and players take turns playing one card to each <span class="rules-hl">trick</span>. The aim is to win exactly as many tricks as you predicted.</p>
+
+```
+  <div class="rules-h">Playing a Trick</div>
+  <p class="rules-p"><span class="rules-hl">The leader</span> plays any card face-up. Going clockwise, every other player must <span class="rules-hl">follow suit</span> if they can — they must play a card of the same suit as the card led.</p>
+  <p class="rules-p">If a player <span class="rules-hl">cannot follow suit</span>, they may play any card, including a trump.</p>
+  <p class="rules-p">The trick is won by:<br>
+    — the <span class="rules-amber">highest trump</span> played, if any trumps were played<br>
+    — otherwise the <span class="rules-amber">highest card of the suit led</span>
+  </p>
+  <p class="rules-p">The winner of a trick <span class="rules-hl">leads the next one</span>.</p>
+
+  <div class="rules-h">Card Ranking</div>
+  <p class="rules-p">Standard ranking: <span class="rules-hl">2 (low) → Ace (high)</span>. Aces are always high unless playing Aces Low.</p>
+</div>
+```
+
+  </div>
+
+  <!-- WHO GOES FIRST -->
+
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      WHO GOES FIRST <span class="acc-chevron">▼</span>
+    </button>
+    <div class="acc-body">
+      <div class="rules-h">The Dealer</div>
+      <p class="rules-p">One player deals the cards for each round. The dealer role rotates clockwise each round — this app tracks it automatically and shows who the dealer is during bidding.</p>
+      <p class="rules-p">After dealing, the top card of the remaining stock is turned over to reveal <span class="rules-hl">trumps</span>.</p>
+
+```
+  <div class="rules-h">Eldest Hand</div>
+  <p class="rules-p"><span class="rules-amber">Eldest hand</span> is the player immediately to the <span class="rules-hl">left of the dealer</span>. They have two privileges each round:</p>
+  <p class="rules-p">① They <span class="rules-hl">bid first</span><br>② They <span class="rules-hl">lead the first trick</span></p>
+  <p class="rules-p">Bidding continues clockwise from eldest hand. The <span class="rules-amber">dealer bids last</span> and faces the constraint: their bid cannot bring the total equal to the number of cards dealt — so someone is always guaranteed to fail their bid.</p>
+</div>
+```
+
+  </div>
+
+  <!-- BIDDING & SCORING -->
+
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      BIDDING &amp; SCORING <span class="acc-chevron">▼</span>
+    </button>
+    <div class="acc-body">
+      <div class="rules-h">Bidding</div>
+      <p class="rules-p">Before play, each player declares how many tricks they expect to win. You can bid <span class="rules-hl">zero</span> — in fact, bidding zero and taking none scores exactly the same bonus as any other correct bid.</p>
+      <p class="rules-p">The sum of all bids <span class="rules-red">must not equal</span> the number of cards dealt. The dealer bids last and is forbidden from making it balance — this ensures at least one player cannot succeed.</p>
+
+```
+  <div class="rules-h">Scoring</div>
+  <table class="rules-table">
+    <thead><tr><th>Outcome</th><th>Standard</th><th>Scottish</th></tr></thead>
+    <tbody>
+      <tr><td>Correct bid</td><td>+10 bonus</td><td>+10 bonus</td></tr>
+      <tr><td>Each trick won</td><td>+2 per trick</td><td>+1 per trick</td></tr>
+      <tr><td>Wrong bid</td><td>0 (nothing)</td><td>0 (nothing)</td></tr>
+    </tbody>
+  </table>
+  <p class="rules-p" style="margin-top:9px">Example (standard): bid 3, take 3 → <span class="rules-green">10 + 6 = 16 pts</span>. Bid 3, take 4 → <span class="rules-red">0 pts</span>.</p>
+  <p class="rules-p">Even if you fail your bid, any tricks you take still count toward the total — they just don't score you anything.</p>
+
+  <div class="rules-h">Winning</div>
+  <p class="rules-p">The player with the <span class="rules-hl">highest total score</span> after all rounds wins. Scores accumulate across the whole game — there's no reset between rounds.</p>
+</div>
+```
+
+  </div>
+
+  <!-- GAME FORMATS -->
+
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      GAME FORMATS <span class="acc-chevron">▼</span>
+    </button>
+    <div class="acc-body">
+      <p class="rules-p">All formats share the same structure: cards dealt go up, then a middle section of special rounds, then back down again. The dealer rotates each round throughout.</p>
+
+```
+  <div class="rules-h">Standard — 20 Rounds (Foss)</div>
+  <p class="rules-p">Phase 1: 1→7 cards. Phase 2: 6 special rounds (all 7 cards). Phase 3: 7→1 cards.</p>
+
+  <div class="rules-h">Extended — 22 Rounds (McLeod)</div>
+  <p class="rules-p">Same as Standard but with 8 special rounds in Phase 2, including Twos Wild, Aces Low, and Dealer Calls Trumps.</p>
+
+  <div class="rules-h">Scottish — 18 Rounds</div>
+  <p class="rules-p">Starts with 7→1 cards (so luck dominates the middle of the game, not the end), then 4 special rounds, then 1→7 cards. Skill matters most in the final phase. Often played with the +1 per trick scoring.</p>
+
+  <div class="rules-h">Quick — 13 Rounds</div>
+  <p class="rules-p">A shortened game: 1→5 cards, 3 special rounds, then 5→1 cards. Good for 3–4 players or when time is short.</p>
+</div>
+```
+
+  </div>
+
+  <!-- SPECIAL ROUNDS -->
+
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      SPECIAL ROUNDS <span class="acc-chevron">▼</span>
+    </button>
+    <div class="acc-body">
+      <p class="rules-p" style="margin-bottom:12px">Special rounds appear in Phase 2 of every format. Each modifies the normal rules in some way. Normal scoring applies unless stated.</p>
+
+```
+  <div class="rules-dt">No Trumps</div>
+  <div class="rules-dd">No suit is trump. The highest card of the <span class="rules-hl">suit led</span> always wins the trick — you cannot trump out even if you're void in the led suit.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Guess 'Em / Guess Trumps</div>
+  <div class="rules-dd">All players make their bids <span class="rules-hl">before</span> the trump card is turned over. Once every bid is locked in, trumps are revealed and play begins as normal.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Misère</div>
+  <div class="rules-dd">The objective is inverted — you want to take <span class="rules-hl">as few tricks as possible</span>. You still bid, but only zero is rewarded. Scoring: <span class="rules-green">+10 for taking zero tricks</span>. <span class="rules-red">−3 per trick</span> if you take any. Trumps apply.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Misère No Trumps</div>
+  <div class="rules-dd">As Misère, but with no trump suit. Penalty is <span class="rules-red">−2 per trick</span> rather than −3.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Blind</div>
+  <div class="rules-dd">Each player bids <span class="rules-hl">before receiving their cards</span> (and before trumps are revealed). Once all bids are in, cards are dealt and play proceeds normally. Pure instinct and probability.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Roll 'Em</div>
+  <div class="rules-dd">Players do <span class="rules-hl">not look at their cards</span>. Stack them face-down and play from the top of the pile in order — no choice, no peeking. You bid before seeing anything.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Misère — Scottish variant</div>
+  <div class="rules-dd">As Misère above but the penalty is <span class="rules-red">−2 per trick</span>. Used in the Scottish 18-round format.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Twos Wild <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
+  <div class="rules-dd">When a player plays a Two, they name its rank and suit on the spot — it beats the natural card it claims to be. Constraint: if a player holds a card of the suit led, their Two must be given that suit (no reneging by proxy).</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Aces Low <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
+  <div class="rules-dd">Card ranking is reversed for Aces only — they become the <span class="rules-hl">lowest</span> cards in the deck (below 2s). All other cards rank normally.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Dealer Calls Trumps <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
+  <div class="rules-dd">Instead of turning the stock, the <span class="rules-hl">dealer names trumps</span> after looking at their own hand. Everyone else bids first; the dealer sees their hand, picks a trump suit to their advantage, then bids last as usual.</div>
+
+  <div class="rules-divider"></div>
+
+  <div class="rules-dt">Most Tricks <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
+  <div class="rules-dd">No bidding. The player who takes the <span class="rules-hl">most tricks</span> scores 10 points. If two or more players tie for the most, <span class="rules-red">nobody scores</span>.</div>
+</div>
+```
+
+  </div>
+
+  <!-- ORIGINS -->
+
+  <div class="acc-item">
+    <button class="acc-trigger" onclick="toggleAcc(this)">
+      ORIGINS <span class="acc-chevron">▼</span>
+    </button>
+    <div class="acc-body">
+      <p class="rules-p"><span class="rules-amber">CLAG</span> is an RAF acronym: <span class="rules-hl">Clouds Low Aircraft Grounded</span> — the condition that kept aircrews on the ground with nothing to do but play cards.</p>
+      <p class="rules-p">The game originated in the Royal Air Force, purportedly during the Second World War, and spread through postings and National Service. Rules varied from station to station and squadron to squadron across the globe; attempts to unify the rules were made in the early 1990s.</p>
+      <p class="rules-p">It was brought back to Scotland by RAF servicemen in the late 1950s and has since spread to touring cyclists as evening entertainment. Regional variants continue to multiply.</p>
+      <p class="rules-p">It is similar to <span class="rules-hl">Oh Hell</span> (also called Nomination Whist or Blackout), but with a richer Phase 2, a firmer identity, and a considerably better name.</p>
+    </div>
+  </div>
+
+<button class="btn btn-ghost mt14" onclick="closeRules()">◀ BACK TO GAME</button>
+
 </div>
 
 <!-- GAME OVER -->
@@ -1183,6 +1500,30 @@ function resetGame() {
   G = null; clearSave();
   show('setup-screen');
   initSetup();
+}
+
+// ─── RULES ───────────────────────────────────────────────────────────────────
+
+let rulesReturnScreen = null;
+
+function openRules() {
+  // figure out where we came from
+  const active = document.querySelector('.screen.active');
+  rulesReturnScreen = active ? active.id : 'setup-screen';
+  show('rules-screen');
+}
+
+function closeRules() {
+  if (rulesReturnScreen) { show(rulesReturnScreen); }
+  else { show('setup-screen'); }
+  rulesReturnScreen = null;
+}
+
+function toggleAcc(trigger) {
+  const body = trigger.nextElementSibling;
+  const isOpen = trigger.classList.contains('open');
+  trigger.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
