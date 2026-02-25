@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -25,56 +24,56 @@
   --grid: rgba(232,168,32,0.055);
 }
 
-- { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-background: var(–ink);
-color: var(–cream);
-font-family: ‘Share Tech Mono’, monospace;
-min-height: 100vh;
-overflow-x: hidden;
-background-image:
-repeating-linear-gradient(0deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px),
-repeating-linear-gradient(90deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px);
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Share Tech Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image:
+    repeating-linear-gradient(0deg, var(--grid) 0, var(--grid) 1px, transparent 1px, transparent 40px),
+    repeating-linear-gradient(90deg, var(--grid) 0, var(--grid) 1px, transparent 1px, transparent 40px);
 }
 body::before {
-content: ‘’;
-position: fixed;
-inset: 0;
-background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
-pointer-events: none;
-z-index: 999;
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+  pointer-events: none;
+  z-index: 999;
 }
 
 .container {
-max-width: 520px;
-margin: 0 auto;
-padding: 0 16px 80px;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
 }
 
 /* ── HEADER ── */
 header {
-border-bottom: 2px solid var(–amber);
-padding: 18px 0 14px;
-margin-bottom: 22px;
+  border-bottom: 2px solid var(--amber);
+  padding: 18px 0 14px;
+  margin-bottom: 22px;
 }
 .header-inner { display: flex; align-items: center; gap: 13px; }
 .roundel { width: 42px; height: 42px; flex-shrink: 0; }
 .clag-title {
-font-family: ‘Oswald’, sans-serif;
-font-weight: 700;
-font-size: 2.1rem;
-letter-spacing: 0.25em;
-color: var(–amber);
-line-height: 1;
-text-shadow: 0 0 28px rgba(232,168,32,0.35);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.1rem;
+  letter-spacing: 0.25em;
+  color: var(--amber);
+  line-height: 1;
+  text-shadow: 0 0 28px rgba(232,168,32,0.35);
 }
 .clag-sub {
-font-family: ‘Special Elite’, cursive;
-font-size: 0.6rem;
-color: var(–cream-dim);
-letter-spacing: 0.12em;
-margin-top: 3px;
+  font-family: 'Special Elite', cursive;
+  font-size: 0.6rem;
+  color: var(--cream-dim);
+  letter-spacing: 0.12em;
+  margin-top: 3px;
 }
 
 /* ── SCREENS ── */
@@ -83,132 +82,132 @@ margin-top: 3px;
 
 /* ── RESUME BANNER ── */
 .resume-banner {
-background: rgba(232,168,32,0.08);
-border: 1px solid var(–border);
-padding: 13px 15px;
-margin-bottom: 16px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 12px;
+  background: rgba(232,168,32,0.08);
+  border: 1px solid var(--border);
+  padding: 13px 15px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
-.resume-text { font-size: 0.75rem; color: var(–cream-dim); letter-spacing: 0.04em; line-height: 1.5; }
-.resume-text strong { font-family: ‘Oswald’, sans-serif; color: var(–amber); font-weight: 400; font-size: 0.85rem; }
+.resume-text { font-size: 0.75rem; color: var(--cream-dim); letter-spacing: 0.04em; line-height: 1.5; }
+.resume-text strong { font-family: 'Oswald', sans-serif; color: var(--amber); font-weight: 400; font-size: 0.85rem; }
 .resume-btns { display: flex; gap: 8px; flex-shrink: 0; }
 
 /* ── PANEL ── */
 .panel {
-background: var(–panel);
-border: 1px solid var(–border);
-padding: 18px;
-margin-bottom: 14px;
-position: relative;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 18px;
+  margin-bottom: 14px;
+  position: relative;
 }
 .panel::before {
-content: ‘’;
-position: absolute;
-top: 0; left: 0; right: 0;
-height: 2px;
-background: linear-gradient(90deg, var(–amber), transparent);
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--amber), transparent);
 }
 
 /* ── SECTION LABEL ── */
 .slabel {
-font-family: ‘Oswald’, sans-serif;
-font-size: 0.58rem;
-letter-spacing: 0.28em;
-color: var(–amber-dim);
-text-transform: uppercase;
-margin-bottom: 10px;
-display: flex;
-align-items: center;
-gap: 10px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.28em;
+  color: var(--amber-dim);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.slabel::after { content: ‘’; flex: 1; height: 1px; background: var(–border-dim); }
+.slabel::after { content: ''; flex: 1; height: 1px; background: var(--border-dim); }
 
 /* ── PLAYER INPUTS ── */
 .pinput-row {
-display: flex;
-align-items: center;
-gap: 8px;
-background: rgba(0,0,0,0.3);
-border: 1px solid var(–border-dim);
-padding: 10px 13px;
-margin-bottom: 7px;
-transition: border-color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border-dim);
+  padding: 10px 13px;
+  margin-bottom: 7px;
+  transition: border-color 0.15s;
 }
-.pinput-row:focus-within { border-color: var(–amber); }
-.pnum { font-family: ‘Oswald’, sans-serif; font-size: 0.62rem; color: var(–amber-dim); letter-spacing: 0.1em; min-width: 20px; }
+.pinput-row:focus-within { border-color: var(--amber); }
+.pnum { font-family: 'Oswald', sans-serif; font-size: 0.62rem; color: var(--amber-dim); letter-spacing: 0.1em; min-width: 20px; }
 .pinput-row input {
-background: transparent; border: none;
-color: var(–cream);
-font-family: ‘Share Tech Mono’, monospace;
-font-size: 16px; /* prevents iOS zoom */
-width: 100%; outline: none;
-letter-spacing: 0.04em;
+  background: transparent; border: none;
+  color: var(--cream);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px; /* prevents iOS zoom */
+  width: 100%; outline: none;
+  letter-spacing: 0.04em;
 }
-.pinput-row input::placeholder { color: var(–cream-dim); opacity: 0.45; }
+.pinput-row input::placeholder { color: var(--cream-dim); opacity: 0.45; }
 
 /* ── RADIO CARDS ── */
 .radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .rcard { position: relative; cursor: pointer; }
 .rcard input { position: absolute; opacity: 0; width: 0; }
 .rlabel {
-display: block;
-border: 1px solid var(–border-dim);
-padding: 10px 12px;
-cursor: pointer;
-background: rgba(0,0,0,0.2);
-transition: all 0.12s;
+  display: block;
+  border: 1px solid var(--border-dim);
+  padding: 10px 12px;
+  cursor: pointer;
+  background: rgba(0,0,0,0.2);
+  transition: all 0.12s;
 }
-.rcard input:checked + .rlabel { border-color: var(–amber); background: var(–amber-glow); }
-.rlabel-title { font-family: ‘Oswald’, sans-serif; font-size: 0.78rem; letter-spacing: 0.1em; color: var(–cream); display: block; margin-bottom: 2px; }
-.rlabel-sub { font-size: 0.6rem; color: var(–cream-dim); }
+.rcard input:checked + .rlabel { border-color: var(--amber); background: var(--amber-glow); }
+.rlabel-title { font-family: 'Oswald', sans-serif; font-size: 0.78rem; letter-spacing: 0.1em; color: var(--cream); display: block; margin-bottom: 2px; }
+.rlabel-sub { font-size: 0.6rem; color: var(--cream-dim); }
 
 /* ── BUTTONS ── */
 .btn {
-font-family: ‘Oswald’, sans-serif;
-font-size: 0.82rem;
-letter-spacing: 0.18em;
-text-transform: uppercase;
-border: none;
-cursor: pointer;
-padding: 12px 18px;
-transition: background 0.12s, opacity 0.12s;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-gap: 7px;
--webkit-tap-highlight-color: transparent;
-touch-action: manipulation;
-user-select: none;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  padding: 12px 18px;
+  transition: background 0.12s, opacity 0.12s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
 }
-.btn-primary { background: var(–amber); color: var(–ink); width: 100%; font-weight: 600; }
+.btn-primary { background: var(--amber); color: var(--ink); width: 100%; font-weight: 600; }
 .btn-primary:active { background: #f0b830; }
 .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
 .btn-secondary {
-background: transparent;
-color: var(–cream-dim);
-border: 1px solid var(–border-dim);
-font-size: 0.68rem;
-padding: 9px 14px;
+  background: transparent;
+  color: var(--cream-dim);
+  border: 1px solid var(--border-dim);
+  font-size: 0.68rem;
+  padding: 9px 14px;
 }
-.btn-secondary:active { border-color: var(–amber-dim); color: var(–cream); }
+.btn-secondary:active { border-color: var(--amber-dim); color: var(--cream); }
 .btn-ghost {
-background: transparent;
-color: var(–cream-dim);
-font-size: 0.68rem;
-letter-spacing: 0.14em;
-padding: 10px 0;
-width: 100%;
+  background: transparent;
+  color: var(--cream-dim);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  padding: 10px 0;
+  width: 100%;
 }
-.btn-ghost:active { color: var(–cream); }
+.btn-ghost:active { color: var(--cream); }
 .btn-danger {
-background: transparent;
-color: rgba(192,57,43,0.7);
-border: 1px solid rgba(192,57,43,0.25);
-font-size: 0.62rem;
-padding: 8px 13px;
+  background: transparent;
+  color: rgba(192,57,43,0.7);
+  border: 1px solid rgba(192,57,43,0.25);
+  font-size: 0.62rem;
+  padding: 8px 13px;
 }
 .btn-danger:active { background: rgba(192,57,43,0.1); }
 
@@ -220,403 +219,402 @@ padding: 8px 13px;
 
 /* ── PHASE HEADER ── */
 .phase-hdr {
-display: flex;
-align-items: baseline;
-justify-content: space-between;
-margin-bottom: 18px;
-padding-bottom: 12px;
-border-bottom: 1px solid var(–border-dim);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-dim);
 }
 .phase-title {
-font-family: ‘Oswald’, sans-serif;
-font-size: 1.25rem;
-font-weight: 600;
-letter-spacing: 0.15em;
-color: var(–amber);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--amber);
 }
 .phase-rd {
-font-family: ‘Share Tech Mono’, monospace;
-font-size: 0.68rem;
-color: var(–cream-dim);
-letter-spacing: 0.08em;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--cream-dim);
+  letter-spacing: 0.08em;
 }
 
 /* ── ROUND INFO ── */
 .rinfo { margin-bottom: 14px; }
 .rinfo-name {
-font-family: ‘Oswald’, sans-serif;
-font-size: 1.3rem;
-font-weight: 600;
-letter-spacing: 0.07em;
-color: var(–cream);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  color: var(--cream);
 }
-.rinfo-desc { font-size: 0.7rem; color: var(–cream-dim); margin-top: 4px; letter-spacing: 0.04em; }
+.rinfo-desc { font-size: 0.7rem; color: var(--cream-dim); margin-top: 4px; letter-spacing: 0.04em; }
 
 /* ── SPECIAL BADGE ── */
 .sbadge {
-display: inline-flex;
-align-items: center;
-gap: 6px;
-background: rgba(74,124,63,0.12);
-border: 1px solid var(–green);
-padding: 5px 10px;
-font-size: 0.67rem;
-color: var(–green-bright);
-letter-spacing: 0.08em;
-margin-bottom: 13px;
-font-family: ‘Oswald’, sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(74,124,63,0.12);
+  border: 1px solid var(--green);
+  padding: 5px 10px;
+  font-size: 0.67rem;
+  color: var(--green-bright);
+  letter-spacing: 0.08em;
+  margin-bottom: 13px;
+  font-family: 'Oswald', sans-serif;
 }
 
 /* ── BID BAR ── */
 .bid-bar {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 9px 13px;
-background: rgba(0,0,0,0.3);
-border: 1px solid var(–border-dim);
-margin-bottom: 13px;
-font-size: 0.72rem;
-color: var(–cream-dim);
-letter-spacing: 0.07em;
-transition: border-color 0.15s, background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 13px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border-dim);
+  margin-bottom: 13px;
+  font-size: 0.72rem;
+  color: var(--cream-dim);
+  letter-spacing: 0.07em;
+  transition: border-color 0.15s, background 0.15s;
 }
 .bid-bar.warn { border-color: rgba(192,57,43,0.45); background: rgba(192,57,43,0.07); }
 .bid-bar-lhs { display: flex; align-items: baseline; gap: 6px; }
 .bid-total {
-font-family: ‘Oswald’, sans-serif;
-font-size: 1rem;
-font-weight: 600;
-color: var(–amber);
-transition: color 0.15s;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--amber);
+  transition: color 0.15s;
 }
 .bid-total.warn { color: #e74c3c; }
-.bid-forbidden { font-family: ‘Oswald’, sans-serif; font-size: 0.7rem; }
+.bid-forbidden { font-family: 'Oswald', sans-serif; font-size: 0.7rem; }
 .bid-forbidden span { color: #e74c3c; font-size: 1rem; font-weight: 700; }
 
 /* ── STEPPER ROW ── */
 .stepper-row {
-background: rgba(0,0,0,0.18);
-border: 1px solid var(–border-dim);
-padding: 12px 14px;
-margin-bottom: 9px;
-display: flex;
-align-items: center;
-gap: 10px;
-transition: border-color 0.15s;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid var(--border-dim);
+  padding: 12px 14px;
+  margin-bottom: 9px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.15s;
 }
-.stepper-row.is-dealer { border-left: 2px solid var(–amber-dim); }
+.stepper-row.is-dealer { border-left: 2px solid var(--amber-dim); }
 .stepper-row.is-eldest { border-left: 2px solid rgba(74,124,63,0.6); }
 
 .sinfo { flex: 1; min-width: 0; }
 .sname {
-font-family: ‘Oswald’, sans-serif;
-font-size: 0.95rem;
-letter-spacing: 0.07em;
-color: var(–cream);
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.07em;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .stag {
-font-size: 0.55rem;
-color: var(–amber-dim);
-letter-spacing: 0.12em;
-text-transform: uppercase;
-margin-top: 2px;
+  font-size: 0.55rem;
+  color: var(--amber-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 2px;
 }
 .ssub {
-font-size: 0.63rem;
-color: var(–cream-dim);
-margin-top: 3px;
-letter-spacing: 0.04em;
-min-height: 14px;
+  font-size: 0.63rem;
+  color: var(--cream-dim);
+  margin-top: 3px;
+  letter-spacing: 0.04em;
+  min-height: 14px;
 }
-.ssub.hit { color: var(–green-bright); }
-.ssub.miss { color: var(–cream-dim); }
+.ssub.hit { color: var(--green-bright); }
+.ssub.miss { color: var(--cream-dim); }
 .ssub.warn { color: #e06050; }
 
 .scontrols { display: flex; align-items: center; flex-shrink: 0; }
 .sbtn {
-width: 50px;
-height: 54px;
-background: rgba(0,0,0,0.38);
-border: 1px solid var(–border-dim);
-color: var(–cream);
-font-size: 1.35rem;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-transition: background 0.1s;
--webkit-tap-highlight-color: transparent;
-touch-action: manipulation;
-user-select: none;
-line-height: 1;
+  width: 50px;
+  height: 54px;
+  background: rgba(0,0,0,0.38);
+  border: 1px solid var(--border-dim);
+  color: var(--cream);
+  font-size: 1.35rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+  line-height: 1;
 }
 .sbtn.dec { border-right: none; }
 .sbtn.inc { border-left: none; }
-.sbtn:active { background: var(–amber-glow); }
+.sbtn:active { background: var(--amber-glow); }
 .sbtn:disabled { opacity: 0.2; cursor: not-allowed; }
 .sval {
-min-width: 52px;
-height: 54px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-family: ‘Oswald’, sans-serif;
-font-size: 1.9rem;
-font-weight: 700;
-color: var(–amber);
-background: rgba(0,0,0,0.45);
-border: 1px solid var(–border-dim);
+  min-width: 52px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--amber);
+  background: rgba(0,0,0,0.45);
+  border: 1px solid var(--border-dim);
 }
-.sval.green { color: var(–green-bright); }
+.sval.green { color: var(--green-bright); }
 
 .sind { font-size: 1rem; flex-shrink: 0; width: 18px; text-align: center; }
 
 /* ── TRICK TOTAL BAR ── */
 .tricks-bar {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 8px 13px;
-background: rgba(0,0,0,0.25);
-border: 1px solid var(–border-dim);
-margin-bottom: 13px;
-font-size: 0.7rem;
-color: var(–cream-dim);
-letter-spacing: 0.07em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 13px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border-dim);
+  margin-bottom: 13px;
+  font-size: 0.7rem;
+  color: var(--cream-dim);
+  letter-spacing: 0.07em;
 }
 .tricks-bar.warn { border-color: rgba(192,57,43,0.35); }
 .tricks-remaining {
-font-family: ‘Oswald’, sans-serif;
-font-size: 1rem;
-font-weight: 600;
-color: var(–green-bright);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--green-bright);
 }
 .tricks-remaining.warn { color: #e74c3c; }
 
 /* ── PROGRESS PIPS ── */
 .progress-strip { display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 18px; }
 .pip {
-width: 8px; height: 8px;
-border: 1px solid var(–border-dim);
-cursor: pointer;
-transition: all 0.15s;
-flex-shrink: 0;
+  width: 8px; height: 8px;
+  border: 1px solid var(--border-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
 }
-.pip.done { background: var(–amber-dim); border-color: var(–amber-dim); }
-.pip.current { background: var(–amber); border-color: var(–amber); box-shadow: 0 0 6px rgba(232,168,32,0.65); }
+.pip.done { background: var(--amber-dim); border-color: var(--amber-dim); }
+.pip.current { background: var(--amber); border-color: var(--amber); box-shadow: 0 0 6px rgba(232,168,32,0.65); }
 .pip.special { border-radius: 50%; }
-.pip.special.done { background: var(–green); border-color: var(–green); }
-.pip.special.current { background: var(–green-bright); border-color: var(–green-bright); box-shadow: 0 0 6px rgba(107,181,96,0.65); }
+.pip.special.done { background: var(--green); border-color: var(--green); }
+.pip.special.current { background: var(--green-bright); border-color: var(--green-bright); box-shadow: 0 0 6px rgba(107,181,96,0.65); }
 
 /* ── SCORE TABLE ── */
 .sc-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .sc-table { width: 100%; border-collapse: collapse; font-size: 0.73rem; }
 .sc-table th {
-font-family: ‘Oswald’, sans-serif;
-font-size: 0.58rem;
-letter-spacing: 0.14em;
-color: var(–amber-dim);
-padding: 7px 9px;
-border-bottom: 1px solid var(–border);
-text-align: left;
-background: rgba(0,0,0,0.2);
-white-space: nowrap;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  color: var(--amber-dim);
+  padding: 7px 9px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  background: rgba(0,0,0,0.2);
+  white-space: nowrap;
 }
 .sc-table th.pcol { text-align: center; min-width: 72px; }
-.sc-table td { padding: 7px 9px; border-bottom: 1px solid var(–border-dim); vertical-align: middle; }
+.sc-table td { padding: 7px 9px; border-bottom: 1px solid var(--border-dim); vertical-align: middle; }
 .sc-table td.rtd { white-space: nowrap; font-size: 0.66rem; }
-.sc-table td.rtd .rn { font-family: ‘Special Elite’, cursive; color: var(–cream); }
-.sc-table td.rtd .rc { color: var(–cream-dim); font-size: 0.6rem; }
+.sc-table td.rtd .rn { font-family: 'Special Elite', cursive; color: var(--cream); }
+.sc-table td.rtd .rc { color: var(--cream-dim); font-size: 0.6rem; }
 .sc-table td.ptd { text-align: center; }
-.spts { font-family: ‘Oswald’, sans-serif; font-size: 0.95rem; font-weight: 600; }
-.spts.hit { color: var(–amber); }
-.spts.miss { color: var(–cream-dim); }
-.spts.neg { color: var(–red); }
-.smeta { font-size: 0.58rem; color: var(–cream-dim); display: block; }
-.smeta.hit { color: var(–green-bright); }
-.srun { font-size: 0.62rem; color: var(–cream-dim); display: block; }
-.sc-table tfoot td { padding: 11px 9px; border-top: 2px solid var(–amber); background: var(–panel); }
-.ttl { font-family: ‘Oswald’, sans-serif; font-size: 1.25rem; font-weight: 700; color: var(–amber); display: block; text-align: center; }
-.ttl-lbl { font-family: ‘Oswald’, sans-serif; font-size: 0.53rem; letter-spacing: 0.14em; color: var(–amber-dim); display: block; text-align: center; }
-.rbadge { display: inline-block; font-family: ‘Oswald’, sans-serif; font-size: 0.53rem; padding: 1px 4px; margin-top: 2px; letter-spacing: 0.08em; }
-.rbadge.r1 { background: var(–amber); color: var(–ink); }
-.rbadge.r2 { background: rgba(232,168,32,0.18); color: var(–amber); }
-.rbadge.r3 { background: transparent; color: var(–cream-dim); border: 1px solid var(–border-dim); }
+.spts { font-family: 'Oswald', sans-serif; font-size: 0.95rem; font-weight: 600; }
+.spts.hit { color: var(--amber); }
+.spts.miss { color: var(--cream-dim); }
+.spts.neg { color: var(--red); }
+.smeta { font-size: 0.58rem; color: var(--cream-dim); display: block; }
+.smeta.hit { color: var(--green-bright); }
+.srun { font-size: 0.62rem; color: var(--cream-dim); display: block; }
+.sc-table tfoot td { padding: 11px 9px; border-top: 2px solid var(--amber); background: var(--panel); }
+.ttl { font-family: 'Oswald', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--amber); display: block; text-align: center; }
+.ttl-lbl { font-family: 'Oswald', sans-serif; font-size: 0.53rem; letter-spacing: 0.14em; color: var(--amber-dim); display: block; text-align: center; }
+.rbadge { display: inline-block; font-family: 'Oswald', sans-serif; font-size: 0.53rem; padding: 1px 4px; margin-top: 2px; letter-spacing: 0.08em; }
+.rbadge.r1 { background: var(--amber); color: var(--ink); }
+.rbadge.r2 { background: rgba(232,168,32,0.18); color: var(--amber); }
+.rbadge.r3 { background: transparent; color: var(--cream-dim); border: 1px solid var(--border-dim); }
 
 /* ── GAME OVER ── */
 .go-panel {
-text-align: center;
-padding: 36px 18px;
-background: var(–panel);
-border: 2px solid var(–amber);
-position: relative;
-margin-bottom: 18px;
+  text-align: center;
+  padding: 36px 18px;
+  background: var(--panel);
+  border: 2px solid var(--amber);
+  position: relative;
+  margin-bottom: 18px;
 }
 .go-panel::before {
-content: ‘’;
-position: absolute;
-top: 0; left: 0; right: 0;
-height: 4px;
-background: linear-gradient(90deg, transparent, var(–amber), transparent);
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
 }
 .go-title {
-font-family: ‘Oswald’, sans-serif;
-font-size: 2.4rem;
-font-weight: 700;
-color: var(–amber);
-letter-spacing: 0.3em;
-text-shadow: 0 0 36px rgba(232,168,32,0.45);
-margin-bottom: 5px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 0.3em;
+  text-shadow: 0 0 36px rgba(232,168,32,0.45);
+  margin-bottom: 5px;
 }
 .go-sub {
-font-family: ‘Special Elite’, cursive;
-color: var(–cream-dim);
-letter-spacing: 0.12em;
-font-size: 0.72rem;
-margin-bottom: 26px;
+  font-family: 'Special Elite', cursive;
+  color: var(--cream-dim);
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  margin-bottom: 26px;
 }
 .stand-row {
-display: flex;
-align-items: center;
-padding: 11px 0;
-border-bottom: 1px solid var(–border-dim);
-gap: 13px;
-text-align: left;
+  display: flex;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border-dim);
+  gap: 13px;
+  text-align: left;
 }
-.stand-rank { font-family: ‘Oswald’, sans-serif; font-size: 1.2rem; font-weight: 700; color: var(–amber-dim); min-width: 26px; }
-.stand-row.p1 .stand-rank { color: var(–amber); }
-.stand-name { font-family: ‘Special Elite’, cursive; font-size: 0.95rem; flex: 1; }
-.stand-pts { font-family: ‘Oswald’, sans-serif; font-size: 1.15rem; font-weight: 600; color: var(–amber); }
+.stand-rank { font-family: 'Oswald', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--amber-dim); min-width: 26px; }
+.stand-row.p1 .stand-rank { color: var(--amber); }
+.stand-name { font-family: 'Special Elite', cursive; font-size: 0.95rem; flex: 1; }
+.stand-pts { font-family: 'Oswald', sans-serif; font-size: 1.15rem; font-weight: 600; color: var(--amber); }
 
 /* ── RULES BUTTON ── */
 .rules-btn {
-background: transparent;
-border: 1px solid var(–border-dim);
-color: var(–cream-dim);
-font-family: ‘Oswald’, sans-serif;
-font-size: 0.65rem;
-letter-spacing: 0.18em;
-padding: 5px 10px;
-cursor: pointer;
-margin-left: auto;
-flex-shrink: 0;
--webkit-tap-highlight-color: transparent;
-touch-action: manipulation;
+  background: transparent;
+  border: 1px solid var(--border-dim);
+  color: var(--cream-dim);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: auto;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-.rules-btn:active { border-color: var(–amber-dim); color: var(–cream); }
+.rules-btn:active { border-color: var(--amber-dim); color: var(--cream); }
 
 /* ── RULES SCREEN ── */
 .rules-back {
-display: flex;
-align-items: center;
-gap: 10px;
-margin-bottom: 20px;
-padding-bottom: 14px;
-border-bottom: 1px solid var(–border-dim);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-dim);
 }
 .rules-back-btn {
-background: transparent;
-border: 1px solid var(–border-dim);
-color: var(–cream-dim);
-font-family: ‘Oswald’, sans-serif;
-font-size: 0.72rem;
-letter-spacing: 0.15em;
-padding: 8px 13px;
-cursor: pointer;
--webkit-tap-highlight-color: transparent;
-touch-action: manipulation;
+  background: transparent;
+  border: 1px solid var(--border-dim);
+  color: var(--cream-dim);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  padding: 8px 13px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-.rules-back-btn:active { border-color: var(–amber); color: var(–cream); }
+.rules-back-btn:active { border-color: var(--amber); color: var(--cream); }
 .rules-title {
-font-family: ‘Oswald’, sans-serif;
-font-size: 1.1rem;
-font-weight: 600;
-letter-spacing: 0.18em;
-color: var(–amber);
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--amber);
 }
 
 /* Accordion */
 .acc-item {
-border: 1px solid var(–border-dim);
-margin-bottom: 7px;
-background: var(–panel);
+  border: 1px solid var(--border-dim);
+  margin-bottom: 7px;
+  background: var(--panel);
 }
 .acc-trigger {
-width: 100%;
-background: transparent;
-border: none;
-color: var(–cream);
-font-family: ‘Oswald’, sans-serif;
-font-size: 0.85rem;
-letter-spacing: 0.12em;
-text-align: left;
-padding: 13px 14px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 10px;
--webkit-tap-highlight-color: transparent;
-touch-action: manipulation;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--cream);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-align: left;
+  padding: 13px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-.acc-trigger:active { background: var(–amber-glow); }
-.acc-trigger.open { color: var(–amber); border-bottom: 1px solid var(–border-dim); }
+.acc-trigger:active { background: var(--amber-glow); }
+.acc-trigger.open { color: var(--amber); border-bottom: 1px solid var(--border-dim); }
 .acc-chevron {
-font-size: 0.75rem;
-color: var(–amber-dim);
-transition: transform 0.2s;
-flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--amber-dim);
+  transition: transform 0.2s;
+  flex-shrink: 0;
 }
 .acc-trigger.open .acc-chevron { transform: rotate(180deg); }
 .acc-body {
-display: none;
-padding: 14px;
-font-size: 0.78rem;
-color: var(–cream-dim);
-line-height: 1.7;
-letter-spacing: 0.02em;
+  display: none;
+  padding: 14px;
+  font-size: 0.78rem;
+  color: var(--cream-dim);
+  line-height: 1.7;
+  letter-spacing: 0.02em;
 }
 .acc-body.open { display: block; }
 
 /* Rules typography */
 .rules-h {
-font-family: ‘Oswald’, sans-serif;
-font-size: 0.65rem;
-letter-spacing: 0.25em;
-color: var(–amber-dim);
-text-transform: uppercase;
-margin-bottom: 6px;
-margin-top: 14px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--amber-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  margin-top: 14px;
 }
 .rules-h:first-child { margin-top: 0; }
 .rules-p { margin-bottom: 9px; }
 .rules-p:last-child { margin-bottom: 0; }
-.rules-hl { color: var(–cream); }
-.rules-amber { color: var(–amber); font-family: ‘Oswald’, sans-serif; letter-spacing: 0.05em; }
-.rules-green { color: var(–green-bright); }
+.rules-hl { color: var(--cream); }
+.rules-amber { color: var(--amber); font-family: 'Oswald', sans-serif; letter-spacing: 0.05em; }
+.rules-green { color: var(--green-bright); }
 .rules-red { color: #e06050; }
 .rules-dl { margin-top: 6px; }
 .rules-dt {
-font-family: ‘Oswald’, sans-serif;
-color: var(–cream);
-font-size: 0.78rem;
-letter-spacing: 0.08em;
-margin-top: 10px;
-margin-bottom: 2px;
+  font-family: 'Oswald', sans-serif;
+  color: var(--cream);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  margin-top: 10px;
+  margin-bottom: 2px;
 }
 .rules-dd { padding-left: 0; margin-bottom: 4px; }
 .rules-suit { font-size: 1rem; line-height: 1; }
 .rules-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.74rem; }
-.rules-table th { font-family: ‘Oswald’, sans-serif; font-size: 0.58rem; letter-spacing: 0.12em; color: var(–amber-dim); padding: 5px 8px; border-bottom: 1px solid var(–border-dim); text-align: left; }
-.rules-table td { padding: 5px 8px; border-bottom: 1px solid rgba(212,200,154,0.07); color: var(–cream-dim); }
-.rules-table td:first-child { color: var(–cream); font-family: ‘Oswald’, sans-serif; letter-spacing: 0.05em; font-size: 0.76rem; white-space: nowrap; }
-.rules-divider { height: 1px; background: var(–border-dim); margin: 12px 0; }
+.rules-table th { font-family: 'Oswald', sans-serif; font-size: 0.58rem; letter-spacing: 0.12em; color: var(--amber-dim); padding: 5px 8px; border-bottom: 1px solid var(--border-dim); text-align: left; }
+.rules-table td { padding: 5px 8px; border-bottom: 1px solid rgba(212,200,154,0.07); color: var(--cream-dim); }
+.rules-table td:first-child { color: var(--cream); font-family: 'Oswald', sans-serif; letter-spacing: 0.05em; font-size: 0.76rem; white-space: nowrap; }
+.rules-divider { height: 1px; background: var(--border-dim); margin: 12px 0; }
 </style>
-
 </head>
 <body>
 <div class="container">
@@ -637,7 +635,6 @@ margin-bottom: 2px;
 </header>
 
 <!-- RESUME BANNER -->
-
 <div id="resume-banner" style="display:none">
   <div class="resume-banner">
     <div class="resume-text"><strong id="resume-desc"></strong><br>Resume saved game?</div>
@@ -649,7 +646,6 @@ margin-bottom: 2px;
 </div>
 
 <!-- SETUP -->
-
 <div id="setup-screen" class="screen active">
   <div class="panel">
     <div class="slabel">Personnel — 3 to 7 players</div>
@@ -681,7 +677,6 @@ margin-bottom: 2px;
 </div>
 
 <!-- BID SCREEN -->
-
 <div id="bid-screen" class="screen">
   <div class="phase-hdr">
     <div class="phase-title">BIDDING</div>
@@ -699,7 +694,6 @@ margin-bottom: 2px;
 </div>
 
 <!-- TRICKS SCREEN -->
-
 <div id="tricks-screen" class="screen">
   <div class="phase-hdr">
     <div class="phase-title">TRICK ENTRY</div>
@@ -716,7 +710,6 @@ margin-bottom: 2px;
 </div>
 
 <!-- SCORECARD SCREEN -->
-
 <div id="scorecard-screen" class="screen">
   <div class="phase-hdr">
     <div class="phase-title">SCORECARD</div>
@@ -734,7 +727,6 @@ margin-bottom: 2px;
 </div>
 
 <!-- RULES -->
-
 <div id="rules-screen" class="screen">
   <div class="rules-back">
     <button class="rules-back-btn" onclick="closeRules()">◀ BACK</button>
@@ -742,7 +734,6 @@ margin-bottom: 2px;
   </div>
 
   <!-- HOW TO PLAY -->
-
   <div class="acc-item">
     <button class="acc-trigger open" onclick="toggleAcc(this)">
       HOW TO PLAY <span class="acc-chevron">▼</span>
@@ -751,25 +742,21 @@ margin-bottom: 2px;
       <div class="rules-h">The Basics</div>
       <p class="rules-p">Clag is a <span class="rules-hl">trick-taking</span> card game. Each round, every player is dealt a hand of cards, one suit is named <span class="rules-hl">trumps</span>, and players take turns playing one card to each <span class="rules-hl">trick</span>. The aim is to win exactly as many tricks as you predicted.</p>
 
-```
-  <div class="rules-h">Playing a Trick</div>
-  <p class="rules-p"><span class="rules-hl">The leader</span> plays any card face-up. Going clockwise, every other player must <span class="rules-hl">follow suit</span> if they can — they must play a card of the same suit as the card led.</p>
-  <p class="rules-p">If a player <span class="rules-hl">cannot follow suit</span>, they may play any card, including a trump.</p>
-  <p class="rules-p">The trick is won by:<br>
-    — the <span class="rules-amber">highest trump</span> played, if any trumps were played<br>
-    — otherwise the <span class="rules-amber">highest card of the suit led</span>
-  </p>
-  <p class="rules-p">The winner of a trick <span class="rules-hl">leads the next one</span>.</p>
+      <div class="rules-h">Playing a Trick</div>
+      <p class="rules-p"><span class="rules-hl">The leader</span> plays any card face-up. Going clockwise, every other player must <span class="rules-hl">follow suit</span> if they can — they must play a card of the same suit as the card led.</p>
+      <p class="rules-p">If a player <span class="rules-hl">cannot follow suit</span>, they may play any card, including a trump.</p>
+      <p class="rules-p">The trick is won by:<br>
+        — the <span class="rules-amber">highest trump</span> played, if any trumps were played<br>
+        — otherwise the <span class="rules-amber">highest card of the suit led</span>
+      </p>
+      <p class="rules-p">The winner of a trick <span class="rules-hl">leads the next one</span>.</p>
 
-  <div class="rules-h">Card Ranking</div>
-  <p class="rules-p">Standard ranking: <span class="rules-hl">2 (low) → Ace (high)</span>. Aces are always high unless playing Aces Low.</p>
-</div>
-```
-
+      <div class="rules-h">Card Ranking</div>
+      <p class="rules-p">Standard ranking: <span class="rules-hl">2 (low) → Ace (high)</span>. Aces are always high unless playing Aces Low.</p>
+    </div>
   </div>
 
   <!-- WHO GOES FIRST -->
-
   <div class="acc-item">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       WHO GOES FIRST <span class="acc-chevron">▼</span>
@@ -779,18 +766,14 @@ margin-bottom: 2px;
       <p class="rules-p">One player deals the cards for each round. The dealer role rotates clockwise each round — this app tracks it automatically and shows who the dealer is during bidding.</p>
       <p class="rules-p">After dealing, the top card of the remaining stock is turned over to reveal <span class="rules-hl">trumps</span>.</p>
 
-```
-  <div class="rules-h">Eldest Hand</div>
-  <p class="rules-p"><span class="rules-amber">Eldest hand</span> is the player immediately to the <span class="rules-hl">left of the dealer</span>. They have two privileges each round:</p>
-  <p class="rules-p">① They <span class="rules-hl">bid first</span><br>② They <span class="rules-hl">lead the first trick</span></p>
-  <p class="rules-p">Bidding continues clockwise from eldest hand. The <span class="rules-amber">dealer bids last</span> and faces the constraint: their bid cannot bring the total equal to the number of cards dealt — so someone is always guaranteed to fail their bid.</p>
-</div>
-```
-
+      <div class="rules-h">Eldest Hand</div>
+      <p class="rules-p"><span class="rules-amber">Eldest hand</span> is the player immediately to the <span class="rules-hl">left of the dealer</span>. They have two privileges each round:</p>
+      <p class="rules-p">① They <span class="rules-hl">bid first</span><br>② They <span class="rules-hl">lead the first trick</span></p>
+      <p class="rules-p">Bidding continues clockwise from eldest hand. The <span class="rules-amber">dealer bids last</span> and faces the constraint: their bid cannot bring the total equal to the number of cards dealt — so someone is always guaranteed to fail their bid.</p>
+    </div>
   </div>
 
   <!-- BIDDING & SCORING -->
-
   <div class="acc-item">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       BIDDING &amp; SCORING <span class="acc-chevron">▼</span>
@@ -800,28 +783,24 @@ margin-bottom: 2px;
       <p class="rules-p">Before play, each player declares how many tricks they expect to win. You can bid <span class="rules-hl">zero</span> — in fact, bidding zero and taking none scores exactly the same bonus as any other correct bid.</p>
       <p class="rules-p">The sum of all bids <span class="rules-red">must not equal</span> the number of cards dealt. The dealer bids last and is forbidden from making it balance — this ensures at least one player cannot succeed.</p>
 
-```
-  <div class="rules-h">Scoring</div>
-  <table class="rules-table">
-    <thead><tr><th>Outcome</th><th>Standard</th><th>Scottish</th></tr></thead>
-    <tbody>
-      <tr><td>Correct bid</td><td>+10 bonus</td><td>+10 bonus</td></tr>
-      <tr><td>Each trick won</td><td>+2 per trick</td><td>+1 per trick</td></tr>
-      <tr><td>Wrong bid</td><td>0 (nothing)</td><td>0 (nothing)</td></tr>
-    </tbody>
-  </table>
-  <p class="rules-p" style="margin-top:9px">Example (standard): bid 3, take 3 → <span class="rules-green">10 + 6 = 16 pts</span>. Bid 3, take 4 → <span class="rules-red">0 pts</span>.</p>
-  <p class="rules-p">Even if you fail your bid, any tricks you take still count toward the total — they just don't score you anything.</p>
+      <div class="rules-h">Scoring</div>
+      <table class="rules-table">
+        <thead><tr><th>Outcome</th><th>Standard</th><th>Scottish</th></tr></thead>
+        <tbody>
+          <tr><td>Correct bid</td><td>+10 bonus</td><td>+10 bonus</td></tr>
+          <tr><td>Each trick won</td><td>+2 per trick</td><td>+1 per trick</td></tr>
+          <tr><td>Wrong bid</td><td>0 (nothing)</td><td>0 (nothing)</td></tr>
+        </tbody>
+      </table>
+      <p class="rules-p" style="margin-top:9px">Example (standard): bid 3, take 3 → <span class="rules-green">10 + 6 = 16 pts</span>. Bid 3, take 4 → <span class="rules-red">0 pts</span>.</p>
+      <p class="rules-p">Even if you fail your bid, any tricks you take still count toward the total — they just don't score you anything.</p>
 
-  <div class="rules-h">Winning</div>
-  <p class="rules-p">The player with the <span class="rules-hl">highest total score</span> after all rounds wins. Scores accumulate across the whole game — there's no reset between rounds.</p>
-</div>
-```
-
+      <div class="rules-h">Winning</div>
+      <p class="rules-p">The player with the <span class="rules-hl">highest total score</span> after all rounds wins. Scores accumulate across the whole game — there's no reset between rounds.</p>
+    </div>
   </div>
 
   <!-- GAME FORMATS -->
-
   <div class="acc-item">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       GAME FORMATS <span class="acc-chevron">▼</span>
@@ -829,25 +808,21 @@ margin-bottom: 2px;
     <div class="acc-body">
       <p class="rules-p">All formats share the same structure: cards dealt go up, then a middle section of special rounds, then back down again. The dealer rotates each round throughout.</p>
 
-```
-  <div class="rules-h">Standard — 20 Rounds (Foss)</div>
-  <p class="rules-p">Phase 1: 1→7 cards. Phase 2: 6 special rounds (all 7 cards). Phase 3: 7→1 cards.</p>
+      <div class="rules-h">Standard — 20 Rounds (Foss)</div>
+      <p class="rules-p">Phase 1: 1→7 cards. Phase 2: 6 special rounds (all 7 cards). Phase 3: 7→1 cards.</p>
 
-  <div class="rules-h">Extended — 22 Rounds (McLeod)</div>
-  <p class="rules-p">Same as Standard but with 8 special rounds in Phase 2, including Twos Wild, Aces Low, and Dealer Calls Trumps.</p>
+      <div class="rules-h">Extended — 22 Rounds (McLeod)</div>
+      <p class="rules-p">Same as Standard but with 8 special rounds in Phase 2, including Twos Wild, Aces Low, and Dealer Calls Trumps.</p>
 
-  <div class="rules-h">Scottish — 18 Rounds</div>
-  <p class="rules-p">Starts with 7→1 cards (so luck dominates the middle of the game, not the end), then 4 special rounds, then 1→7 cards. Skill matters most in the final phase. Often played with the +1 per trick scoring.</p>
+      <div class="rules-h">Scottish — 18 Rounds</div>
+      <p class="rules-p">Starts with 7→1 cards (so luck dominates the middle of the game, not the end), then 4 special rounds, then 1→7 cards. Skill matters most in the final phase. Often played with the +1 per trick scoring.</p>
 
-  <div class="rules-h">Quick — 13 Rounds</div>
-  <p class="rules-p">A shortened game: 1→5 cards, 3 special rounds, then 5→1 cards. Good for 3–4 players or when time is short.</p>
-</div>
-```
-
+      <div class="rules-h">Quick — 13 Rounds</div>
+      <p class="rules-p">A shortened game: 1→5 cards, 3 special rounds, then 5→1 cards. Good for 3–4 players or when time is short.</p>
+    </div>
   </div>
 
   <!-- SPECIAL ROUNDS -->
-
   <div class="acc-item">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       SPECIAL ROUNDS <span class="acc-chevron">▼</span>
@@ -855,66 +830,62 @@ margin-bottom: 2px;
     <div class="acc-body">
       <p class="rules-p" style="margin-bottom:12px">Special rounds appear in Phase 2 of every format. Each modifies the normal rules in some way. Normal scoring applies unless stated.</p>
 
-```
-  <div class="rules-dt">No Trumps</div>
-  <div class="rules-dd">No suit is trump. The highest card of the <span class="rules-hl">suit led</span> always wins the trick — you cannot trump out even if you're void in the led suit.</div>
+      <div class="rules-dt">No Trumps</div>
+      <div class="rules-dd">No suit is trump. The highest card of the <span class="rules-hl">suit led</span> always wins the trick — you cannot trump out even if you're void in the led suit.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Guess 'Em / Guess Trumps</div>
-  <div class="rules-dd">All players make their bids <span class="rules-hl">before</span> the trump card is turned over. Once every bid is locked in, trumps are revealed and play begins as normal.</div>
+      <div class="rules-dt">Guess 'Em / Guess Trumps</div>
+      <div class="rules-dd">All players make their bids <span class="rules-hl">before</span> the trump card is turned over. Once every bid is locked in, trumps are revealed and play begins as normal.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Misère</div>
-  <div class="rules-dd">The objective is inverted — you want to take <span class="rules-hl">as few tricks as possible</span>. You still bid, but only zero is rewarded. Scoring: <span class="rules-green">+10 for taking zero tricks</span>. <span class="rules-red">−3 per trick</span> if you take any. Trumps apply.</div>
+      <div class="rules-dt">Misère</div>
+      <div class="rules-dd">The objective is inverted — you want to take <span class="rules-hl">as few tricks as possible</span>. You still bid, but only zero is rewarded. Scoring: <span class="rules-green">+10 for taking zero tricks</span>. <span class="rules-red">−3 per trick</span> if you take any. Trumps apply.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Misère No Trumps</div>
-  <div class="rules-dd">As Misère, but with no trump suit. Penalty is <span class="rules-red">−2 per trick</span> rather than −3.</div>
+      <div class="rules-dt">Misère No Trumps</div>
+      <div class="rules-dd">As Misère, but with no trump suit. Penalty is <span class="rules-red">−2 per trick</span> rather than −3.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Blind</div>
-  <div class="rules-dd">Each player bids <span class="rules-hl">before receiving their cards</span> (and before trumps are revealed). Once all bids are in, cards are dealt and play proceeds normally. Pure instinct and probability.</div>
+      <div class="rules-dt">Blind</div>
+      <div class="rules-dd">Each player bids <span class="rules-hl">before receiving their cards</span> (and before trumps are revealed). Once all bids are in, cards are dealt and play proceeds normally. Pure instinct and probability.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Roll 'Em</div>
-  <div class="rules-dd">Players do <span class="rules-hl">not look at their cards</span>. Stack them face-down and play from the top of the pile in order — no choice, no peeking. You bid before seeing anything.</div>
+      <div class="rules-dt">Roll 'Em</div>
+      <div class="rules-dd">Players do <span class="rules-hl">not look at their cards</span>. Stack them face-down and play from the top of the pile in order — no choice, no peeking. You bid before seeing anything.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Misère — Scottish variant</div>
-  <div class="rules-dd">As Misère above but the penalty is <span class="rules-red">−2 per trick</span>. Used in the Scottish 18-round format.</div>
+      <div class="rules-dt">Misère — Scottish variant</div>
+      <div class="rules-dd">As Misère above but the penalty is <span class="rules-red">−2 per trick</span>. Used in the Scottish 18-round format.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Twos Wild <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
-  <div class="rules-dd">When a player plays a Two, they name its rank and suit on the spot — it beats the natural card it claims to be. Constraint: if a player holds a card of the suit led, their Two must be given that suit (no reneging by proxy).</div>
+      <div class="rules-dt">Twos Wild <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
+      <div class="rules-dd">When a player plays a Two, they name its rank and suit on the spot — it beats the natural card it claims to be. Constraint: if a player holds a card of the suit led, their Two must be given that suit (no reneging by proxy).</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Aces Low <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
-  <div class="rules-dd">Card ranking is reversed for Aces only — they become the <span class="rules-hl">lowest</span> cards in the deck (below 2s). All other cards rank normally.</div>
+      <div class="rules-dt">Aces Low <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
+      <div class="rules-dd">Card ranking is reversed for Aces only — they become the <span class="rules-hl">lowest</span> cards in the deck (below 2s). All other cards rank normally.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Dealer Calls Trumps <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
-  <div class="rules-dd">Instead of turning the stock, the <span class="rules-hl">dealer names trumps</span> after looking at their own hand. Everyone else bids first; the dealer sees their hand, picks a trump suit to their advantage, then bids last as usual.</div>
+      <div class="rules-dt">Dealer Calls Trumps <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
+      <div class="rules-dd">Instead of turning the stock, the <span class="rules-hl">dealer names trumps</span> after looking at their own hand. Everyone else bids first; the dealer sees their hand, picks a trump suit to their advantage, then bids last as usual.</div>
 
-  <div class="rules-divider"></div>
+      <div class="rules-divider"></div>
 
-  <div class="rules-dt">Most Tricks <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
-  <div class="rules-dd">No bidding. The player who takes the <span class="rules-hl">most tricks</span> scores 10 points. If two or more players tie for the most, <span class="rules-red">nobody scores</span>.</div>
-</div>
-```
-
+      <div class="rules-dt">Most Tricks <span style="font-size:0.62rem;color:var(--cream-dim)"> (Extended only)</span></div>
+      <div class="rules-dd">No bidding. The player who takes the <span class="rules-hl">most tricks</span> scores 10 points. If two or more players tie for the most, <span class="rules-red">nobody scores</span>.</div>
+    </div>
   </div>
 
   <!-- ORIGINS -->
-
   <div class="acc-item">
     <button class="acc-trigger" onclick="toggleAcc(this)">
       ORIGINS <span class="acc-chevron">▼</span>
@@ -927,12 +898,10 @@ margin-bottom: 2px;
     </div>
   </div>
 
-<button class="btn btn-ghost mt14" onclick="closeRules()">◀ BACK TO GAME</button>
-
+  <button class="btn btn-ghost mt14" onclick="closeRules()">◀ BACK TO GAME</button>
 </div>
 
 <!-- GAME OVER -->
-
 <div id="gameover-screen" class="screen">
   <div class="go-panel">
     <div class="go-title">DEBRIEF</div>
@@ -1529,6 +1498,5 @@ function toggleAcc(trigger) {
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 initSetup();
 </script>
-
 </body>
 </html>
