@@ -27,15 +27,19 @@
 
 - { box-sizing: border-box; margin: 0; padding: 0; }
 
+html {
+background-color: #1a1a14;
+}
+
 body {
-background: var(--ink);
-color: var(--cream);
+background-color: #1a1a14;
+background-image:
+repeating-linear-gradient(0deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px),
+repeating-linear-gradient(90deg, var(–grid) 0, var(–grid) 1px, transparent 1px, transparent 40px);
+color: var(–cream);
 font-family: ‘Share Tech Mono’, monospace;
 min-height: 100vh;
 overflow-x: hidden;
-background-image:
-repeating-linear-gradient(0deg, var(--grid) 0, var(--grid) 1px, transparent 1px, transparent 40px),
-repeating-linear-gradient(90deg, var(--grid) 0, var(--grid) 1px, transparent 1px, transparent 40px);
 }
 body::before {
 content: ‘’;
