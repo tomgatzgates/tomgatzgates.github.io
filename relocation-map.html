@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Station Finder</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <style>
+      :root {
+        --accent: #2f5d62;
+        --accent-light: #6ea6a1;
+        --ink: #1c1b19;
+        --muted: #5b5750;
+        --border: #ddd6cc;
+        --panel-bg: rgba(255, 255, 255, 0.97);
+        --panel-radius: 18px;
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html, body {
+        height: 100%;
+        overflow: hidden;
+        font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        color: var(--ink);
+      }
+
+      /* ── Map fills everything ── */
+      #map {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+      }
+
+      /* ── Desktop sidebar ── */
+      #sidebar {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+        width: 300px;
+        background: var(--panel-bg);
+        border-radius: var(--panel-radius);
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+        padding: 18px 16px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+
+      .sidebar-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      h1 {
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: -0.2px;
+        color: var(--ink);
+      }
+
+      #summary-badge {
+        font-size: 12px;
+        font-weight: 600;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 999px;
+        padding: 2px 9px;
+        white-space: nowrap;
+      }
+
+      .filters { display: flex; flex-direction: column; gap: 12px; }
+
+      .control { display: flex; flex-direction: column; gap: 4px; }
+
+      .control-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+      }
+
+      .control-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--muted);
+      }
+
+      .control-value {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+        min-width: 36px;
+        text-align: right;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        height: 4px;
+        accent-color: var(--accent);
+        cursor: pointer;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+      }
+
+      .data-note {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      /* ── Mobile bottom drawer ── */
+      #drawer-toggle {
+        display: none;
+        position: fixed;
+        bottom: 100px; /* sits above drawer peek */
+        right: 16px;
+        z-index: 20;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: 999px;
+        padding: 10px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        gap: 6px;
+        align-items: center;
+      }
+
+      #drawer {
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 15;
+        background: var(--panel-bg);
+        border-radius: var(--panel-radius) var(--panel-radius) 0 0;
+        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+        border-top: 1px solid var(--border);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+        /* Peek state: only show handle + first bit */
+        transform: translateY(calc(100% - 56px));
+      }
+
+      #drawer.open {
+        transform: translateY(0);
+      }
+
+      .drawer-handle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 18px 8px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .drawer-handle {
+        width: 36px;
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        /* center within the row */
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 10px;
+      }
+
+      .drawer-title-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .drawer-title {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .drawer-content {
+        padding: 0 18px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      /* ── Mobile map attribution nudge ── */
+      @media (max-width: 700px) {
+        .leaflet-bottom.leaflet-right {
+          bottom: 60px !important;
+        }
+
+        #sidebar { display: none; }
+
+        #drawer { display: block; }
+
+        #drawer-toggle { display: flex; }
+      }
+
+      /* ── Popup styling ── */
+      .leaflet-popup-content-wrapper {
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .popup-name {
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      .popup-meta {
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      .popup-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px;
+        text-align: center;
+      }
+
+      .stat-box {
+        background: #f3efe9;
+        border-radius: 8px;
+        padding: 5px 4px;
+      }
+
+      .stat-label {
+        font-size: 10px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        display: block;
+      }
+
+      .stat-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Full-screen map -->
+    <div id="map"></div>
+
+    <!-- Desktop sidebar -->
+    <aside id="sidebar" aria-label="Filters">
+      <div class="sidebar-header">
+        <h1>Station Finder</h1>
+        <span id="summary-badge">–</span>
+      </div>
+
+      <div class="filters">
+        <div class="control">
+          <div class="control-row">
+            <span class="control-label">Drive from Horsham</span>
+            <span class="control-value" id="deskHorshamValue">90 min</span>
+          </div>
+          <input id="deskHorsham" type="range" min="0" max="200" step="5" value="90" />
+        </div>
+
+        <div class="control">
+          <div class="control-row">
+            <span class="control-label">Drive from Hertford</span>
+            <span class="control-value" id="deskHertfordValue">90 min</span>
+          </div>
+          <input id="deskHertford" type="range" min="0" max="200" step="5" value="90" />
+        </div>
+
+        <div class="control">
+          <div class="control-row">
+            <span class="control-label">Train to London</span>
+            <span class="control-value" id="deskTrainValue">75 min</span>
+          </div>
+          <input id="deskTrain" type="range" min="0" max="180" step="5" value="75" />
+        </div>
+      </div>
+
+      <hr class="divider" />
+      <p class="data-note">Arrive-by 08:30 Tue 3 Mar 2026. Drive times from Horsham and Hertford.</p>
+    </aside>
+
+    <!-- Mobile bottom drawer -->
+    <div id="drawer" role="dialog" aria-label="Filters">
+      <div class="drawer-handle-row" id="drawerToggle">
+        <div class="drawer-handle"></div>
+        <div class="drawer-title-row">
+          <span class="drawer-title">Filters</span>
+          <span id="mob-summary-badge" style="font-size:12px;font-weight:600;background:var(--accent);color:#fff;border-radius:999px;padding:2px 9px;">–</span>
+        </div>
+        <!-- spacer -->
+        <div style="width:60px"></div>
+      </div>
+
+      <div class="drawer-content">
+        <div class="control">
+          <div class="control-row">
+            <span class="control-label">Drive from Horsham</span>
+            <span class="control-value" id="mobHorshamValue">90 min</span>
+          </div>
+          <input id="mobHorsham" type="range" min="0" max="200" step="5" value="90" />
+        </div>
+
+        <div class="control">
+          <div class="control-row">
+            <span class="control-label">Drive from Hertford</span>
+            <span class="control-value" id="mobHertfordValue">90 min</span>
+          </div>
+          <input id="mobHertford" type="range" min="0" max="200" step="5" value="90" />
+        </div>
+
+        <div class="control">
+          <div class="control-row">
+            <span class="control-label">Train to London</span>
+            <span class="control-value" id="mobTrainValue">75 min</span>
+          </div>
+          <input id="mobTrain" type="range" min="0" max="180" step="5" value="75" />
+        </div>
+
+        <p class="data-note">Arrive-by 08:30 Tue 3 Mar 2026. Drive times from Horsham and Hertford.</p>
+      </div>
+    </div>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+    <script>
+      const CSV_PATH = "stations_with_train_times_arriveby.csv";
+
+      // ── Map ──────────────────────────────────────────────
+      const map = L.map("map", { scrollWheelZoom: true, zoomControl: false }).setView([51.4, -0.2], 9);
+      L.control.zoom({ position: "topright" }).addTo(map);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 18,
+      }).addTo(map);
+
+      const markersLayer = L.layerGroup().addTo(map);
+
+      // ── Drawer toggle ────────────────────────────────────
+      const drawer = document.getElementById("drawer");
+      document.getElementById("drawerToggle").addEventListener("click", () => {
+        drawer.classList.toggle("open");
+      });
+
+      // ── Controls (desktop + mobile) ──────────────────────
+      const getVal = (id) => Number(document.getElementById(id).value);
+      const setDisplay = (id, val) => {
+        document.getElementById(id).textContent = val + " min";
+      };
+
+      const syncPair = (srcId, destId, labelId) => {
+        const src = document.getElementById(srcId);
+        const dest = document.getElementById(destId);
+        src.addEventListener("input", () => {
+          dest.value = src.value;
+          renderStations();
+        });
+        dest.addEventListener("input", () => {
+          src.value = dest.value;
+          renderStations();
+        });
+      };
+
+      syncPair("deskHorsham", "mobHorsham", null);
+      syncPair("deskHertford", "mobHertford", null);
+      syncPair("deskTrain", "mobTrain", null);
+
+      // ── CSV columns ──────────────────────────────────────
+      const columnCandidates = {
+        lat: ["Latitude", "Lat", "lat"],
+        lon: ["Longitude", "Lon", "Lng", "lon", "lng"],
+        horsham: ["Drive_Time_Horsham_Minutes"],
+        hertford: ["Drive_Time_Hertford_Minutes"],
+        train: ["Min_Train_Time_Minutes"],
+        name: ["Station"],
+        line: ["Line"],
+        county: ["County"],
+        terminus: ["London_Terminus"],
+      };
+
+      const findColumn = (row, options) => options.find((key) => key in row);
+      const parseNumber = (value) => {
+        if (value === undefined || value === null || value === "") return null;
+        const num = Number(value);
+        return Number.isFinite(num) ? num : null;
+      };
+
+      let stationData = [];
+
+      // ── Render ───────────────────────────────────────────
+      const updateBadges = (visible, total) => {
+        const text = `${visible} / ${total}`;
+        document.getElementById("summary-badge").textContent = text;
+        document.getElementById("mob-summary-badge").textContent = text;
+      };
+
+      const updateLabels = () => {
+        setDisplay("deskHorshamValue", getVal("deskHorsham"));
+        setDisplay("deskHertfordValue", getVal("deskHertford"));
+        setDisplay("deskTrainValue", getVal("deskTrain"));
+        setDisplay("mobHorshamValue", getVal("mobHorsham"));
+        setDisplay("mobHertfordValue", getVal("mobHertford"));
+        setDisplay("mobTrainValue", getVal("mobTrain"));
+      };
+
+      const buildPopup = (s) => `
+        <div class="popup-name">${s.name}</div>
+        <div class="popup-meta">${[s.line, s.county].filter(Boolean).join(" · ")}</div>
+        <div class="popup-stats">
+          <div class="stat-box">
+            <span class="stat-label">Horsham</span>
+            <span class="stat-value">${s.horsham ?? "–"}</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Hertford</span>
+            <span class="stat-value">${s.hertford ?? "–"}</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">London</span>
+            <span class="stat-value">${s.train ?? "–"}</span>
+          </div>
+        </div>
+      `;
+
+      const renderStations = () => {
+        updateLabels();
+        const maxHorsham = getVal("deskHorsham");
+        const maxHertford = getVal("deskHertford");
+        const maxTrain = getVal("deskTrain");
+
+        markersLayer.clearLayers();
+
+        const filtered = stationData.filter((s) => {
+          if (s.horsham !== null && s.horsham > maxHorsham) return false;
+          if (s.hertford !== null && s.hertford > maxHertford) return false;
+          if (s.train !== null && s.train > maxTrain) return false;
+          return true;
+        });
+
+        filtered.forEach((s) => {
+          L.circleMarker([s.lat, s.lon], {
+            radius: 7,
+            color: "#2f5d62",
+            fillColor: "#6ea6a1",
+            fillOpacity: 0.88,
+            weight: 1.5,
+          })
+            .bindPopup(buildPopup(s), { maxWidth: 240 })
+            .addTo(markersLayer);
+        });
+
+        updateBadges(filtered.length, stationData.length);
+      };
+
+      // ── CSV load ─────────────────────────────────────────
+      const normalizeRow = (row) => {
+        const latKey = findColumn(row, columnCandidates.lat);
+        const lonKey = findColumn(row, columnCandidates.lon);
+        if (!latKey || !lonKey) return null;
+        const lat = parseNumber(row[latKey]);
+        const lon = parseNumber(row[lonKey]);
+        if (lat === null || lon === null) return null;
+        return {
+          name: row[findColumn(row, columnCandidates.name)] || "Unknown",
+          line: row[findColumn(row, columnCandidates.line)] || "",
+          county: row[findColumn(row, columnCandidates.county)] || "",
+          terminus: row[findColumn(row, columnCandidates.terminus)] || "",
+          lat,
+          lon,
+          horsham: parseNumber(row[findColumn(row, columnCandidates.horsham)]),
+          hertford: parseNumber(row[findColumn(row, columnCandidates.hertford)]),
+          train: parseNumber(row[findColumn(row, columnCandidates.train)]),
+        };
+      };
+
+      Papa.parse(CSV_PATH, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          if (results.errors?.length) {
+            updateBadges("Err", "–");
+            return;
+          }
+          stationData = results.data.map(normalizeRow).filter(Boolean);
+          if (stationData.length === 0) {
+            updateBadges(0, 0);
+            return;
+          }
+          const bounds = L.latLngBounds(stationData.map((s) => [s.lat, s.lon]));
+          map.fitBounds(bounds.pad(0.12));
+          renderStations();
+        },
+        error: () => updateBadges("–", "–"),
+      });
+    </script>
+  </body>
+</html>
