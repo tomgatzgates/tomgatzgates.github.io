@@ -15,11 +15,13 @@
         --accent: #2f5d62;
         --accent-light: #6ea6a1;
         --ink: #1c1b19;
-        --muted: #5b5750;
+        --muted: #6b6560;
         --border: #ddd6cc;
         --panel-bg: rgba(255, 255, 255, 0.97);
         --panel-radius: 18px;
         --shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+        --gold: #c8972a;
+        --gold-light: #f5d27a;
       }
 
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,6 +40,15 @@
         z-index: 0;
       }
 
+      /* ── Shared panel styles ── */
+      .panel-base {
+        background: var(--panel-bg);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+
       /* ── Desktop sidebar ── */
       #sidebar {
         position: fixed;
@@ -45,18 +56,48 @@
         left: 20px;
         z-index: 10;
         width: 300px;
-        background: var(--panel-bg);
         border-radius: var(--panel-radius);
-        box-shadow: var(--shadow);
-        border: 1px solid var(--border);
-        padding: 18px 16px 14px;
+        padding: 16px 16px 12px;
         display: flex;
         flex-direction: column;
-        gap: 14px;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        gap: 12px;
+        max-height: calc(100dvh - 40px);
+        overflow: hidden;
       }
 
+      /* ── Tab nav ── */
+      .tab-nav {
+        display: flex;
+        gap: 4px;
+        background: #f0ece6;
+        border-radius: 10px;
+        padding: 3px;
+      }
+
+      .tab-btn {
+        flex: 1;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        padding: 6px 4px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+      }
+
+      .tab-btn.active {
+        background: #fff;
+        color: var(--ink);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      }
+
+      /* ── Tab panels ── */
+      .tab-panel { display: none; flex-direction: column; gap: 12px; overflow-y: auto; }
+      .tab-panel.active { display: flex; }
+
+      /* ── Sidebar header ── */
       .sidebar-header {
         display: flex;
         align-items: baseline;
@@ -71,7 +112,7 @@
         color: var(--ink);
       }
 
-      #summary-badge {
+      .count-badge {
         font-size: 12px;
         font-weight: 600;
         background: var(--accent);
@@ -79,8 +120,10 @@
         border-radius: 999px;
         padding: 2px 9px;
         white-space: nowrap;
+        flex-shrink: 0;
       }
 
+      /* ── Filters ── */
       .filters { display: flex; flex-direction: column; gap: 12px; }
 
       .control { display: flex; flex-direction: column; gap: 4px; }
@@ -104,7 +147,7 @@
         font-size: 12px;
         font-weight: 700;
         color: var(--accent);
-        min-width: 36px;
+        min-width: 42px;
         text-align: right;
       }
 
@@ -115,10 +158,162 @@
         cursor: pointer;
       }
 
-      .divider {
-        border: none;
-        border-top: 1px solid var(--border);
+      /* ── Shortlist toggle ── */
+      .toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 10px;
+        background: #f7f4ef;
+        border-radius: 10px;
+        cursor: pointer;
       }
+
+      .toggle-row-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .star-icon { color: var(--gold); }
+
+      /* iOS-style toggle */
+      .toggle-switch {
+        position: relative;
+        width: 38px;
+        height: 22px;
+        flex-shrink: 0;
+      }
+
+      .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+
+      .toggle-track {
+        position: absolute;
+        inset: 0;
+        background: #ccc;
+        border-radius: 999px;
+        transition: background 0.2s;
+      }
+
+      .toggle-switch input:checked + .toggle-track { background: var(--gold); }
+
+      .toggle-thumb {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 18px;
+        height: 18px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        transition: transform 0.2s;
+      }
+
+      .toggle-switch input:checked ~ .toggle-thumb { transform: translateX(16px); }
+
+      /* ── List view ── */
+      .list-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .sort-select {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #f7f4ef;
+        padding: 4px 8px;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b6560'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        padding-right: 22px;
+      }
+
+      #station-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        overflow-y: auto;
+        max-height: calc(100dvh - 200px);
+        padding-right: 2px;
+      }
+
+      .station-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        background: #f7f4ef;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.12s;
+        border: 1.5px solid transparent;
+      }
+
+      .station-row:hover { background: #ede9e2; }
+
+      .station-row.starred { border-color: var(--gold-light); background: #fdf8ec; }
+
+      .station-row .row-star {
+        font-size: 14px;
+        flex-shrink: 0;
+        color: #ccc;
+        cursor: pointer;
+        line-height: 1;
+        transition: color 0.15s, transform 0.15s;
+      }
+
+      .station-row .row-star.on { color: var(--gold); }
+
+      .station-row .row-star:hover { transform: scale(1.2); }
+
+      .station-row .row-name {
+        font-size: 13px;
+        font-weight: 600;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .row-stats {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+      }
+
+      .row-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 30px;
+      }
+
+      .row-stat-label {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: var(--muted);
+      }
+
+      .row-stat-value {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .divider { border: none; border-top: 1px solid var(--border); }
 
       .data-note {
         font-size: 11px;
@@ -126,26 +321,92 @@
         line-height: 1.4;
       }
 
-      /* ── Mobile bottom drawer ── */
-      #drawer-toggle {
-        display: none;
-        position: fixed;
-        bottom: 100px; /* sits above drawer peek */
-        right: 16px;
-        z-index: 20;
-        background: var(--accent);
-        color: #fff;
-        border: none;
-        border-radius: 999px;
-        padding: 10px 16px;
-        font-size: 13px;
-        font-weight: 600;
-        cursor: pointer;
+      /* ── Popup styling ── */
+      .leaflet-popup-content-wrapper {
+        border-radius: 14px;
         box-shadow: var(--shadow);
-        gap: 6px;
-        align-items: center;
+        padding: 0;
+        overflow: hidden;
       }
 
+      .leaflet-popup-content {
+        margin: 0;
+        width: 220px !important;
+      }
+
+      .popup-inner {
+        padding: 12px 14px 10px;
+      }
+
+      .popup-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 4px;
+      }
+
+      .popup-name {
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 1.2;
+        flex: 1;
+      }
+
+      .popup-star {
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
+        color: #ccc;
+        flex-shrink: 0;
+        transition: color 0.15s, transform 0.15s;
+        border: none;
+        background: none;
+        padding: 0;
+      }
+
+      .popup-star.on { color: var(--gold); }
+      .popup-star:hover { transform: scale(1.15); }
+
+      .popup-meta {
+        color: var(--muted);
+        font-size: 11px;
+        margin-bottom: 8px;
+      }
+
+      .popup-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 5px;
+      }
+
+      .stat-box {
+        background: #f3efe9;
+        border-radius: 8px;
+        padding: 5px 4px;
+        text-align: center;
+      }
+
+      .stat-label {
+        font-size: 9px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        display: block;
+      }
+
+      .stat-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      /* ── Gold star marker SVG ── */
+      .gold-marker {
+        /* defined via L.divIcon */
+      }
+
+      /* ── Mobile bottom drawer ── */
       #drawer {
         display: none;
         position: fixed;
@@ -160,13 +421,14 @@
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
-        /* Peek state: only show handle + first bit */
         transform: translateY(calc(100% - 56px));
+        max-height: 80dvh;
+        overflow: hidden;
+        display: none;
+        flex-direction: column;
       }
 
-      #drawer.open {
-        transform: translateY(0);
-      }
+      #drawer.open { transform: translateY(0); }
 
       .drawer-handle-row {
         display: flex;
@@ -175,6 +437,8 @@
         padding: 12px 18px 8px;
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
+        flex-shrink: 0;
+        position: relative;
       }
 
       .drawer-handle {
@@ -182,7 +446,6 @@
         height: 4px;
         background: var(--border);
         border-radius: 2px;
-        /* center within the row */
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
@@ -195,159 +458,167 @@
         gap: 10px;
       }
 
-      .drawer-title {
-        font-size: 15px;
-        font-weight: 700;
-      }
+      .drawer-title { font-size: 15px; font-weight: 700; }
 
-      .drawer-content {
+      .drawer-body {
+        overflow-y: auto;
         padding: 0 18px 32px;
         display: flex;
         flex-direction: column;
         gap: 14px;
       }
 
-      /* ── Mobile map attribution nudge ── */
+      /* ── Responsive ── */
       @media (max-width: 700px) {
-        .leaflet-bottom.leaflet-right {
-          bottom: 60px !important;
-        }
-
+        .leaflet-bottom.leaflet-right { bottom: 60px !important; }
         #sidebar { display: none; }
-
-        #drawer { display: block; }
-
-        #drawer-toggle { display: flex; }
+        #drawer { display: flex; }
       }
 
-      /* ── Popup styling ── */
-      .leaflet-popup-content-wrapper {
-        border-radius: 12px;
-        box-shadow: var(--shadow);
-        font-size: 13px;
-        line-height: 1.6;
-      }
-
-      .popup-name {
-        font-weight: 700;
-        font-size: 14px;
-        margin-bottom: 4px;
-      }
-
-      .popup-meta {
-        color: var(--muted);
-        font-size: 12px;
-        margin-bottom: 6px;
-      }
-
-      .popup-stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 6px;
-        text-align: center;
-      }
-
-      .stat-box {
-        background: #f3efe9;
-        border-radius: 8px;
-        padding: 5px 4px;
-      }
-
-      .stat-label {
-        font-size: 10px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.4px;
-        display: block;
-      }
-
-      .stat-value {
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--accent);
-      }
+      /* scrollbar */
+      #station-list::-webkit-scrollbar { width: 4px; }
+      #station-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
     </style>
   </head>
   <body>
 
-    <!-- Full-screen map -->
     <div id="map"></div>
 
-    <!-- Desktop sidebar -->
-    <aside id="sidebar" aria-label="Filters">
+    <!-- ── Desktop sidebar ── -->
+    <aside id="sidebar" class="panel-base" aria-label="Filters">
       <div class="sidebar-header">
         <h1>Station Finder</h1>
-        <span id="summary-badge">–</span>
+        <span class="count-badge" id="desk-badge">–</span>
       </div>
 
-      <div class="filters">
-        <div class="control">
-          <div class="control-row">
-            <span class="control-label">Drive from Horsham</span>
-            <span class="control-value" id="deskHorshamValue">90 min</span>
-          </div>
-          <input id="deskHorsham" type="range" min="0" max="200" step="5" value="90" />
+      <nav class="tab-nav" role="tablist">
+        <button class="tab-btn active" role="tab" data-tab="filters-panel">Filters</button>
+        <button class="tab-btn" role="tab" data-tab="list-panel">List</button>
+      </nav>
+
+      <!-- Filters tab -->
+      <div class="tab-panel active" id="filters-panel">
+        <div class="toggle-row" id="desk-shortlist-toggle" role="button" tabindex="0">
+          <span class="toggle-row-label">
+            <span class="star-icon">★</span> Shortlist only
+          </span>
+          <label class="toggle-switch" onclick="event.stopPropagation()">
+            <input type="checkbox" id="desk-shortlist-check" />
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
         </div>
 
-        <div class="control">
-          <div class="control-row">
-            <span class="control-label">Drive from Hertford</span>
-            <span class="control-value" id="deskHertfordValue">90 min</span>
+        <div class="filters" id="desk-sliders">
+          <div class="control">
+            <div class="control-row">
+              <span class="control-label">Drive from Horsham</span>
+              <span class="control-value" id="deskHorshamValue">90 min</span>
+            </div>
+            <input id="deskHorsham" type="range" min="0" max="200" step="5" value="90" />
           </div>
-          <input id="deskHertford" type="range" min="0" max="200" step="5" value="90" />
+          <div class="control">
+            <div class="control-row">
+              <span class="control-label">Drive from Hertford</span>
+              <span class="control-value" id="deskHertfordValue">90 min</span>
+            </div>
+            <input id="deskHertford" type="range" min="0" max="200" step="5" value="90" />
+          </div>
+          <div class="control">
+            <div class="control-row">
+              <span class="control-label">Train to London</span>
+              <span class="control-value" id="deskTrainValue">75 min</span>
+            </div>
+            <input id="deskTrain" type="range" min="0" max="180" step="5" value="75" />
+          </div>
         </div>
 
-        <div class="control">
-          <div class="control-row">
-            <span class="control-label">Train to London</span>
-            <span class="control-value" id="deskTrainValue">75 min</span>
-          </div>
-          <input id="deskTrain" type="range" min="0" max="180" step="5" value="75" />
-        </div>
+        <hr class="divider" />
+        <p class="data-note">Arrive-by 08:30 Tue 3 Mar 2026. Drive times from Horsham and Hertford.</p>
       </div>
 
-      <hr class="divider" />
-      <p class="data-note">Arrive-by 08:30 Tue 3 Mar 2026. Drive times from Horsham and Hertford.</p>
+      <!-- List tab -->
+      <div class="tab-panel" id="list-panel">
+        <div class="list-header">
+          <span class="control-label" style="font-size:11px">Sort by</span>
+          <select class="sort-select" id="sort-select">
+            <option value="name">Name</option>
+            <option value="hertford">Hertford drive</option>
+            <option value="horsham">Horsham drive</option>
+            <option value="train">London train</option>
+          </select>
+        </div>
+        <div id="station-list"></div>
+      </div>
     </aside>
 
-    <!-- Mobile bottom drawer -->
+    <!-- ── Mobile bottom drawer ── -->
     <div id="drawer" role="dialog" aria-label="Filters">
       <div class="drawer-handle-row" id="drawerToggle">
         <div class="drawer-handle"></div>
         <div class="drawer-title-row">
           <span class="drawer-title">Filters</span>
-          <span id="mob-summary-badge" style="font-size:12px;font-weight:600;background:var(--accent);color:#fff;border-radius:999px;padding:2px 9px;">–</span>
+          <span class="count-badge" id="mob-badge">–</span>
         </div>
-        <!-- spacer -->
         <div style="width:60px"></div>
       </div>
 
-      <div class="drawer-content">
-        <div class="control">
-          <div class="control-row">
-            <span class="control-label">Drive from Horsham</span>
-            <span class="control-value" id="mobHorshamValue">90 min</span>
+      <div class="drawer-body">
+        <nav class="tab-nav" role="tablist">
+          <button class="tab-btn active" role="tab" data-tab="mob-filters-panel">Filters</button>
+          <button class="tab-btn" role="tab" data-tab="mob-list-panel">List</button>
+        </nav>
+
+        <div class="tab-panel active" id="mob-filters-panel">
+          <div class="toggle-row" id="mob-shortlist-toggle" role="button" tabindex="0">
+            <span class="toggle-row-label">
+              <span class="star-icon">★</span> Shortlist only
+            </span>
+            <label class="toggle-switch" onclick="event.stopPropagation()">
+              <input type="checkbox" id="mob-shortlist-check" />
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
           </div>
-          <input id="mobHorsham" type="range" min="0" max="200" step="5" value="90" />
+
+          <div class="filters">
+            <div class="control">
+              <div class="control-row">
+                <span class="control-label">Drive from Horsham</span>
+                <span class="control-value" id="mobHorshamValue">90 min</span>
+              </div>
+              <input id="mobHorsham" type="range" min="0" max="200" step="5" value="90" />
+            </div>
+            <div class="control">
+              <div class="control-row">
+                <span class="control-label">Drive from Hertford</span>
+                <span class="control-value" id="mobHertfordValue">90 min</span>
+              </div>
+              <input id="mobHertford" type="range" min="0" max="200" step="5" value="90" />
+            </div>
+            <div class="control">
+              <div class="control-row">
+                <span class="control-label">Train to London</span>
+                <span class="control-value" id="mobTrainValue">75 min</span>
+              </div>
+              <input id="mobTrain" type="range" min="0" max="180" step="5" value="75" />
+            </div>
+          </div>
+          <p class="data-note">Arrive-by 08:30 Tue 3 Mar 2026.</p>
         </div>
 
-        <div class="control">
-          <div class="control-row">
-            <span class="control-label">Drive from Hertford</span>
-            <span class="control-value" id="mobHertfordValue">90 min</span>
+        <div class="tab-panel" id="mob-list-panel">
+          <div class="list-header">
+            <span class="control-label" style="font-size:11px">Sort by</span>
+            <select class="sort-select" id="mob-sort-select">
+              <option value="name">Name</option>
+              <option value="hertford">Hertford drive</option>
+              <option value="horsham">Horsham drive</option>
+              <option value="train">London train</option>
+            </select>
           </div>
-          <input id="mobHertford" type="range" min="0" max="200" step="5" value="90" />
+          <div id="mob-station-list"></div>
         </div>
-
-        <div class="control">
-          <div class="control-row">
-            <span class="control-label">Train to London</span>
-            <span class="control-value" id="mobTrainValue">75 min</span>
-          </div>
-          <input id="mobTrain" type="range" min="0" max="180" step="5" value="75" />
-        </div>
-
-        <p class="data-note">Arrive-by 08:30 Tue 3 Mar 2026. Drive times from Horsham and Hertford.</p>
       </div>
     </div>
 
@@ -359,6 +630,15 @@
     <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
     <script>
       const CSV_PATH = "stations_with_train_times_arriveby.csv";
+      const LS_KEY = "station-shortlist";
+
+      // ── State ────────────────────────────────────────────
+      let stationData = [];
+      let shortlist = new Set(JSON.parse(localStorage.getItem(LS_KEY) || "[]"));
+      let shortlistOnly = false;
+      let sortKey = "name";
+
+      const saveShortlist = () => localStorage.setItem(LS_KEY, JSON.stringify([...shortlist]));
 
       // ── Map ──────────────────────────────────────────────
       const map = L.map("map", { scrollWheelZoom: true, zoomControl: false }).setView([51.4, -0.2], 9);
@@ -369,6 +649,51 @@
       }).addTo(map);
 
       const markersLayer = L.layerGroup().addTo(map);
+      // keep marker refs so we can update popups on star toggle
+      const markerMap = new Map(); // name -> marker
+
+      // ── Gold star marker icon ────────────────────────────
+      const makeIcon = (starred) => {
+        if (!starred) return null; // use circleMarker for normal
+        return L.divIcon({
+          className: "",
+          iconSize: [24, 24],
+          iconAnchor: [12, 12],
+          popupAnchor: [0, -14],
+          html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <defs>
+              <radialGradient id="gg" cx="40%" cy="30%" r="70%">
+                <stop offset="0%" stop-color="#ffe680"/>
+                <stop offset="55%" stop-color="#c8972a"/>
+                <stop offset="100%" stop-color="#8a5e0a"/>
+              </radialGradient>
+              <filter id="gs" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="rgba(0,0,0,0.35)"/>
+              </filter>
+            </defs>
+            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+              fill="url(#gg)" filter="url(#gs)" stroke="#a07020" stroke-width="0.5"/>
+          </svg>`,
+        });
+      };
+
+      // ── Tab switching ────────────────────────────────────
+      document.querySelectorAll(".tab-nav").forEach((nav) => {
+        nav.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            nav.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            const targetId = btn.dataset.tab;
+            // find sibling panels (inside same parent container)
+            const container = nav.closest("#sidebar, #drawer > .drawer-body, #drawer");
+            if (container) {
+              container.querySelectorAll(".tab-panel").forEach((p) => {
+                p.classList.toggle("active", p.id === targetId);
+              });
+            }
+          });
+        });
+      });
 
       // ── Drawer toggle ────────────────────────────────────
       const drawer = document.getElementById("drawer");
@@ -376,30 +701,228 @@
         drawer.classList.toggle("open");
       });
 
-      // ── Controls (desktop + mobile) ──────────────────────
+      // ── Shortlist toggles (desktop + mobile synced) ──────
+      const deskCheck = document.getElementById("desk-shortlist-check");
+      const mobCheck = document.getElementById("mob-shortlist-check");
+
+      const setShortlistOnly = (val) => {
+        shortlistOnly = val;
+        deskCheck.checked = val;
+        mobCheck.checked = val;
+        // Grey out sliders when shortlist mode is on
+        document.getElementById("desk-sliders").style.opacity = val ? "0.35" : "1";
+        document.getElementById("desk-sliders").style.pointerEvents = val ? "none" : "";
+        renderStations();
+      };
+
+      deskCheck.addEventListener("change", () => setShortlistOnly(deskCheck.checked));
+      mobCheck.addEventListener("change", () => setShortlistOnly(mobCheck.checked));
+      document.getElementById("desk-shortlist-toggle").addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) setShortlistOnly(!shortlistOnly);
+      });
+      document.getElementById("mob-shortlist-toggle").addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) setShortlistOnly(!shortlistOnly);
+      });
+
+      // ── Slider sync ──────────────────────────────────────
       const getVal = (id) => Number(document.getElementById(id).value);
-      const setDisplay = (id, val) => {
-        document.getElementById(id).textContent = val + " min";
+      const setDisplay = (id, val) => { document.getElementById(id).textContent = val + " min"; };
+
+      const syncPair = (aId, bId) => {
+        const a = document.getElementById(aId);
+        const b = document.getElementById(bId);
+        a.addEventListener("input", () => { b.value = a.value; renderStations(); });
+        b.addEventListener("input", () => { a.value = b.value; renderStations(); });
       };
 
-      const syncPair = (srcId, destId, labelId) => {
-        const src = document.getElementById(srcId);
-        const dest = document.getElementById(destId);
-        src.addEventListener("input", () => {
-          dest.value = src.value;
-          renderStations();
-        });
-        dest.addEventListener("input", () => {
-          src.value = dest.value;
-          renderStations();
+      syncPair("deskHorsham", "mobHorsham");
+      syncPair("deskHertford", "mobHertford");
+      syncPair("deskTrain", "mobTrain");
+
+      // ── Sort selects (desktop + mobile synced) ───────────
+      const deskSort = document.getElementById("sort-select");
+      const mobSort = document.getElementById("mob-sort-select");
+
+      const onSortChange = (val) => {
+        sortKey = val;
+        deskSort.value = val;
+        mobSort.value = val;
+        renderList();
+      };
+
+      deskSort.addEventListener("change", () => onSortChange(deskSort.value));
+      mobSort.addEventListener("change", () => onSortChange(mobSort.value));
+
+      // ── Badges ───────────────────────────────────────────
+      const updateBadges = (visible, total) => {
+        const text = `${visible} / ${total}`;
+        document.getElementById("desk-badge").textContent = text;
+        document.getElementById("mob-badge").textContent = text;
+      };
+
+      // ── Toggle star for a station ────────────────────────
+      const toggleStar = (name) => {
+        if (shortlist.has(name)) shortlist.delete(name);
+        else shortlist.add(name);
+        saveShortlist();
+        renderStations();
+      };
+
+      // ── Popup builder ────────────────────────────────────
+      const buildPopup = (s) => {
+        const starred = shortlist.has(s.name);
+        return `
+          <div class="popup-inner">
+            <div class="popup-top">
+              <div class="popup-name">${s.name}</div>
+              <button class="popup-star ${starred ? "on" : ""}"
+                onclick="toggleStar(${JSON.stringify(s.name)})"
+                title="${starred ? "Remove from shortlist" : "Add to shortlist"}"
+              >★</button>
+            </div>
+            <div class="popup-meta">${[s.line, s.county].filter(Boolean).join(" · ")}</div>
+            <div class="popup-stats">
+              <div class="stat-box">
+                <span class="stat-label">Horsham</span>
+                <span class="stat-value">${s.horsham ?? "–"}</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">Hertford</span>
+                <span class="stat-value">${s.hertford ?? "–"}</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">London</span>
+                <span class="stat-value">${s.train ?? "–"}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      };
+
+      // ── List view ────────────────────────────────────────
+      const sortedStations = (stations) => {
+        return [...stations].sort((a, b) => {
+          if (sortKey === "name") return a.name.localeCompare(b.name);
+          const valA = a[sortKey] ?? Infinity;
+          const valB = b[sortKey] ?? Infinity;
+          return valA - valB;
         });
       };
 
-      syncPair("deskHorsham", "mobHorsham", null);
-      syncPair("deskHertford", "mobHertford", null);
-      syncPair("deskTrain", "mobTrain", null);
+      const renderListInto = (containerId, stations) => {
+        const el = document.getElementById(containerId);
+        if (!el) return;
+        if (stations.length === 0) {
+          el.innerHTML = `<p class="data-note" style="text-align:center;padding:12px 0">No stations match.</p>`;
+          return;
+        }
+        el.innerHTML = sortedStations(stations).map((s) => {
+          const starred = shortlist.has(s.name);
+          return `
+            <div class="station-row ${starred ? "starred" : ""}" data-name="${s.name}">
+              <span class="row-star ${starred ? "on" : ""}"
+                onclick="event.stopPropagation();toggleStar(${JSON.stringify(s.name)})"
+                title="Shortlist">★</span>
+              <span class="row-name">${s.name}</span>
+              <div class="row-stats">
+                <div class="row-stat">
+                  <span class="row-stat-label">Hors</span>
+                  <span class="row-stat-value">${s.horsham ?? "–"}</span>
+                </div>
+                <div class="row-stat">
+                  <span class="row-stat-label">Hert</span>
+                  <span class="row-stat-value">${s.hertford ?? "–"}</span>
+                </div>
+                <div class="row-stat">
+                  <span class="row-stat-label">Lon</span>
+                  <span class="row-stat-value">${s.train ?? "–"}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join("");
 
-      // ── CSV columns ──────────────────────────────────────
+        // click row -> fly to marker
+        el.querySelectorAll(".station-row").forEach((row) => {
+          row.addEventListener("click", (e) => {
+            if (e.target.classList.contains("row-star")) return;
+            const name = row.dataset.name;
+            const station = stationData.find((s) => s.name === name);
+            if (!station) return;
+            map.setView([station.lat, station.lon], 13, { animate: true });
+            const marker = markerMap.get(name);
+            if (marker) marker.openPopup();
+          });
+        });
+      };
+
+      const renderList = () => {
+        // list shows same filtered set as the map
+        const filtered = currentFiltered();
+        renderListInto("station-list", filtered);
+        renderListInto("mob-station-list", filtered);
+      };
+
+      // ── Core filter logic ────────────────────────────────
+      const currentFiltered = () => {
+        if (shortlistOnly) {
+          return stationData.filter((s) => shortlist.has(s.name));
+        }
+        const maxHorsham = getVal("deskHorsham");
+        const maxHertford = getVal("deskHertford");
+        const maxTrain = getVal("deskTrain");
+        return stationData.filter((s) => {
+          if (s.horsham !== null && s.horsham > maxHorsham) return false;
+          if (s.hertford !== null && s.hertford > maxHertford) return false;
+          if (s.train !== null && s.train > maxTrain) return false;
+          return true;
+        });
+      };
+
+      // ── Main render ──────────────────────────────────────
+      const renderStations = () => {
+        // Update slider labels
+        setDisplay("deskHorshamValue", getVal("deskHorsham"));
+        setDisplay("deskHertfordValue", getVal("deskHertford"));
+        setDisplay("deskTrainValue", getVal("deskTrain"));
+        setDisplay("mobHorshamValue", getVal("mobHorsham"));
+        setDisplay("mobHertfordValue", getVal("mobHertford"));
+        setDisplay("mobTrainValue", getVal("mobTrain"));
+
+        markersLayer.clearLayers();
+        markerMap.clear();
+
+        const filtered = currentFiltered();
+
+        filtered.forEach((s) => {
+          const starred = shortlist.has(s.name);
+          let marker;
+
+          if (starred) {
+            marker = L.marker([s.lat, s.lon], {
+              icon: makeIcon(true),
+              zIndexOffset: 1000,
+            });
+          } else {
+            marker = L.circleMarker([s.lat, s.lon], {
+              radius: 7,
+              color: "#2f5d62",
+              fillColor: "#6ea6a1",
+              fillOpacity: 0.88,
+              weight: 1.5,
+            });
+          }
+
+          marker.bindPopup(buildPopup(s), { maxWidth: 260 });
+          marker.addTo(markersLayer);
+          markerMap.set(s.name, marker);
+        });
+
+        updateBadges(filtered.length, stationData.length);
+        renderList();
+      };
+
+      // ── CSV load ─────────────────────────────────────────
       const columnCandidates = {
         lat: ["Latitude", "Lat", "lat"],
         lon: ["Longitude", "Lon", "Lng", "lon", "lng"],
@@ -419,74 +942,6 @@
         return Number.isFinite(num) ? num : null;
       };
 
-      let stationData = [];
-
-      // ── Render ───────────────────────────────────────────
-      const updateBadges = (visible, total) => {
-        const text = `${visible} / ${total}`;
-        document.getElementById("summary-badge").textContent = text;
-        document.getElementById("mob-summary-badge").textContent = text;
-      };
-
-      const updateLabels = () => {
-        setDisplay("deskHorshamValue", getVal("deskHorsham"));
-        setDisplay("deskHertfordValue", getVal("deskHertford"));
-        setDisplay("deskTrainValue", getVal("deskTrain"));
-        setDisplay("mobHorshamValue", getVal("mobHorsham"));
-        setDisplay("mobHertfordValue", getVal("mobHertford"));
-        setDisplay("mobTrainValue", getVal("mobTrain"));
-      };
-
-      const buildPopup = (s) => `
-        <div class="popup-name">${s.name}</div>
-        <div class="popup-meta">${[s.line, s.county].filter(Boolean).join(" · ")}</div>
-        <div class="popup-stats">
-          <div class="stat-box">
-            <span class="stat-label">Horsham</span>
-            <span class="stat-value">${s.horsham ?? "–"}</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-label">Hertford</span>
-            <span class="stat-value">${s.hertford ?? "–"}</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-label">London</span>
-            <span class="stat-value">${s.train ?? "–"}</span>
-          </div>
-        </div>
-      `;
-
-      const renderStations = () => {
-        updateLabels();
-        const maxHorsham = getVal("deskHorsham");
-        const maxHertford = getVal("deskHertford");
-        const maxTrain = getVal("deskTrain");
-
-        markersLayer.clearLayers();
-
-        const filtered = stationData.filter((s) => {
-          if (s.horsham !== null && s.horsham > maxHorsham) return false;
-          if (s.hertford !== null && s.hertford > maxHertford) return false;
-          if (s.train !== null && s.train > maxTrain) return false;
-          return true;
-        });
-
-        filtered.forEach((s) => {
-          L.circleMarker([s.lat, s.lon], {
-            radius: 7,
-            color: "#2f5d62",
-            fillColor: "#6ea6a1",
-            fillOpacity: 0.88,
-            weight: 1.5,
-          })
-            .bindPopup(buildPopup(s), { maxWidth: 240 })
-            .addTo(markersLayer);
-        });
-
-        updateBadges(filtered.length, stationData.length);
-      };
-
-      // ── CSV load ─────────────────────────────────────────
       const normalizeRow = (row) => {
         const latKey = findColumn(row, columnCandidates.lat);
         const lonKey = findColumn(row, columnCandidates.lon);
@@ -512,15 +967,9 @@
         header: true,
         skipEmptyLines: true,
         complete: (results) => {
-          if (results.errors?.length) {
-            updateBadges("Err", "–");
-            return;
-          }
+          if (results.errors?.length) { updateBadges("Err", "–"); return; }
           stationData = results.data.map(normalizeRow).filter(Boolean);
-          if (stationData.length === 0) {
-            updateBadges(0, 0);
-            return;
-          }
+          if (!stationData.length) { updateBadges(0, 0); return; }
           const bounds = L.latLngBounds(stationData.map((s) => [s.lat, s.lon]));
           map.fitBounds(bounds.pad(0.12));
           renderStations();
