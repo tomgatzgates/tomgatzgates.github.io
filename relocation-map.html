@@ -338,41 +338,46 @@
         padding: 12px 14px 10px;
       }
 
-      .popup-top {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 8px;
-        margin-bottom: 4px;
-      }
-
       .popup-name {
         font-weight: 700;
         font-size: 14px;
         line-height: 1.2;
-        flex: 1;
+        margin-bottom: 2px;
       }
-
-      .popup-star {
-        font-size: 20px;
-        line-height: 1;
-        cursor: pointer;
-        color: #ccc;
-        flex-shrink: 0;
-        transition: color 0.15s, transform 0.15s;
-        border: none;
-        background: none;
-        padding: 0;
-      }
-
-      .popup-star.on { color: var(--gold); }
-      .popup-star:hover { transform: scale(1.15); }
 
       .popup-meta {
         color: var(--muted);
         font-size: 11px;
         margin-bottom: 8px;
       }
+
+      .popup-shortlist-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        margin-top: 8px;
+        padding: 7px 10px;
+        border-radius: 8px;
+        border: 1.5px solid var(--border);
+        background: #f7f4ef;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink);
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+
+      .popup-shortlist-btn.on {
+        background: #fdf8ec;
+        border-color: var(--gold-light);
+        color: var(--gold);
+      }
+
+      .popup-shortlist-btn:active { opacity: 0.7; }
 
       .popup-stats {
         display: grid;
@@ -768,19 +773,29 @@
         renderStations();
       };
 
+      // Event delegation for popup shortlist button — works on iOS
+      // (inline onclick in Leaflet popup HTML is blocked by WebKit CSP)
+      map.on("popupopen", (e) => {
+        const btn = e.popup.getElement()?.querySelector(".popup-shortlist-btn");
+        if (!btn) return;
+        btn.addEventListener("click", () => {
+          toggleStar(btn.dataset.stationName);
+        });
+        // touchend fallback for iOS where click can be swallowed
+        btn.addEventListener("touchend", (te) => {
+          te.preventDefault();
+          toggleStar(btn.dataset.stationName);
+        });
+      });
+
       // ── Popup builder ────────────────────────────────────
       const buildPopup = (s) => {
         const starred = shortlist.has(s.name);
+        const meta = [s.line, s.county].filter(Boolean).join(" · ");
         return `
           <div class="popup-inner">
-            <div class="popup-top">
-              <div class="popup-name">${s.name}</div>
-              <button class="popup-star ${starred ? "on" : ""}"
-                onclick="toggleStar(${JSON.stringify(s.name)})"
-                title="${starred ? "Remove from shortlist" : "Add to shortlist"}"
-              >★</button>
-            </div>
-            <div class="popup-meta">${[s.line, s.county].filter(Boolean).join(" · ")}</div>
+            <div class="popup-name">${s.name}</div>
+            ${meta ? `<div class="popup-meta">${meta}</div>` : ""}
             <div class="popup-stats">
               <div class="stat-box">
                 <span class="stat-label">Horsham</span>
@@ -795,6 +810,9 @@
                 <span class="stat-value">${s.train ?? "–"}</span>
               </div>
             </div>
+            <button class="popup-shortlist-btn ${starred ? "on" : ""}"
+              data-station-name="${s.name.replace(/"/g, "&quot;")}"
+            >${starred ? "★ Remove from shortlist" : "☆ Add to shortlist"}</button>
           </div>
         `;
       };
@@ -819,10 +837,8 @@
         el.innerHTML = sortedStations(stations).map((s) => {
           const starred = shortlist.has(s.name);
           return `
-            <div class="station-row ${starred ? "starred" : ""}" data-name="${s.name}">
-              <span class="row-star ${starred ? "on" : ""}"
-                onclick="event.stopPropagation();toggleStar(${JSON.stringify(s.name)})"
-                title="Shortlist">★</span>
+            <div class="station-row ${starred ? "starred" : ""}" data-name="${s.name.replace(/"/g, "&quot;")}">
+              <span class="row-star ${starred ? "on" : ""}" data-star-name="${s.name.replace(/"/g, "&quot;")}" title="Shortlist">★</span>
               <span class="row-name">${s.name}</span>
               <div class="row-stats">
                 <div class="row-stat">
@@ -842,10 +858,20 @@
           `;
         }).join("");
 
-        // click row -> fly to marker
+        // Attach listeners after DOM insertion (no inline onclick — iOS safe)
+        el.querySelectorAll(".row-star").forEach((star) => {
+          const handler = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            toggleStar(star.dataset.starName);
+          };
+          star.addEventListener("click", handler);
+          star.addEventListener("touchend", handler);
+        });
+
         el.querySelectorAll(".station-row").forEach((row) => {
           row.addEventListener("click", (e) => {
-            if (e.target.classList.contains("row-star")) return;
+            if (e.target.closest(".row-star")) return;
             const name = row.dataset.name;
             const station = stationData.find((s) => s.name === name);
             if (!station) return;
