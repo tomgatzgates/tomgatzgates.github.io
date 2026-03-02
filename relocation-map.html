@@ -151,11 +151,82 @@
         text-align: right;
       }
 
-      input[type="range"] {
+      /* ── Dual range slider ── */
+      .range-wrap {
+        position: relative;
+        height: 20px;
+      }
+
+      .range-track-bg {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #e0d9d0;
+        border-radius: 2px;
+        pointer-events: none;
+      }
+
+      .range-track-fill {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 4px;
+        background: var(--accent);
+        border-radius: 2px;
+        pointer-events: none;
+      }
+
+      .range-wrap input[type="range"] {
+        position: absolute;
         width: 100%;
         height: 4px;
-        accent-color: var(--accent);
+        background: transparent;
+        border: none;
+        outline: none;
+        pointer-events: none;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: 0;
+        padding: 0;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      .range-wrap input[type="range"]::-webkit-slider-runnable-track {
+        background: transparent;
+        height: 4px;
+      }
+
+      .range-wrap input[type="range"]::-moz-range-track {
+        background: transparent;
+        height: 4px;
+      }
+
+      .range-wrap input[type="range"]::-webkit-slider-thumb {
+        pointer-events: all;
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--accent);
         cursor: pointer;
+        border: 2px solid #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+      }
+
+      .range-wrap input[type="range"]::-moz-range-thumb {
+        pointer-events: all;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--accent);
+        cursor: pointer;
+        border: 2px solid #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.25);
       }
 
       /* ── Shortlist toggle ── */
@@ -518,23 +589,38 @@
           <div class="control">
             <div class="control-row">
               <span class="control-label">Drive from Horsham</span>
-              <span class="control-value" id="deskHorshamValue">90 min</span>
+              <span class="control-value" id="deskHorshamValue">0 – 90 min</span>
             </div>
-            <input id="deskHorsham" type="range" min="0" max="200" step="5" value="90" />
+            <div class="range-wrap" id="deskHorshamWrap">
+              <div class="range-track-bg"></div>
+              <div class="range-track-fill"></div>
+              <input id="deskHorshamMin" type="range" min="0" max="200" step="5" value="0" />
+              <input id="deskHorshamMax" type="range" min="0" max="200" step="5" value="90" />
+            </div>
           </div>
           <div class="control">
             <div class="control-row">
               <span class="control-label">Drive from Hertford</span>
-              <span class="control-value" id="deskHertfordValue">90 min</span>
+              <span class="control-value" id="deskHertfordValue">0 – 90 min</span>
             </div>
-            <input id="deskHertford" type="range" min="0" max="200" step="5" value="90" />
+            <div class="range-wrap" id="deskHertfordWrap">
+              <div class="range-track-bg"></div>
+              <div class="range-track-fill"></div>
+              <input id="deskHertfordMin" type="range" min="0" max="200" step="5" value="0" />
+              <input id="deskHertfordMax" type="range" min="0" max="200" step="5" value="90" />
+            </div>
           </div>
           <div class="control">
             <div class="control-row">
               <span class="control-label">Train to London</span>
-              <span class="control-value" id="deskTrainValue">75 min</span>
+              <span class="control-value" id="deskTrainValue">0 – 75 min</span>
             </div>
-            <input id="deskTrain" type="range" min="0" max="180" step="5" value="75" />
+            <div class="range-wrap" id="deskTrainWrap">
+              <div class="range-track-bg"></div>
+              <div class="range-track-fill"></div>
+              <input id="deskTrainMin" type="range" min="0" max="180" step="5" value="0" />
+              <input id="deskTrainMax" type="range" min="0" max="180" step="5" value="75" />
+            </div>
           </div>
         </div>
 
@@ -590,23 +676,38 @@
             <div class="control">
               <div class="control-row">
                 <span class="control-label">Drive from Horsham</span>
-                <span class="control-value" id="mobHorshamValue">90 min</span>
+                <span class="control-value" id="mobHorshamValue">0 – 90 min</span>
               </div>
-              <input id="mobHorsham" type="range" min="0" max="200" step="5" value="90" />
+              <div class="range-wrap" id="mobHorshamWrap">
+                <div class="range-track-bg"></div>
+                <div class="range-track-fill"></div>
+                <input id="mobHorshamMin" type="range" min="0" max="200" step="5" value="0" />
+                <input id="mobHorshamMax" type="range" min="0" max="200" step="5" value="90" />
+              </div>
             </div>
             <div class="control">
               <div class="control-row">
                 <span class="control-label">Drive from Hertford</span>
-                <span class="control-value" id="mobHertfordValue">90 min</span>
+                <span class="control-value" id="mobHertfordValue">0 – 90 min</span>
               </div>
-              <input id="mobHertford" type="range" min="0" max="200" step="5" value="90" />
+              <div class="range-wrap" id="mobHertfordWrap">
+                <div class="range-track-bg"></div>
+                <div class="range-track-fill"></div>
+                <input id="mobHertfordMin" type="range" min="0" max="200" step="5" value="0" />
+                <input id="mobHertfordMax" type="range" min="0" max="200" step="5" value="90" />
+              </div>
             </div>
             <div class="control">
               <div class="control-row">
                 <span class="control-label">Train to London</span>
-                <span class="control-value" id="mobTrainValue">75 min</span>
+                <span class="control-value" id="mobTrainValue">0 – 75 min</span>
               </div>
-              <input id="mobTrain" type="range" min="0" max="180" step="5" value="75" />
+              <div class="range-wrap" id="mobTrainWrap">
+                <div class="range-track-bg"></div>
+                <div class="range-track-fill"></div>
+                <input id="mobTrainMin" type="range" min="0" max="180" step="5" value="0" />
+                <input id="mobTrainMax" type="range" min="0" max="180" step="5" value="75" />
+              </div>
             </div>
           </div>
           <p class="data-note">Arrive-by 08:30 Tue 3 Mar 2026.</p>
@@ -731,18 +832,52 @@
 
       // ── Slider sync ──────────────────────────────────────
       const getVal = (id) => Number(document.getElementById(id).value);
-      const setDisplay = (id, val) => { document.getElementById(id).textContent = val + " min"; };
-
-      const syncPair = (aId, bId) => {
-        const a = document.getElementById(aId);
-        const b = document.getElementById(bId);
-        a.addEventListener("input", () => { b.value = a.value; renderStations(); });
-        b.addEventListener("input", () => { a.value = b.value; renderStations(); });
+      const setDisplay = (id, min, max) => {
+        document.getElementById(id).textContent = `${min} – ${max} min`;
+      };
+      const updateFill = (wrapId) => {
+        const wrap = document.getElementById(wrapId);
+        if (!wrap) return;
+        const fill = wrap.querySelector(".range-track-fill");
+        const inputs = wrap.querySelectorAll("input[type='range']");
+        const minEl = inputs[0], maxEl = inputs[1];
+        const rangeMin = Number(minEl.min), rangeMax = Number(minEl.max);
+        const pMin = (Number(minEl.value) - rangeMin) / (rangeMax - rangeMin) * 100;
+        const pMax = (Number(maxEl.value) - rangeMin) / (rangeMax - rangeMin) * 100;
+        fill.style.left = pMin + "%";
+        fill.style.width = Math.max(0, pMax - pMin) + "%";
       };
 
-      syncPair("deskHorsham", "mobHorsham");
-      syncPair("deskHertford", "mobHertford");
-      syncPair("deskTrain", "mobTrain");
+      const syncRangePair = (deskPrefix, mobPrefix) => {
+        const dMin = document.getElementById(deskPrefix + "Min");
+        const dMax = document.getElementById(deskPrefix + "Max");
+        const mMin = document.getElementById(mobPrefix + "Min");
+        const mMax = document.getElementById(mobPrefix + "Max");
+        dMin.addEventListener("input", () => {
+          if (+dMin.value > +dMax.value) dMax.value = dMin.value;
+          mMin.value = dMin.value; mMax.value = dMax.value;
+          renderStations();
+        });
+        dMax.addEventListener("input", () => {
+          if (+dMax.value < +dMin.value) dMin.value = dMax.value;
+          mMin.value = dMin.value; mMax.value = dMax.value;
+          renderStations();
+        });
+        mMin.addEventListener("input", () => {
+          if (+mMin.value > +mMax.value) mMax.value = mMin.value;
+          dMin.value = mMin.value; dMax.value = mMax.value;
+          renderStations();
+        });
+        mMax.addEventListener("input", () => {
+          if (+mMax.value < +mMin.value) mMin.value = mMax.value;
+          dMin.value = mMin.value; dMax.value = mMax.value;
+          renderStations();
+        });
+      };
+
+      syncRangePair("deskHorsham", "mobHorsham");
+      syncRangePair("deskHertford", "mobHertford");
+      syncRangePair("deskTrain", "mobTrain");
 
       // ── Sort selects (desktop + mobile synced) ───────────
       const deskSort = document.getElementById("sort-select");
@@ -894,26 +1029,29 @@
         if (shortlistOnly) {
           return stationData.filter((s) => shortlist.has(s.name));
         }
-        const maxHorsham = getVal("deskHorsham");
-        const maxHertford = getVal("deskHertford");
-        const maxTrain = getVal("deskTrain");
+        const minHorsham = getVal("deskHorshamMin"), maxHorsham = getVal("deskHorshamMax");
+        const minHertford = getVal("deskHertfordMin"), maxHertford = getVal("deskHertfordMax");
+        const minTrain = getVal("deskTrainMin"), maxTrain = getVal("deskTrainMax");
         return stationData.filter((s) => {
-          if (s.horsham !== null && s.horsham > maxHorsham) return false;
-          if (s.hertford !== null && s.hertford > maxHertford) return false;
-          if (s.train !== null && s.train > maxTrain) return false;
+          if (s.horsham !== null && (s.horsham < minHorsham || s.horsham > maxHorsham)) return false;
+          if (s.hertford !== null && (s.hertford < minHertford || s.hertford > maxHertford)) return false;
+          if (s.train !== null && (s.train < minTrain || s.train > maxTrain)) return false;
           return true;
         });
       };
 
       // ── Main render ──────────────────────────────────────
       const renderStations = () => {
-        // Update slider labels
-        setDisplay("deskHorshamValue", getVal("deskHorsham"));
-        setDisplay("deskHertfordValue", getVal("deskHertford"));
-        setDisplay("deskTrainValue", getVal("deskTrain"));
-        setDisplay("mobHorshamValue", getVal("mobHorsham"));
-        setDisplay("mobHertfordValue", getVal("mobHertford"));
-        setDisplay("mobTrainValue", getVal("mobTrain"));
+        // Update slider labels and fills
+        [["Horsham", "deskHorsham", "mobHorsham"],
+         ["Hertford", "deskHertford", "mobHertford"],
+         ["Train", "deskTrain", "mobTrain"]].forEach(([key, desk, mob]) => {
+          const min = getVal(desk + "Min"), max = getVal(desk + "Max");
+          setDisplay("desk" + key + "Value", min, max);
+          setDisplay("mob" + key + "Value", min, max);
+          updateFill(desk + "Wrap");
+          updateFill(mob + "Wrap");
+        });
 
         markersLayer.clearLayers();
         markerMap.clear();
