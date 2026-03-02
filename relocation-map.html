@@ -154,26 +154,18 @@
       /* ── Dual range slider ── */
       .range-wrap {
         position: relative;
-        height: 20px;
-      }
-
-      .range-track-bg {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0;
-        right: 0;
-        height: 4px;
+        height: 4px;           /* wrapper IS the track */
+        margin: 10px 0;        /* vertical breathing room for thumb overflow */
         background: #e0d9d0;
         border-radius: 2px;
-        pointer-events: none;
       }
+
+      .range-track-bg { display: none; } /* wrapper provides the background */
 
       .range-track-fill {
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        height: 4px;
+        top: 0;
+        height: 100%;
         background: var(--accent);
         border-radius: 2px;
         pointer-events: none;
@@ -216,6 +208,7 @@
         cursor: pointer;
         border: 2px solid #fff;
         box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        margin-top: -6px; /* (4px track − 16px thumb) / 2 → centres thumb */
       }
 
       .range-wrap input[type="range"]::-moz-range-thumb {
