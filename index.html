@@ -1,1 +1,211 @@
-<a href="/calendar">Calendar</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tom Gates</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e0e0e0;
+      --muted: #666;
+      --accent: #c8a84b;
+      --accent-dim: #8a7030;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 3rem 2rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      font-weight: normal;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+    }
+
+    header h1 span {
+      color: var(--muted);
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+    }
+
+    main {
+      flex: 1;
+      padding: 2.5rem 2rem;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      border-color: var(--accent-dim);
+      background: #1f1f1f;
+    }
+
+    .card:hover .card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      padding: 1.5rem 1.5rem 0;
+      line-height: 1;
+    }
+
+    .card-body {
+      padding: 1rem 1.5rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .card-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.15rem 0.5rem;
+      margin-top: 0.6rem;
+      align-self: flex-start;
+    }
+
+    .card-arrow {
+      position: absolute;
+      bottom: 1.2rem;
+      right: 1.2rem;
+      color: var(--accent-dim);
+      font-size: 1rem;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .card.private .card-tag {
+      border-color: #3a2a2a;
+      color: #664444;
+    }
+
+    footer {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>TOM GATES <span>/ tools</span></h1>
+    <p>personal utilities &amp; projects</p>
+  </header>
+
+  <main>
+    <div class="grid">
+
+      <a class="card" href="calendar.html">
+        <div class="card-icon">📅</div>
+        <div class="card-body">
+          <div class="card-title">Calendar</div>
+          <div class="card-desc">Full-year calendar with event management, colour-coded markers, and print layout. Events saved locally in your browser.</div>
+          <div class="card-tag">local storage</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a class="card" href="relocation-map.html">
+        <div class="card-icon">🗺️</div>
+        <div class="card-body">
+          <div class="card-title">Relocation Map</div>
+          <div class="card-desc">Interactive UK map for exploring areas by train station proximity. Filter by commute distance and shortlist locations.</div>
+          <div class="card-tag">leaflet.js · csv</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a class="card" href="clag.html">
+        <div class="card-icon">✈️</div>
+        <div class="card-body">
+          <div class="card-title">CLAG</div>
+          <div class="card-desc">Clouds Low Aircraft Grounded. An aviation tool for tracking flight conditions and ground status.</div>
+          <div class="card-tag">aviation</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+
+      <a class="card private" href="house-search.html">
+        <div class="card-icon">🏠</div>
+        <div class="card-body">
+          <div class="card-title">House Search</div>
+          <div class="card-desc">Password-protected property search database. Encrypted on the client side — no server required.</div>
+          <div class="card-tag">🔒 private</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
+
+    </div>
+  </main>
+
+  <footer>
+    tomgatzgates.github.io
+  </footer>
+
+</body>
+</html>
