@@ -2,74 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendar</title>
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #f6f5f1;
+            --surface: #ffffff;
+            --border: #e4e1d9;
+            --text: #1c1c1c;
+            --muted: #6b6560;
+            --weekday: #ffffff;
+            --weekend: #ede9e1;
+            --today-bg: #fef3c7;
+            --today-text: #92400e;
+            --accent: #4a6cf7;
+            --accent-hover: #3558e8;
+            --danger: #e53e3e;
+            --radius: 6px;
+        }
+
         @page {
             size: letter landscape;
             margin: 0.5in;
         }
-        
+
         body {
-            font-family: monospace, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
         }
 
-        .main-container {
+        /* ── Header ── */
+        .page-header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+
+        .year-select-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .year-select-wrap label {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        #yearSelect {
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--text);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.3rem 0.5rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #yearSelect:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(74,108,247,0.12);
+        }
+
+        /* ── Layout ── */
+        .page-body {
+            padding: 1.25rem 1.5rem;
             display: flex;
             flex-direction: row;
-            gap: 20px;
+            gap: 1.5rem;
         }
 
-        .calendar-container {
-            flex: 3;
-        }
+        .calendar-container { flex: 3; }
 
         .events-container {
             flex: 1;
-            min-width: 250px;
-            border-left: 1px solid #ccc;
-            padding-left: 20px;
+            min-width: 240px;
         }
 
+        /* ── Calendar table ── */
         .calendar {
             width: 100%;
-            font-size: 1rem;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 0.72rem;
             border-collapse: collapse;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
         }
+
         .calendar th {
-            padding: 0.25rem;
-        }
-        .calendar td {
-            width: 7.2%; /* 100% / (12 months + 1 day column) ≈ 7.69% */
-            height: 0.2in;
-            padding-left: 0.2rem;
-            border: 2px solid #fff;
-            box-sizing: border-box;
-            position: relative;
-            background-color:#FFF;
-        }
-        .calendar td.weekend {
-            background-color:#EAEAEA;
-        }
-        .calendar td:first-of-type {
-            width: 3.6%; /* Half of regular column */
+            padding: 0.4rem 0.25rem;
             text-align: center;
-            border: none;
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .calendar td {
+            width: 7.2%;
+            height: 1.6rem;
+            padding: 0 0.2rem;
+            border: 1px solid var(--border);
+            position: relative;
+            background: var(--weekday);
+            color: var(--text);
+            font-size: 0.7rem;
+        }
+
+        .calendar td:first-of-type {
+            width: 3%;
+            text-align: center;
+            font-weight: 600;
+            color: var(--muted);
+            background: var(--bg);
+            border-right: 2px solid var(--border);
+            font-size: 0.68rem;
+        }
+
+        .calendar td.weekend {
+            background: var(--weekend);
+            color: var(--muted);
         }
 
         .calendar td.weekday {
-            background-color: #F8F8F8;
+            background: var(--weekday);
         }
-        
+
         .current-day {
-            background-color: #ffeb3b !important;
-            font-weight: bold;
-            color: #000;
+            background: var(--today-bg) !important;
+            color: var(--today-text) !important;
+            font-weight: 700;
         }
 
         .event-markers {
@@ -82,167 +164,280 @@
         }
 
         .event-marker {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
         }
 
-        .title {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 24px;
+        /* ── Events sidebar ── */
+        .events-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
         }
 
-        .controls {
-            text-align: center;
-            margin-bottom: 20px;
+        .events-header h2 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--muted);
         }
+
+        .add-event-btn {
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            border-radius: var(--radius);
+            padding: 0.35rem 0.75rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .add-event-btn:hover { background: var(--accent-hover); }
 
         .events-list {
-            margin-top: 10px;
-            max-height: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: calc(100vh - 160px);
             overflow-y: auto;
+            padding-right: 2px;
+        }
+
+        .events-list p {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-align: center;
+            padding: 1.5rem 0;
         }
 
         .event-item {
-            margin-bottom: 10px;
-            padding: 8px;
-            border-radius: 4px;
+            border-radius: var(--radius);
+            padding: 0.6rem 0.75rem;
             position: relative;
+            cursor: pointer;
+            transition: filter 0.1s;
         }
 
+        .event-item:hover { filter: brightness(0.96); }
+
         .event-item .event-title {
-            font-weight: bold;
-            margin-bottom: 4px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            padding-right: 1.2rem;
         }
 
         .event-item .event-date {
-            font-size: 0.8rem;
-            margin-bottom: 4px;
+            font-size: 0.72rem;
+            color: var(--muted);
         }
 
         .event-duration {
-            font-size: 0.8rem;
-            margin-bottom: 4px;
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .event-item .event-notes {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 0.2rem;
         }
 
         .event-item .delete-btn {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 0.5rem;
+            right: 0.5rem;
             cursor: pointer;
             background: none;
             border: none;
-            font-size: 1rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1;
+            padding: 0.1rem;
+            border-radius: 3px;
+            transition: color 0.1s, background 0.1s;
         }
 
+        .delete-btn:hover {
+            color: var(--danger);
+            background: rgba(229,62,62,0.08);
+        }
+
+        /* ── Dialog ── */
         .event-dialog {
-            padding: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+            font-family: inherit;
+            width: 100%;
+            max-width: 420px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            background: var(--surface);
         }
 
         .event-dialog::backdrop {
-            background-color: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(2px);
+        }
+
+        .dialog-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--text);
         }
 
         .dialog-form {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 0.85rem;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 0.3rem;
+        }
+
+        .form-group label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--muted);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group textarea {
+            font-family: inherit;
+            font-size: 0.85rem;
+            color: var(--text);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.45rem 0.6rem;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(74,108,247,0.12);
+        }
+
+        .form-group input[type="color"] {
+            height: 2.2rem;
+            padding: 0.2rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            cursor: pointer;
+            width: 100%;
         }
 
         .dialog-buttons {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 0.6rem;
+            margin-top: 0.5rem;
         }
 
-        .add-event-btn {
-            margin-bottom: 10px;
+        .btn-cancel {
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--muted);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            transition: background 0.15s;
         }
 
-        /* Print styles section */
+        .btn-cancel:hover { background: var(--border); }
+
+        .btn-save {
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            border-radius: var(--radius);
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-save:hover { background: var(--accent-hover); }
+
+        /* ── Print ── */
         @media print {
-            body {
-                padding: 0;
-            }
-            .main-container {
-                flex-direction: column;
-            }
-            .events-container {
-                display: none; /* Hide the original events container */
-            }
-            .title {
-                display: none;
-            }
-            .controls {
-                display: none;
-            }
+            body { background: #fff; }
+            .page-header { display: none; }
+            .page-body { padding: 0; }
+            .events-container { display: none; }
             .calendar {
-                width: 100% !important;      
+                width: 100% !important;
                 border-collapse: collapse;
+                font-size: 0.65rem;
+                border: none;
+                border-radius: 0;
             }
             .weekend {
-                background-color: #ccc !important; /* Force background color */
-                -webkit-print-color-adjust: exact; /* For Chrome/Safari */
-                print-color-adjust: exact;         /* Standard property */
+                background-color: #e0e0e0 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
             }
-            /* Don't highlight current day when printing */
             .current-day {
                 background-color: transparent !important;
+                color: inherit !important;
                 font-weight: normal;
-                color: inherit;
             }
             .event-marker {
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-            
-            /* New print-only elements */
             .print-events-page {
                 display: block !important;
                 page-break-before: always;
-                font-family: monospace, sans-serif;
+                font-family: inherit;
             }
-            
             .print-events-title {
                 text-align: center;
-                font-size: 20px;
+                font-size: 18px;
                 margin-bottom: 15px;
-                font-weight: bold;
+                font-weight: 600;
             }
-            
             .print-event-item {
                 margin-bottom: 10px;
                 padding: 8px;
                 border-radius: 4px;
                 border-left-width: 4px;
                 border-left-style: solid;
-                background-color: rgba(240, 240, 240, 0.5) !important;
+                background-color: rgba(240,240,240,0.5) !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
-            
             .print-event-legend {
                 margin-top: 20px;
                 border-top: 1px solid #ccc;
                 padding-top: 10px;
             }
-            
             .legend-item {
                 display: flex;
                 align-items: center;
                 margin-bottom: 5px;
             }
-            
             .legend-marker {
                 width: 10px;
                 height: 10px;
@@ -252,20 +447,20 @@
                 print-color-adjust: exact;
             }
         }
-        
-        /* Hide print-only elements when not printing */
-        .print-events-page {
-            display: none;
-        }
+
+        .print-events-page { display: none; }
     </style>
 </head>
 <body>
-    <div class="controls">
-        <label for="yearSelect">Select Year: </label>
-        <select id="yearSelect"></select>
-    </div>
-    <h1 class="title" id="calendarTitle">Calendar</h1>
-    <div class="main-container">
+    <header class="page-header">
+        <h1 id="calendarTitle">Calendar</h1>
+        <div class="year-select-wrap">
+            <label for="yearSelect">Year</label>
+            <select id="yearSelect"></select>
+        </div>
+    </header>
+
+    <div class="page-body">
         <div class="calendar-container">
             <table class="calendar" id="calendar">
                 <thead>
@@ -275,8 +470,10 @@
             </table>
         </div>
         <div class="events-container">
-            <h2>Events</h2>
-            <button class="add-event-btn" id="addEventBtn">Add Event</button>
+            <div class="events-header">
+                <h2>Events</h2>
+                <button class="add-event-btn" id="addEventBtn">+ Add</button>
+            </div>
             <div class="events-list" id="eventsList"></div>
         </div>
     </div>
@@ -293,31 +490,32 @@
     </div>
 
     <dialog id="eventDialog" class="event-dialog">
+        <div class="dialog-title">Add Event</div>
         <form id="eventForm" class="dialog-form">
             <div class="form-group">
-                <label for="eventTitle">Event Title:</label>
-                <input type="text" id="eventTitle" required>
+                <label for="eventTitle">Title</label>
+                <input type="text" id="eventTitle" required placeholder="Event name">
             </div>
             <div class="form-group">
-                <label for="eventStartDate">Start Date:</label>
+                <label for="eventStartDate">Start date</label>
                 <input type="date" id="eventStartDate" required>
             </div>
             <div class="form-group">
-                <label for="eventEndDate">End Date (optional):</label>
+                <label for="eventEndDate">End date <span style="font-weight:400">(optional)</span></label>
                 <input type="date" id="eventEndDate">
             </div>
             <div class="form-group">
-                <label for="eventColor">Color:</label>
+                <label for="eventColor">Colour</label>
                 <input type="color" id="eventColor" value="#4285f4">
             </div>
             <div class="form-group">
-                <label for="eventNotes">Notes (optional):</label>
-                <textarea id="eventNotes" rows="3"></textarea>
+                <label for="eventNotes">Notes <span style="font-weight:400">(optional)</span></label>
+                <textarea id="eventNotes" rows="3" placeholder="Any extra details…"></textarea>
             </div>
             <input type="hidden" id="eventId">
             <div class="dialog-buttons">
-                <button type="button" id="cancelBtn">Cancel</button>
-                <button type="submit">Save</button>
+                <button type="button" id="cancelBtn" class="btn-cancel">Cancel</button>
+                <button type="submit" class="btn-save">Save</button>
             </div>
         </form>
     </dialog>
