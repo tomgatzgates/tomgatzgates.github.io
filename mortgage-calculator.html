@@ -569,6 +569,27 @@ input[type="range"]::-moz-range-thumb {
   gap: 10px;
 }
 
+.stack-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+.stack-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stack-legend-item span:last-child {
+  display: inline-flex;
+  align-items: center;
+}
+
 .stack-legend div,
 .metrics-list div,
 .income-card dl div {
@@ -580,10 +601,12 @@ input[type="range"]::-moz-range-thumb {
 
 .legend-swatch {
   display: inline-block;
+  flex: 0 0 auto;
   width: 10px;
   height: 10px;
-  margin-right: 7px;
+  margin-right: 0;
   border-radius: 999px;
+  vertical-align: middle;
 }
 
 .metrics-list {
@@ -1060,9 +1083,9 @@ input[type="range"]::-moz-range-thumb {
                 <div id="gap-stack" class="stack-segment gap-segment"></div>
               </div>
               <div class="stack-legend">
-                <div><span class="legend-swatch cash-segment"></span><span id="cash-stack-label"></span></div>
-                <div><span class="legend-swatch etf-segment"></span><span id="etf-stack-label"></span></div>
-                <div><span class="legend-swatch gap-segment"></span><span id="gap-stack-label"></span></div>
+                <div class="stack-legend-item"><span class="legend-swatch cash-segment"></span><span id="cash-stack-label"></span></div>
+                <div class="stack-legend-item"><span class="legend-swatch etf-segment"></span><span id="etf-stack-label"></span></div>
+                <div class="stack-legend-item"><span class="legend-swatch gap-segment"></span><span id="gap-stack-label"></span></div>
               </div>
             </div>
             <dl class="metrics-list">
