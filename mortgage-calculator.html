@@ -1,0 +1,2010 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mortgage Budget Mapper</title>
+    <style>
+:root {
+  --bg: #eff3f6;
+  --surface: #ffffff;
+  --surface-subtle: #f8fafc;
+  --surface-tint: #f3f7fa;
+  --border: #dbe3ea;
+  --border-strong: #c7d2dc;
+  --text: #1f2933;
+  --muted: #66788a;
+  --accent: #215a69;
+  --accent-soft: rgba(33, 90, 105, 0.08);
+  --success: #5f8f5b;
+  --success-soft: rgba(95, 143, 91, 0.14);
+  --warning: #c5a24f;
+  --warning-soft: rgba(197, 162, 79, 0.16);
+  --danger: #b45c55;
+  --danger-soft: rgba(180, 92, 85, 0.14);
+  --cash: #d0a14d;
+  --etf: #37705f;
+  --gap: #b45c55;
+  --mortgage: #5470a6;
+  --surplus: #6f9a63;
+  --total-line: #243444;
+  --equity-line: #c27a37;
+  --etf-line: #2a7a59;
+  --shadow: 0 8px 24px rgba(31, 41, 51, 0.07);
+  --radius-xl: 18px;
+  --radius-lg: 14px;
+  --radius-md: 10px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(33, 90, 105, 0.06), transparent 24%),
+    linear-gradient(180deg, #f7fafc 0%, var(--bg) 100%);
+  color: var(--text);
+  font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+a {
+  color: var(--accent);
+}
+
+.page-shell {
+  width: min(1480px, calc(100% - 20px));
+  margin: 8px auto 16px;
+}
+
+.hero,
+.panel-heading,
+.control-group,
+.summary-strip,
+.detail-card,
+.status-banner,
+.footnotes {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 14px;
+}
+
+.hero-copy {
+  display: grid;
+  gap: 2px;
+}
+
+.eyebrow {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero h1 {
+  max-width: 34ch;
+  font-size: clamp(1.12rem, 1.5vw, 1.38rem);
+  line-height: 1.06;
+}
+
+.hero-text {
+  max-width: 74ch;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.hero-badge {
+  min-width: 126px;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+}
+
+.badge-label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero-badge strong {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 312px) minmax(0, 1.6fr) minmax(290px, 340px);
+  gap: 12px;
+  margin-top: 10px;
+  align-items: start;
+}
+
+.controls-panel,
+.analysis-column,
+.facts-column {
+  display: grid;
+  gap: 10px;
+}
+
+.controls-panel {
+  position: sticky;
+  top: 10px;
+  align-content: start;
+}
+
+.analysis-column,
+.facts-column {
+  align-content: start;
+}
+
+.controls-actions {
+  display: flex;
+  justify-content: stretch;
+}
+
+.controls-actions .ghost-button {
+  width: 100%;
+}
+
+.panel-heading,
+.control-group,
+.detail-card,
+.footnotes {
+  padding: 12px 14px;
+}
+
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface-subtle);
+}
+
+.facts-heading {
+  padding: 14px 16px;
+}
+
+.panel-title-block {
+  display: grid;
+  gap: 0;
+}
+
+.panel-heading h2 {
+  font-size: 0.92rem;
+}
+
+.panel-subtitle {
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+.ghost-button {
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--accent);
+  padding: 7px 11px;
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ghost-button:hover {
+  background: var(--surface-subtle);
+}
+
+.control-group {
+  display: grid;
+  gap: 9px;
+}
+
+.control-group h3 {
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field {
+  display: grid;
+  gap: 5px;
+}
+
+.field > span,
+.field-header span {
+  font-size: 0.79rem;
+  color: var(--muted);
+}
+
+.field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.field strong {
+  font-family: "SFMono-Regular", "Menlo", monospace;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+select,
+input[type="range"] {
+  width: 100%;
+}
+
+select {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-subtle);
+  color: var(--text);
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 0.86rem;
+}
+
+input[type="range"] {
+  appearance: none;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(84, 112, 166, 0.22), rgba(33, 90, 105, 0.18));
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgba(33, 90, 105, 0.18);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 2px 8px rgba(33, 90, 105, 0.18);
+}
+
+.status-banner {
+  display: none;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.status-banner.visible {
+  display: block;
+}
+
+.status-banner.warning {
+  border-color: rgba(180, 92, 85, 0.26);
+  background: #fff7f6;
+  color: var(--danger);
+}
+
+.status-banner.info {
+  border-color: rgba(33, 90, 105, 0.24);
+  background: #f4fafb;
+  color: var(--accent);
+}
+
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  padding: 0;
+}
+
+.summary-card {
+  display: grid;
+  grid-template-rows: minmax(2.1rem, auto) auto minmax(2.2rem, auto);
+  gap: 6px;
+  padding: 10px 12px;
+  align-content: start;
+}
+
+.summary-card + .summary-card {
+  border-left: 1px solid var(--border);
+}
+
+.priority-card {
+  background: linear-gradient(180deg, rgba(33, 90, 105, 0.04), #ffffff 70%);
+}
+
+.wealth-card {
+  background: linear-gradient(180deg, rgba(95, 143, 91, 0.07), #ffffff 72%);
+}
+
+.summary-label {
+  display: block;
+  min-height: 2.1rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.summary-card strong,
+.inline-metric strong {
+  display: flex;
+  align-items: flex-end;
+  font-size: clamp(0.95rem, 1vw, 1.08rem);
+  line-height: 1.06;
+  font-variant-numeric: tabular-nums;
+}
+
+.summary-detail {
+  display: block;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.detail-card {
+  display: grid;
+  gap: 10px;
+}
+
+.card-heading {
+  display: grid;
+  gap: 4px;
+}
+
+.card-heading h2 {
+  font-size: 0.84rem;
+}
+
+.card-heading p {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.compact-heading {
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 400px);
+  align-items: end;
+  gap: 12px;
+}
+
+.results-kicker {
+  margin-bottom: 3px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.budget-card {
+  gap: 10px;
+}
+
+.budget-status-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 102px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-pill.good {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.status-pill.ok {
+  background: rgba(84, 112, 166, 0.12);
+  color: var(--mortgage);
+}
+
+.status-pill.watch {
+  background: var(--warning-soft);
+  color: #8d6b1f;
+}
+
+.status-pill.risk {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.status-copy,
+.budget-note,
+.panel-note {
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.budget-meter {
+  display: grid;
+  gap: 8px;
+}
+
+.budget-track {
+  display: flex;
+  overflow: hidden;
+  min-height: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-subtle);
+}
+
+.budget-segment {
+  transition: width 160ms ease;
+}
+
+.mortgage-segment {
+  background: var(--mortgage);
+}
+
+.surplus-segment {
+  background: rgba(111, 154, 99, 0.88);
+}
+
+.budget-scale {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.budget-scale div {
+  display: grid;
+  gap: 3px;
+}
+
+.budget-scale span {
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.budget-scale strong {
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stack {
+  display: grid;
+  gap: 10px;
+}
+
+.stack-bar {
+  display: flex;
+  overflow: hidden;
+  min-height: 12px;
+  border-radius: 999px;
+  background: #eef3f6;
+}
+
+.stack-segment {
+  transition: width 160ms ease;
+}
+
+.cash-segment {
+  background: var(--cash);
+}
+
+.etf-segment {
+  background: var(--etf);
+}
+
+.gap-segment {
+  background: var(--gap);
+}
+
+.stack-legend,
+.metrics-list,
+.income-grid,
+.snapshot-grid,
+.inline-metrics {
+  display: grid;
+  gap: 10px;
+}
+
+.stack-legend div,
+.metrics-list div,
+.income-card dl div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 7px;
+  border-radius: 999px;
+}
+
+.metrics-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding-top: 4px;
+}
+
+.metrics-list dt,
+.income-card dt {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.metrics-list dd,
+.income-card dd {
+  margin: 0;
+  font-family: "SFMono-Regular", "Menlo", monospace;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  justify-self: end;
+}
+
+.income-grid {
+  grid-template-columns: 1fr;
+}
+
+.income-card {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+}
+
+.income-card h3 {
+  margin-bottom: 8px;
+  font-size: 0.84rem;
+}
+
+.income-card dl {
+  display: grid;
+  gap: 7px;
+}
+
+.income-card dt {
+  max-width: 16ch;
+}
+
+.income-card dd {
+  max-width: 18ch;
+}
+
+.projection-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
+  gap: 10px;
+  align-items: start;
+}
+
+.inline-metrics {
+  grid-template-columns: 1fr;
+}
+
+.inline-metric {
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.legend-line {
+  display: inline-block;
+  width: 16px;
+  height: 0;
+  margin-right: 7px;
+  vertical-align: middle;
+  border-top: 2px solid currentColor;
+}
+
+.total-line {
+  color: var(--total-line);
+}
+
+.equity-line {
+  color: var(--equity-line);
+}
+
+.etf-line {
+  color: var(--etf-line);
+}
+
+#projection-chart {
+  display: block;
+  width: 100%;
+  min-height: 260px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, #fbfdfe 0%, #f4f8fb 100%);
+}
+
+.snapshot-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.snapshot-card {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+}
+
+.snapshot-card span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.snapshot-card strong {
+  display: block;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.snapshot-card small {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.footnotes {
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.footnotes p + p {
+  margin-top: 8px;
+}
+
+.chart-grid-line {
+  stroke: rgba(31, 41, 51, 0.08);
+  stroke-width: 1;
+}
+
+.chart-axis-label {
+  fill: rgba(102, 120, 138, 0.95);
+  font-family: "SFMono-Regular", "Menlo", monospace;
+  font-size: 11px;
+}
+
+.chart-path {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-point {
+  stroke-width: 2;
+  fill: #fff;
+}
+
+@media (max-width: 1220px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .controls-panel {
+    position: static;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-badges {
+    justify-content: flex-start;
+  }
+
+  .summary-strip,
+  .projection-header {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-card + .summary-card {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 760px) {
+  .page-shell {
+    width: min(100% - 14px, 100%);
+  }
+
+  .hero,
+  .panel-heading,
+  .control-group,
+  .detail-card,
+  .footnotes {
+    padding: 12px;
+  }
+
+  .summary-strip,
+  .metrics-list,
+  .income-grid,
+  .snapshot-grid,
+  .inline-metrics,
+  .budget-scale,
+  .compact-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-badge {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .budget-status-row {
+    grid-template-columns: 1fr;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">UK Mortgage Budget Tool</p>
+          <h1>Compare house price, deposit, monthly affordability, and long-run net worth.</h1>
+          <p class="hero-text">
+            Adjust property, mortgage, income, and investment assumptions to compare monthly affordability against long-run net worth.
+          </p>
+        </div>
+        <div class="hero-badges">
+          <div class="hero-badge">
+            <span class="badge-label">Tax inputs</span>
+            <strong>Current on 4 April 2026</strong>
+          </div>
+          <div class="hero-badge">
+            <span class="badge-label">Regions</span>
+            <strong>England/NI, Scotland, Wales</strong>
+          </div>
+          <div class="hero-badge">
+            <span class="badge-label">Income tax year</span>
+            <strong>2025/26 to 5 April 2026</strong>
+          </div>
+        </div>
+      </header>
+
+      <main class="layout">
+        <aside class="controls-panel">
+          <div class="panel-heading">
+            <div class="panel-title-block">
+              <h2>Inputs</h2>
+            </div>
+          </div>
+
+          <section class="control-group">
+            <h3>Property</h3>
+
+            <label class="field">
+              <span>Property location</span>
+              <select id="property-location">
+                <option value="england-ni">England / Northern Ireland</option>
+                <option value="scotland">Scotland</option>
+                <option value="wales">Wales</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Buyer status</span>
+              <select id="buyer-status">
+                <option value="main-home">Main home / replacement</option>
+                <option value="first-time">First-time buyer</option>
+                <option value="additional-home">Additional home / second property</option>
+              </select>
+            </label>
+
+            <label class="field range-field" for="house-price">
+              <div class="field-header">
+                <span>House price</span>
+                <strong id="house-price-value"></strong>
+              </div>
+              <input id="house-price" type="range" min="200000" max="2500000" step="25000" />
+            </label>
+
+            <label class="field range-field" for="deposit">
+              <div class="field-header">
+                <span>Deposit</span>
+                <strong id="deposit-value"></strong>
+              </div>
+              <input id="deposit" type="range" min="0" max="1000000" step="5000" />
+            </label>
+
+            <label class="field range-field" for="mortgage-term">
+              <div class="field-header">
+                <span>Mortgage term</span>
+                <strong id="mortgage-term-value"></strong>
+              </div>
+              <input id="mortgage-term" type="range" min="5" max="40" step="1" />
+            </label>
+
+            <label class="field range-field" for="interest-rate">
+              <div class="field-header">
+                <span>Interest rate</span>
+                <strong id="interest-rate-value"></strong>
+              </div>
+              <input id="interest-rate" type="range" min="0" max="10" step="0.05" />
+            </label>
+
+            <label class="field range-field" for="house-appreciation">
+              <div class="field-header">
+                <span>House appreciation</span>
+                <strong id="house-appreciation-value"></strong>
+              </div>
+              <input id="house-appreciation" type="range" min="0" max="8" step="0.1" />
+            </label>
+
+            <label class="field range-field" for="projection-period">
+              <div class="field-header">
+                <span>Projection period</span>
+                <strong id="projection-period-value"></strong>
+              </div>
+              <input id="projection-period" type="range" min="1" max="40" step="1" />
+            </label>
+          </section>
+
+          <section class="control-group">
+            <h3>Income</h3>
+
+            <label class="field">
+              <span>Tax residence</span>
+              <select id="tax-residence">
+                <option value="ruk">England / Wales / Northern Ireland</option>
+                <option value="scotland">Scotland</option>
+              </select>
+            </label>
+
+            <label class="field range-field" for="income-one">
+              <div class="field-header">
+                <span>Your gross income</span>
+                <strong id="income-one-value"></strong>
+              </div>
+              <input id="income-one" type="range" min="0" max="300000" step="5000" />
+            </label>
+
+            <label class="field range-field" for="income-two">
+              <div class="field-header">
+                <span>Partner gross income</span>
+                <strong id="income-two-value"></strong>
+              </div>
+              <input id="income-two" type="range" min="0" max="300000" step="5000" />
+            </label>
+          </section>
+
+          <section class="control-group">
+            <h3>Investments</h3>
+
+            <label class="field range-field" for="cash-savings">
+              <div class="field-header">
+                <span>Cash available</span>
+                <strong id="cash-savings-value"></strong>
+              </div>
+              <input id="cash-savings" type="range" min="0" max="1000000" step="5000" />
+            </label>
+
+            <label class="field range-field" for="etf-portfolio">
+              <div class="field-header">
+                <span>ETF portfolio</span>
+                <strong id="etf-portfolio-value"></strong>
+              </div>
+              <input id="etf-portfolio" type="range" min="0" max="3000000" step="25000" />
+            </label>
+
+            <label class="field range-field" for="investment-return">
+              <div class="field-header">
+                <span>Investment return</span>
+                <strong id="investment-return-value"></strong>
+              </div>
+              <input id="investment-return" type="range" min="0" max="12" step="0.1" />
+            </label>
+          </section>
+
+          <div class="controls-actions">
+            <button id="reset-button" type="button" class="ghost-button">Reset baseline</button>
+          </div>
+        </aside>
+
+        <section class="analysis-column">
+          <section class="summary-strip">
+            <article class="summary-card">
+              <span class="summary-label">Combined take-home</span>
+              <strong id="combined-take-home"></strong>
+              <p id="combined-take-home-detail" class="summary-detail"></p>
+            </article>
+
+            <article class="summary-card priority-card">
+              <span class="summary-label">Monthly mortgage</span>
+              <strong id="monthly-mortgage"></strong>
+              <p id="monthly-mortgage-detail" class="summary-detail"></p>
+            </article>
+
+            <article class="summary-card">
+              <span class="summary-label">Monthly headroom</span>
+              <strong id="monthly-headroom"></strong>
+              <p id="monthly-headroom-detail" class="summary-detail"></p>
+            </article>
+
+            <article class="summary-card priority-card wealth-card">
+              <span class="summary-label">Projected net worth</span>
+              <strong id="projection-net-worth"></strong>
+              <p id="projection-net-worth-detail" class="summary-detail"></p>
+            </article>
+          </section>
+
+          <section class="detail-card chart-card">
+            <div class="projection-header">
+              <div class="card-heading">
+                <h2>Projection and trade-offs</h2>
+                <p>How equity, ETFs, and total net worth evolve over the selected horizon.</p>
+              </div>
+              <div class="inline-metrics">
+                <article class="inline-metric">
+                  <span class="summary-label">Mortgage balance at horizon</span>
+                  <strong id="projection-balance"></strong>
+                  <p id="projection-balance-detail" class="summary-detail"></p>
+                </article>
+              </div>
+            </div>
+            <div class="chart-legend">
+              <span><i class="legend-line total-line"></i>Total net worth</span>
+              <span><i class="legend-line equity-line"></i>Home equity</span>
+              <span><i class="legend-line etf-line"></i>ETF portfolio</span>
+            </div>
+            <svg id="projection-chart" viewBox="0 0 760 320" preserveAspectRatio="none" aria-label="Projection chart"></svg>
+            <div id="projection-snapshots" class="snapshot-grid"></div>
+          </section>
+
+          <article class="detail-card funding-card">
+            <div class="projection-header">
+              <div class="card-heading">
+                <h2>Upfront funding stack</h2>
+                <p>Deposit plus purchase tax, with cash used first and ETF sales only after that.</p>
+              </div>
+              <div class="inline-metrics">
+                <article class="inline-metric">
+                  <span class="summary-label">Purchase tax</span>
+                  <strong id="purchase-tax"></strong>
+                  <p id="purchase-tax-detail" class="summary-detail"></p>
+                </article>
+              </div>
+            </div>
+            <div class="stack">
+              <div class="stack-bar">
+                <div id="cash-stack" class="stack-segment cash-segment"></div>
+                <div id="etf-stack" class="stack-segment etf-segment"></div>
+                <div id="gap-stack" class="stack-segment gap-segment"></div>
+              </div>
+              <div class="stack-legend">
+                <div><span class="legend-swatch cash-segment"></span><span id="cash-stack-label"></span></div>
+                <div><span class="legend-swatch etf-segment"></span><span id="etf-stack-label"></span></div>
+                <div><span class="legend-swatch gap-segment"></span><span id="gap-stack-label"></span></div>
+              </div>
+            </div>
+            <dl class="metrics-list">
+              <div>
+                <dt>Total upfront cost</dt>
+                <dd id="total-upfront"></dd>
+              </div>
+              <div>
+                <dt>Deposit</dt>
+                <dd id="total-deposit"></dd>
+              </div>
+              <div>
+                <dt>Cash used first</dt>
+                <dd id="total-tax"></dd>
+              </div>
+              <div>
+                <dt>Loan-to-value</dt>
+                <dd id="ltv-value"></dd>
+              </div>
+              <div>
+                <dt>ETF drawdown now</dt>
+                <dd id="etf-drawdown"></dd>
+              </div>
+              <div>
+                <dt>ETF value foregone</dt>
+                <dd id="etf-opportunity-cost"></dd>
+              </div>
+            </dl>
+            <p id="etf-opportunity-cost-detail" class="panel-note"></p>
+          </article>
+
+        </section>
+
+        <aside class="facts-column">
+          <article class="detail-card budget-card">
+            <div class="card-heading">
+              <h2>Affordability and monthly budget</h2>
+              <p>Use this rail for the supporting monthly numbers while the centre column stays focused on the main trade-off.</p>
+            </div>
+            <div class="budget-status-row">
+              <div id="budget-status" class="status-pill"></div>
+              <p id="budget-status-detail" class="status-copy"></p>
+            </div>
+            <div class="budget-meter">
+              <div class="budget-track">
+                <div id="mortgage-share-bar" class="budget-segment mortgage-segment"></div>
+                <div id="surplus-share-bar" class="budget-segment surplus-segment"></div>
+              </div>
+              <div class="budget-scale">
+                <div><span>Mortgage</span><strong id="budget-mortgage-legend"></strong></div>
+                <div><span>Surplus</span><strong id="budget-surplus-legend"></strong></div>
+                <div><span>Load</span><strong id="budget-load"></strong></div>
+              </div>
+              <p id="budget-scale-note" class="budget-note"></p>
+            </div>
+          </article>
+
+          <article class="detail-card">
+            <div class="card-heading">
+              <h2>Income after tax and NI</h2>
+              <p>The UK personal allowance taper is applied once income goes above £100,000.</p>
+            </div>
+            <div class="income-grid">
+              <div class="income-card">
+                <h3>You</h3>
+                <dl>
+                  <div><dt>Gross</dt><dd id="income-one-gross"></dd></div>
+                  <div><dt>Tax + NI</dt><dd id="income-one-tax"></dd></div>
+                  <div><dt>Take-home</dt><dd id="income-one-net"></dd></div>
+                  <div><dt>Marginal take-home</dt><dd id="income-one-marginal"></dd></div>
+                </dl>
+              </div>
+              <div class="income-card">
+                <h3>Partner</h3>
+                <dl>
+                  <div><dt>Gross</dt><dd id="income-two-gross"></dd></div>
+                  <div><dt>Tax + NI</dt><dd id="income-two-tax"></dd></div>
+                  <div><dt>Take-home</dt><dd id="income-two-net"></dd></div>
+                  <div><dt>Marginal take-home</dt><dd id="income-two-marginal"></dd></div>
+                </dl>
+              </div>
+            </div>
+          </article>
+
+          <div id="status-banner" class="status-banner"></div>
+
+          <section class="footnotes">
+            <p id="tax-footnote"></p>
+            <p>
+              Unused cash is assumed to remain cash at 0% nominal return. The calculator ignores legal fees,
+              maintenance, insurance, rent avoided, pension tax relief, student loans, and inflation.
+            </p>
+            <p>
+              Sources:
+              <a href="https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2025-to-2026" target="_blank" rel="noreferrer">HMRC 2025/26 Income Tax and NI</a>,
+              <a href="https://www.gov.uk/income-tax-rates" target="_blank" rel="noreferrer">UK Personal Allowance taper</a>,
+              <a href="https://www.gov.uk/scottish-income-tax" target="_blank" rel="noreferrer">Scottish Income Tax 2025/26</a>,
+              <a href="https://www.gov.uk/stamp-duty-land-tax/residential-property-rates" target="_blank" rel="noreferrer">SDLT</a>,
+              <a href="https://revenue.scot/taxes/land-buildings-transaction-tax/residential-property" target="_blank" rel="noreferrer">LBTT</a>,
+              <a href="https://revenue.scot/taxes/land-buildings-transaction-tax/additional-dwelling-supplement-ads" target="_blank" rel="noreferrer">Scottish ADS</a>,
+              <a href="https://www.gov.wales/land-transaction-tax-rates-and-bands" target="_blank" rel="noreferrer">Welsh LTT</a>,
+              <a href="https://www.gov.wales/land-transaction-tax-guide" target="_blank" rel="noreferrer">Welsh reliefs</a>.
+            </p>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script>
+const baseline = {
+  propertyLocation: "england-ni",
+  buyerStatus: "main-home",
+  housePrice: 650000,
+  deposit: 130000,
+  mortgageTerm: 25,
+  interestRate: 4.5,
+  houseAppreciation: 3.5,
+  projectionPeriod: 20,
+  taxResidence: "ruk",
+  incomeOne: 85000,
+  incomeTwo: 65000,
+  cashSavings: 150000,
+  etfPortfolio: 500000,
+  investmentReturn: 7.0,
+};
+
+const inputConfig = {
+  propertyLocation: { element: document.getElementById("property-location"), type: "select" },
+  buyerStatus: { element: document.getElementById("buyer-status"), type: "select" },
+  housePrice: { element: document.getElementById("house-price"), type: "number", display: document.getElementById("house-price-value"), format: pounds },
+  deposit: { element: document.getElementById("deposit"), type: "number", display: document.getElementById("deposit-value"), format: pounds },
+  mortgageTerm: { element: document.getElementById("mortgage-term"), type: "number", display: document.getElementById("mortgage-term-value"), format: years },
+  interestRate: { element: document.getElementById("interest-rate"), type: "number", display: document.getElementById("interest-rate-value"), format: percent },
+  houseAppreciation: { element: document.getElementById("house-appreciation"), type: "number", display: document.getElementById("house-appreciation-value"), format: percent },
+  projectionPeriod: { element: document.getElementById("projection-period"), type: "number", display: document.getElementById("projection-period-value"), format: years },
+  taxResidence: { element: document.getElementById("tax-residence"), type: "select" },
+  incomeOne: { element: document.getElementById("income-one"), type: "number", display: document.getElementById("income-one-value"), format: pounds },
+  incomeTwo: { element: document.getElementById("income-two"), type: "number", display: document.getElementById("income-two-value"), format: pounds },
+  cashSavings: { element: document.getElementById("cash-savings"), type: "number", display: document.getElementById("cash-savings-value"), format: pounds },
+  etfPortfolio: { element: document.getElementById("etf-portfolio"), type: "number", display: document.getElementById("etf-portfolio-value"), format: pounds },
+  investmentReturn: { element: document.getElementById("investment-return"), type: "number", display: document.getElementById("investment-return-value"), format: percent },
+};
+
+class Earner {
+  constructor(grossIncome, taxResidence) {
+    this.grossIncome = grossIncome;
+    this.taxResidence = taxResidence;
+  }
+
+  personalAllowance() {
+    const taper = Math.max(0, this.grossIncome - 100000) / 2;
+    return Math.max(0, 12570 - taper);
+  }
+
+  taxableIncome() {
+    return Math.max(0, this.grossIncome - this.personalAllowance());
+  }
+
+  incomeTax() {
+    const taxable = this.taxableIncome();
+    if (this.taxResidence === "scotland") {
+      return applyBandWidths(taxable, [
+        { width: 2827, rate: 0.19 },
+        { width: 12094, rate: 0.2 },
+        { width: 16171, rate: 0.21 },
+        { width: 31338, rate: 0.42 },
+        { width: 50140, rate: 0.45 },
+        { width: Infinity, rate: 0.48 },
+      ]);
+    }
+
+    return applyBandWidths(taxable, [
+      { width: 37700, rate: 0.2 },
+      { width: 74870, rate: 0.4 },
+      { width: Infinity, rate: 0.45 },
+    ]);
+  }
+
+  nationalInsurance() {
+    const primaryThreshold = 12570;
+    const upperEarningsLimit = 50270;
+    const mainBand = Math.max(0, Math.min(this.grossIncome, upperEarningsLimit) - primaryThreshold);
+    const upperBand = Math.max(0, this.grossIncome - upperEarningsLimit);
+    return mainBand * 0.08 + upperBand * 0.02;
+  }
+
+  takeHome() {
+    return this.grossIncome - this.incomeTax() - this.nationalInsurance();
+  }
+
+  marginalTakeHomePerPound() {
+    const current = this.takeHome();
+    const next = new Earner(this.grossIncome + 1, this.taxResidence).takeHome();
+    return Math.max(0, next - current);
+  }
+}
+
+class Mortgage {
+  constructor(principal, annualRate, termYears) {
+    this.principal = principal;
+    this.annualRate = annualRate / 100;
+    this.termYears = termYears;
+  }
+
+  monthlyRate() {
+    return this.annualRate / 12;
+  }
+
+  totalMonths() {
+    return this.termYears * 12;
+  }
+
+  monthlyPayment() {
+    if (this.principal <= 0) {
+      return 0;
+    }
+
+    const rate = this.monthlyRate();
+    const months = this.totalMonths();
+
+    if (rate === 0) {
+      return this.principal / months;
+    }
+
+    return (this.principal * rate) / (1 - Math.pow(1 + rate, -months));
+  }
+
+  projection(years) {
+    const monthlyPayment = this.monthlyPayment();
+    const monthlyRate = this.monthlyRate();
+    const totalProjectionMonths = years * 12;
+    const totalMortgageMonths = this.totalMonths();
+    const snapshots = [{ year: 0, balance: this.principal, cumulativeInterest: 0 }];
+    let balance = this.principal;
+    let cumulativeInterest = 0;
+
+    for (let month = 1; month <= totalProjectionMonths; month += 1) {
+      if (balance <= 0 || month > totalMortgageMonths) {
+        balance = 0;
+      } else {
+        const interest = balance * monthlyRate;
+        const principalPaid = Math.min(balance, monthlyPayment - interest);
+        balance = Math.max(0, balance - principalPaid);
+        cumulativeInterest += interest;
+      }
+
+      if (month % 12 === 0) {
+        snapshots.push({
+          year: month / 12,
+          balance,
+          cumulativeInterest,
+        });
+      }
+    }
+
+    return {
+      monthlyPayment,
+      snapshots,
+      finalBalance: snapshots[snapshots.length - 1].balance,
+      interestPaid: snapshots[snapshots.length - 1].cumulativeInterest,
+    };
+  }
+}
+
+class PropertyPurchase {
+  constructor(price, deposit, propertyLocation, buyerStatus) {
+    this.price = price;
+    this.deposit = deposit;
+    this.propertyLocation = propertyLocation;
+    this.buyerStatus = buyerStatus;
+  }
+
+  loanAmount() {
+    return Math.max(0, this.price - this.deposit);
+  }
+
+  purchaseTax() {
+    if (this.propertyLocation === "england-ni") {
+      return this.sdlt();
+    }
+
+    if (this.propertyLocation === "scotland") {
+      return this.lbtt();
+    }
+
+    return this.ltt();
+  }
+
+  purchaseTaxLabel() {
+    if (this.propertyLocation === "england-ni") {
+      return "SDLT";
+    }
+
+    if (this.propertyLocation === "scotland") {
+      return "LBTT";
+    }
+
+    return "LTT";
+  }
+
+  buyerStatusNote() {
+    if (this.propertyLocation === "wales" && this.buyerStatus === "first-time") {
+      return "Wales does not currently offer first-time buyer relief, so main residential LTT rates are used.";
+    }
+
+    if (this.propertyLocation === "england-ni" && this.buyerStatus === "first-time" && this.price > 500000) {
+      return "England / Northern Ireland first-time buyer relief only applies up to £500,000, so standard SDLT rates are used here.";
+    }
+
+    return "";
+  }
+
+  sdlt() {
+    const standard = steppedTax(this.price, [
+      { upTo: 125000, rate: 0 },
+      { upTo: 250000, rate: 0.02 },
+      { upTo: 925000, rate: 0.05 },
+      { upTo: 1500000, rate: 0.1 },
+      { upTo: Infinity, rate: 0.12 },
+    ]);
+
+    if (this.buyerStatus === "first-time" && this.price <= 500000) {
+      return steppedTax(this.price, [
+        { upTo: 300000, rate: 0 },
+        { upTo: 500000, rate: 0.05 },
+        { upTo: Infinity, rate: 0.12 },
+      ]);
+    }
+
+    if (this.buyerStatus === "additional-home") {
+      return standard + this.price * 0.05;
+    }
+
+    return standard;
+  }
+
+  lbtt() {
+    const standard = steppedTax(this.price, [
+      { upTo: 145000, rate: 0 },
+      { upTo: 250000, rate: 0.02 },
+      { upTo: 325000, rate: 0.05 },
+      { upTo: 750000, rate: 0.1 },
+      { upTo: Infinity, rate: 0.12 },
+    ]);
+
+    if (this.buyerStatus === "first-time") {
+      return steppedTax(this.price, [
+        { upTo: 175000, rate: 0 },
+        { upTo: 250000, rate: 0.02 },
+        { upTo: 325000, rate: 0.05 },
+        { upTo: 750000, rate: 0.1 },
+        { upTo: Infinity, rate: 0.12 },
+      ]);
+    }
+
+    if (this.buyerStatus === "additional-home") {
+      return standard + this.price * 0.08;
+    }
+
+    return standard;
+  }
+
+  ltt() {
+    if (this.buyerStatus === "additional-home") {
+      return steppedTax(this.price, [
+        { upTo: 180000, rate: 0.05 },
+        { upTo: 250000, rate: 0.085 },
+        { upTo: 400000, rate: 0.1 },
+        { upTo: 750000, rate: 0.125 },
+        { upTo: 1500000, rate: 0.15 },
+        { upTo: Infinity, rate: 0.17 },
+      ]);
+    }
+
+    return steppedTax(this.price, [
+      { upTo: 225000, rate: 0 },
+      { upTo: 400000, rate: 0.06 },
+      { upTo: 750000, rate: 0.075 },
+      { upTo: 1500000, rate: 0.1 },
+      { upTo: Infinity, rate: 0.12 },
+    ]);
+  }
+}
+
+class WealthProjection {
+  constructor({
+    propertyPurchase,
+    mortgage,
+    horizonYears,
+    investmentReturn,
+    houseAppreciation,
+    cashSavings,
+    etfPortfolio,
+  }) {
+    this.propertyPurchase = propertyPurchase;
+    this.mortgage = mortgage;
+    this.horizonYears = horizonYears;
+    this.investmentReturn = investmentReturn / 100;
+    this.houseAppreciation = houseAppreciation / 100;
+    this.cashSavings = cashSavings;
+    this.etfPortfolio = etfPortfolio;
+  }
+
+  funding() {
+    const upfront = this.propertyPurchase.deposit + this.propertyPurchase.purchaseTax();
+    const cashUsed = Math.min(this.cashSavings, upfront);
+    const etfNeeded = Math.max(0, upfront - this.cashSavings);
+    const etfDrawdown = Math.min(this.etfPortfolio, etfNeeded);
+    const fundingGap = Math.max(0, upfront - this.cashSavings - this.etfPortfolio);
+
+    return {
+      upfront,
+      cashUsed,
+      etfDrawdown,
+      fundingGap,
+      cashRemaining: Math.max(0, this.cashSavings - cashUsed),
+      etfRemaining: Math.max(0, this.etfPortfolio - etfDrawdown),
+    };
+  }
+
+  annualSeries() {
+    const funding = this.funding();
+    const mortgageProjection = this.mortgage.projection(this.horizonYears);
+
+    return mortgageProjection.snapshots.map((snapshot) => {
+      const year = snapshot.year;
+      const homeValue = this.propertyPurchase.price * Math.pow(1 + this.houseAppreciation, year);
+      const etfValue = funding.etfRemaining * Math.pow(1 + this.investmentReturn, year);
+      const homeEquity = Math.max(0, homeValue - snapshot.balance);
+      const totalNetWorth = homeEquity + etfValue + funding.cashRemaining - funding.fundingGap;
+
+      return {
+        year,
+        homeValue,
+        homeEquity,
+        etfValue,
+        cashValue: funding.cashRemaining,
+        balance: snapshot.balance,
+        cumulativeInterest: snapshot.cumulativeInterest,
+        totalNetWorth,
+      };
+    });
+  }
+}
+
+document.getElementById("reset-button").addEventListener("click", () => {
+  applyInputs(baseline);
+  render();
+});
+
+Object.entries(inputConfig).forEach(([key, config]) => {
+  const eventName = config.type === "select" ? "change" : "input";
+  config.element.addEventListener(eventName, () => {
+    if (key === "housePrice") {
+      syncDepositMax();
+    }
+    render();
+  });
+});
+
+applyInputs(baseline);
+syncDepositMax();
+render();
+
+function render() {
+  const state = readInputs();
+  syncDisplays(state);
+  syncDepositMax();
+
+  const home = new PropertyPurchase(
+    state.housePrice,
+    state.deposit,
+    state.propertyLocation,
+    state.buyerStatus,
+  );
+  const mortgage = new Mortgage(home.loanAmount(), state.interestRate, state.mortgageTerm);
+  const me = new Earner(state.incomeOne, state.taxResidence);
+  const partner = new Earner(state.incomeTwo, state.taxResidence);
+  const takeHomeYearly = me.takeHome() + partner.takeHome();
+  const takeHomeMonthly = takeHomeYearly / 12;
+  const projection = new WealthProjection({
+    propertyPurchase: home,
+    mortgage,
+    horizonYears: state.projectionPeriod,
+    investmentReturn: state.investmentReturn,
+    houseAppreciation: state.houseAppreciation,
+    cashSavings: state.cashSavings,
+    etfPortfolio: state.etfPortfolio,
+  });
+
+  const funding = projection.funding();
+  const mortgageProjection = mortgage.projection(state.projectionPeriod);
+  const annualSeries = projection.annualSeries();
+  const finalYear = annualSeries[annualSeries.length - 1];
+  const monthlyMortgage = mortgageProjection.monthlyPayment;
+  const mortgageShare = takeHomeMonthly === 0
+    ? (monthlyMortgage > 0 ? Number.POSITIVE_INFINITY : 0)
+    : monthlyMortgage / takeHomeMonthly;
+  const etfFutureValueLost = funding.etfDrawdown * Math.pow(1 + state.investmentReturn / 100, state.projectionPeriod);
+  const note = home.buyerStatusNote();
+
+  updateSummary({
+    monthlyMortgage,
+    home,
+    funding,
+    takeHomeMonthly,
+    takeHomeYearly,
+    mortgageShare,
+    mortgageProjection,
+    finalYear,
+    state,
+    etfFutureValueLost,
+  });
+  updateFundingCard({ funding, home, state });
+  updateIncomeCard({ me, partner });
+  updateStatusBanner({ funding, note, me, partner, state });
+  updateChart(annualSeries);
+  updateSnapshots(annualSeries);
+  updateFootnote(state, home.purchaseTaxLabel());
+}
+
+function updateSummary({
+  monthlyMortgage,
+  home,
+  funding,
+  takeHomeMonthly,
+  takeHomeYearly,
+  mortgageShare,
+  mortgageProjection,
+  finalYear,
+  state,
+  etfFutureValueLost,
+}) {
+  const purchaseTax = home.purchaseTax();
+  const spareMonthly = takeHomeMonthly - monthlyMortgage;
+  const taxLabel = home.purchaseTaxLabel();
+  const budgetAssessment = assessBudget({
+    monthlyMortgage,
+    takeHomeMonthly,
+    mortgageShare,
+    spareMonthly,
+    fundingGap: funding.fundingGap,
+  });
+  const mortgageBar = takeHomeMonthly <= 0
+    ? (monthlyMortgage > 0 ? 100 : 0)
+    : Math.min(100, mortgageShare * 100);
+  const surplusBar = Math.max(0, 100 - mortgageBar);
+
+  setText("monthly-mortgage", pounds(monthlyMortgage));
+  setText("monthly-mortgage-detail", `${pounds(home.loanAmount())} borrowed over ${years(state.mortgageTerm)}.`);
+
+  setText("combined-take-home", pounds(takeHomeMonthly));
+  setText("combined-take-home-detail", `${pounds(takeHomeYearly)} per year after income tax and NI.`);
+
+  setText("monthly-headroom", signedPounds(spareMonthly));
+  setText(
+    "monthly-headroom-detail",
+    spareMonthly >= 0
+      ? "After the mortgage, before bills and other living costs."
+      : "Shortfall before council tax, utilities, insurance, and maintenance.",
+  );
+
+  setText("budget-load", ratio(mortgageShare));
+  setText("budget-mortgage-legend", pounds(monthlyMortgage));
+  setText("budget-surplus-legend", signedPounds(spareMonthly));
+  setText("budget-scale-note", `${pounds(takeHomeMonthly)} net monthly income, with the mortgage using ${ratio(mortgageShare)} of take-home.`);
+  document.getElementById("mortgage-share-bar").style.width = `${mortgageBar}%`;
+  document.getElementById("surplus-share-bar").style.width = `${surplusBar}%`;
+
+  const budgetStatus = document.getElementById("budget-status");
+  budgetStatus.className = `status-pill ${budgetAssessment.tone}`;
+  budgetStatus.textContent = budgetAssessment.label;
+  setText("budget-status-detail", budgetAssessment.detail);
+
+  setText("purchase-tax", pounds(purchaseTax));
+  setText("purchase-tax-detail", `${taxLabel} on a ${buyerStatusLabel(state.buyerStatus)} purchase.`);
+
+  setText("etf-drawdown", pounds(funding.etfDrawdown));
+  setText("etf-opportunity-cost", pounds(etfFutureValueLost));
+  setText(
+    "etf-opportunity-cost-detail",
+    funding.etfDrawdown > 0
+      ? `${pounds(funding.cashUsed)} still comes from cash first. Sold ETF capital compounds to ${pounds(etfFutureValueLost)} over ${years(state.projectionPeriod)}.`
+      : `No ETF sale needed at this deposit and price over ${years(state.projectionPeriod)}.`,
+  );
+
+  setText("projection-balance", pounds(finalYear.balance));
+  setText("projection-balance-detail", `${pounds(mortgageProjection.interestPaid)} interest paid over the horizon.`);
+
+  setText("projection-net-worth", pounds(finalYear.totalNetWorth));
+  setText("projection-net-worth-detail", `${pounds(finalYear.homeEquity)} home equity plus ${pounds(finalYear.etfValue)} in ETFs.`);
+}
+
+function updateFundingCard({ funding, home, state }) {
+  const totalUpfront = funding.upfront;
+  const cashShare = totalUpfront === 0 ? 0 : (funding.cashUsed / totalUpfront) * 100;
+  const etfShare = totalUpfront === 0 ? 0 : (funding.etfDrawdown / totalUpfront) * 100;
+  const gapShare = totalUpfront === 0 ? 0 : (funding.fundingGap / totalUpfront) * 100;
+
+  document.getElementById("cash-stack").style.width = `${cashShare}%`;
+  document.getElementById("etf-stack").style.width = `${etfShare}%`;
+  document.getElementById("gap-stack").style.width = `${gapShare}%`;
+
+  setText("cash-stack-label", `Cash used: ${pounds(funding.cashUsed)}`);
+  setText("etf-stack-label", `ETFs sold: ${pounds(funding.etfDrawdown)}`);
+  setText("gap-stack-label", `Funding gap: ${pounds(funding.fundingGap)}`);
+
+  setText("total-upfront", pounds(totalUpfront));
+  setText("total-deposit", pounds(home.deposit));
+  setText("total-tax", pounds(funding.cashUsed));
+  setText("ltv-value", ratio(home.loanAmount() / state.housePrice));
+}
+
+function updateIncomeCard({ me, partner }) {
+  updateIncomeSlot("one", me);
+  updateIncomeSlot("two", partner);
+}
+
+function updateIncomeSlot(suffix, earner) {
+  const gross = earner.grossIncome;
+  const taxAndNi = earner.incomeTax() + earner.nationalInsurance();
+  const takeHome = earner.takeHome();
+  const marginalTakeHome = earner.marginalTakeHomePerPound();
+
+  setText(`income-${suffix}-gross`, pounds(gross));
+  setText(`income-${suffix}-tax`, pounds(taxAndNi));
+  setText(`income-${suffix}-net`, pounds(takeHome));
+  setText(`income-${suffix}-marginal`, `${pence(marginalTakeHome)} kept from each extra £1`);
+}
+
+function updateStatusBanner({ funding, note, me, partner, state }) {
+  const banner = document.getElementById("status-banner");
+  const messages = [];
+  let bannerType = "info";
+
+  if (funding.fundingGap > 0) {
+    bannerType = "warning";
+    messages.push(`This setup is short by ${pounds(funding.fundingGap)} versus the available cash plus ETF pot.`);
+  }
+
+  if (me.grossIncome > 100000 || partner.grossIncome > 100000) {
+    const activeEarners = [me, partner].filter((earner) => earner.grossIncome > 100000 && earner.grossIncome < 125140);
+    if (activeEarners.length > 0) {
+      messages.push(`A personal allowance taper is active. Between £100,000 and £125,140, take-home on extra salary is materially reduced under current ${taxResidenceLabel(state.taxResidence)} tax rules.`);
+    }
+  }
+
+  if (note) {
+    messages.push(note);
+  }
+
+  if (messages.length === 0) {
+    banner.className = "status-banner";
+    banner.textContent = "";
+    return;
+  }
+
+  banner.className = `status-banner visible ${bannerType}`;
+  banner.textContent = messages.join(" ");
+}
+
+function updateFootnote(state, purchaseTaxLabel) {
+  const propertyLocation = propertyLocationLabel(state.propertyLocation);
+  const residence = taxResidenceLabel(state.taxResidence);
+  setText(
+    "tax-footnote",
+    `${purchaseTaxLabel} is calculated for ${propertyLocation} residential rates in force on 4 April 2026. Income tax and employee NI use ${residence} 2025/26 rules, which run from 6 April 2025 to 5 April 2026.`,
+  );
+}
+
+function updateChart(series) {
+  const chart = document.getElementById("projection-chart");
+  const width = 760;
+  const height = 320;
+  const left = 48;
+  const right = 18;
+  const top = 16;
+  const bottom = 38;
+  const innerWidth = width - left - right;
+  const innerHeight = height - top - bottom;
+  const maxValue = Math.max(
+    1,
+    ...series.map((point) => Math.max(point.totalNetWorth, point.homeEquity, point.etfValue)),
+  );
+
+  const xAt = (index) => left + (series.length === 1 ? innerWidth / 2 : (index / (series.length - 1)) * innerWidth);
+  const yAt = (value) => top + innerHeight - (value / maxValue) * innerHeight;
+
+  const gridLines = [0, 0.25, 0.5, 0.75, 1]
+    .map((ratioValue) => {
+      const y = top + innerHeight - ratioValue * innerHeight;
+      const label = poundsCompact(maxValue * ratioValue);
+      return `
+        <line class="chart-grid-line" x1="${left}" y1="${y}" x2="${width - right}" y2="${y}"></line>
+        <text class="chart-axis-label" x="8" y="${y + 4}">${label}</text>
+      `;
+    })
+    .join("");
+
+  const totalPath = pathForSeries(series, (point) => point.totalNetWorth, xAt, yAt);
+  const equityPath = pathForSeries(series, (point) => point.homeEquity, xAt, yAt);
+  const etfPath = pathForSeries(series, (point) => point.etfValue, xAt, yAt);
+  const xLabels = [0, Math.floor((series.length - 1) / 2), series.length - 1]
+    .filter((value, index, array) => array.indexOf(value) === index)
+    .map((index) => {
+      const year = series[index].year;
+      return `<text class="chart-axis-label" x="${xAt(index)}" y="${height - 10}" text-anchor="middle">Year ${year}</text>`;
+    })
+    .join("");
+
+  chart.innerHTML = `
+    ${gridLines}
+    <path class="chart-path" d="${totalPath}" stroke="var(--total-line)"></path>
+    <path class="chart-path" d="${equityPath}" stroke="var(--equity-line)"></path>
+    <path class="chart-path" d="${etfPath}" stroke="var(--etf-line)"></path>
+    ${renderPoints(series, "var(--total-line)", (point) => point.totalNetWorth, xAt, yAt)}
+    ${renderPoints(series, "var(--equity-line)", (point) => point.homeEquity, xAt, yAt)}
+    ${renderPoints(series, "var(--etf-line)", (point) => point.etfValue, xAt, yAt)}
+    ${xLabels}
+  `;
+}
+
+function updateSnapshots(series) {
+  const desiredYears = [0, Math.min(5, series[series.length - 1].year), Math.min(10, series[series.length - 1].year), series[series.length - 1].year];
+  const uniqueYears = desiredYears.filter((year, index, years) => years.indexOf(year) === index);
+  const snapshots = uniqueYears
+    .map((year) => series.find((point) => point.year === year))
+    .filter(Boolean);
+
+  document.getElementById("projection-snapshots").innerHTML = snapshots
+    .map((snapshot) => `
+      <article class="snapshot-card">
+        <span>Year ${snapshot.year}</span>
+        <strong>${pounds(snapshot.totalNetWorth)}</strong>
+        <small>${pounds(snapshot.homeEquity)} equity, ${pounds(snapshot.etfValue)} ETFs</small>
+      </article>
+    `)
+    .join("");
+}
+
+function pathForSeries(series, accessor, xAt, yAt) {
+  return series
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${xAt(index)} ${yAt(accessor(point))}`)
+    .join(" ");
+}
+
+function renderPoints(series, stroke, accessor, xAt, yAt) {
+  return series
+    .map((point, index) => `
+      <circle class="chart-point" cx="${xAt(index)}" cy="${yAt(accessor(point))}" r="4" stroke="${stroke}"></circle>
+    `)
+    .join("");
+}
+
+function readInputs() {
+  const state = {};
+  Object.entries(inputConfig).forEach(([key, config]) => {
+    state[key] = config.type === "number" ? Number(config.element.value) : config.element.value;
+  });
+  return state;
+}
+
+function applyInputs(values) {
+  Object.entries(inputConfig).forEach(([key, config]) => {
+    const value = values[key];
+    config.element.value = String(value);
+  });
+  syncDisplays(values);
+}
+
+function syncDisplays(state) {
+  Object.entries(inputConfig).forEach(([key, config]) => {
+    if (!config.display) {
+      return;
+    }
+    config.display.textContent = config.format(state[key]);
+  });
+}
+
+function syncDepositMax() {
+  const housePrice = Number(inputConfig.housePrice.element.value);
+  const depositInput = inputConfig.deposit.element;
+  depositInput.max = String(housePrice);
+  if (Number(depositInput.value) > housePrice) {
+    depositInput.value = String(housePrice);
+  }
+}
+
+function applyBandWidths(amount, bands) {
+  let remaining = amount;
+  let total = 0;
+
+  bands.forEach((band) => {
+    if (remaining <= 0) {
+      return;
+    }
+    const slice = Math.min(remaining, band.width);
+    total += slice * band.rate;
+    remaining -= slice;
+  });
+
+  return total;
+}
+
+function steppedTax(amount, bands) {
+  let total = 0;
+  let lower = 0;
+
+  bands.forEach((band) => {
+    const upper = Math.min(amount, band.upTo);
+    if (upper > lower) {
+      total += (upper - lower) * band.rate;
+      lower = upper;
+    }
+  });
+
+  return total;
+}
+
+function pounds(value) {
+  return new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function poundsCompact(value) {
+  return new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(value);
+}
+
+function percent(value) {
+  return `${Number(value).toFixed(2).replace(/\.00$/, "")}% p.a.`;
+}
+
+function years(value) {
+  return `${value} years`;
+}
+
+function ratio(value) {
+  if (!Number.isFinite(value)) {
+    return "n/a";
+  }
+  return `${(value * 100).toFixed(1)}%`;
+}
+
+function pence(value) {
+  return `${Math.round(value * 100)}p`;
+}
+
+function buyerStatusLabel(value) {
+  if (value === "first-time") {
+    return "first-time buyer";
+  }
+  if (value === "additional-home") {
+    return "additional home";
+  }
+  return "main home";
+}
+
+function propertyLocationLabel(value) {
+  if (value === "england-ni") {
+    return "England or Northern Ireland";
+  }
+  if (value === "scotland") {
+    return "Scotland";
+  }
+  return "Wales";
+}
+
+function taxResidenceLabel(value) {
+  return value === "scotland" ? "Scottish" : "England / Wales / Northern Ireland";
+}
+
+function setText(id, value) {
+  document.getElementById(id).textContent = value;
+}
+
+function signedPounds(value) {
+  return value < 0 ? `-${pounds(Math.abs(value))}` : pounds(value);
+}
+
+function assessBudget({ monthlyMortgage, takeHomeMonthly, mortgageShare, spareMonthly, fundingGap }) {
+  if (fundingGap > 0) {
+    return {
+      label: "Underfunded",
+      tone: "risk",
+      detail: `Upfront funding is short by ${pounds(fundingGap)} before considering monthly affordability.`,
+    };
+  }
+
+  if (monthlyMortgage === 0) {
+    return {
+      label: "Cash buy",
+      tone: "good",
+      detail: "No monthly mortgage payment in this scenario.",
+    };
+  }
+
+  if (takeHomeMonthly <= 0) {
+    return {
+      label: "No income",
+      tone: "risk",
+      detail: "There is no after-tax monthly income to support the mortgage payment.",
+    };
+  }
+
+  if (mortgageShare <= 0.25) {
+    return {
+      label: "Comfortable",
+      tone: "good",
+      detail: `${signedPounds(spareMonthly)} left each month after the mortgage, before running costs.`,
+    };
+  }
+
+  if (mortgageShare <= 0.35) {
+    return {
+      label: "Balanced",
+      tone: "ok",
+      detail: `Mortgage cost is material but still leaves ${signedPounds(spareMonthly)} before running costs.`,
+    };
+  }
+
+  if (mortgageShare <= 0.45) {
+    return {
+      label: "Tight",
+      tone: "watch",
+      detail: `Monthly housing cost is starting to dominate take-home pay at ${ratio(mortgageShare)}.`,
+    };
+  }
+
+  return {
+    label: "Stretched",
+    tone: "risk",
+    detail: `Mortgage alone consumes ${ratio(mortgageShare)} of take-home before any other housing costs.`,
+  };
+}
+    </script>
+  </body>
+</html>
