@@ -1007,6 +1007,26 @@ input[type="range"]::-moz-range-thumb {
             </label>
           </section>
 
+          <section class="control-group">
+            <h3>Cost assumptions</h3>
+
+            <label class="field range-field" for="living-costs">
+              <div class="field-header">
+                <span>Monthly living costs</span>
+                <strong id="living-costs-value"></strong>
+              </div>
+              <input id="living-costs" type="range" min="0" max="10000" step="100" />
+            </label>
+
+            <label class="field range-field" for="maintenance-rate">
+              <div class="field-header">
+                <span>Home maintenance</span>
+                <strong id="maintenance-rate-value"></strong>
+              </div>
+              <input id="maintenance-rate" type="range" min="0" max="5" step="0.5" />
+            </label>
+          </section>
+
           <div class="controls-actions">
             <button id="reset-button" type="button" class="ghost-button">Reset baseline</button>
           </div>
@@ -1132,12 +1152,13 @@ input[type="range"]::-moz-range-thumb {
             <div class="budget-meter">
               <div class="budget-track">
                 <div id="mortgage-share-bar" class="budget-segment mortgage-segment"></div>
+                <div id="other-costs-share-bar" class="budget-segment other-costs-segment"></div>
                 <div id="surplus-share-bar" class="budget-segment surplus-segment"></div>
               </div>
               <div class="budget-scale">
                 <div><span>Mortgage</span><strong id="budget-mortgage-legend"></strong></div>
-                <div><span>Surplus</span><strong id="budget-surplus-legend"></strong></div>
-                <div><span>Load</span><strong id="budget-load"></strong></div>
+                <div><span>Other costs</span><strong id="budget-other-costs-legend"></strong></div>
+                <div><span>Headroom</span><strong id="budget-load"></strong></div>
               </div>
               <p id="budget-scale-note" class="budget-note"></p>
             </div>
@@ -1210,6 +1231,8 @@ const baseline = {
   cashSavings: 150000,
   etfPortfolio: 500000,
   investmentReturn: 7.0,
+  livingCosts: 4000,
+  maintenanceRate: 1.0,
 };
 
 const inputConfig = {
@@ -1227,7 +1250,12 @@ const inputConfig = {
   cashSavings: { element: document.getElementById("cash-savings"), type: "number", display: document.getElementById("cash-savings-value"), format: pounds },
   etfPortfolio: { element: document.getElementById("etf-portfolio"), type: "number", display: document.getElementById("etf-portfolio-value"), format: pounds },
   investmentReturn: { element: document.getElementById("investment-return"), type: "number", display: document.getElementById("investment-return-value"), format: percent },
+  livingCosts: { element: document.getElementById("living-costs"), type: "number", display: document.getElementById("living-costs-value"), format: pounds },
+  maintenanceRate: { element: document.getElementById("maintenance-rate"), type: "number", display: document.getElementById("maintenance-rate-value"), format: percent },
 };
+
+const STORAGE_KEY = "mortgage-budget-tool:inputs:v1";
+const canPersistInputs = storageAvailable();
 
 class Earner {
   constructor(grossIncome, taxResidence) {
@@ -1532,7 +1560,9 @@ class WealthProjection {
 }
 
 document.getElementById("reset-button").addEventListener("click", () => {
+  clearPersistedInputs();
   applyInputs(baseline);
+  syncDepositMax();
   render();
 });
 
@@ -1546,14 +1576,15 @@ Object.entries(inputConfig).forEach(([key, config]) => {
   });
 });
 
-applyInputs(baseline);
+applyInputs(readPersistedInputs());
 syncDepositMax();
 render();
 
 function render() {
+  syncDepositMax();
   const state = readInputs();
   syncDisplays(state);
-  syncDepositMax();
+  persistInputs(state);
 
   const home = new PropertyPurchase(
     state.housePrice,
@@ -1581,9 +1612,8 @@ function render() {
   const annualSeries = projection.annualSeries();
   const finalYear = annualSeries[annualSeries.length - 1];
   const monthlyMortgage = mortgageProjection.monthlyPayment;
-  const mortgageShare = takeHomeMonthly === 0
-    ? (monthlyMortgage > 0 ? Number.POSITIVE_INFINITY : 0)
-    : monthlyMortgage / takeHomeMonthly;
+  const monthlyMaintenance = (state.housePrice * (state.maintenanceRate / 100)) / 12;
+  const monthlyOtherCosts = state.livingCosts + monthlyMaintenance;
   const etfFutureValueLost = funding.etfDrawdown * Math.pow(1 + state.investmentReturn / 100, state.projectionPeriod);
   const note = home.buyerStatusNote();
 
@@ -1593,7 +1623,8 @@ function render() {
     funding,
     takeHomeMonthly,
     takeHomeYearly,
-    mortgageShare,
+    monthlyOtherCosts,
+    monthlyMaintenance,
     mortgageProjection,
     finalYear,
     state,
@@ -1613,26 +1644,40 @@ function updateSummary({
   funding,
   takeHomeMonthly,
   takeHomeYearly,
-  mortgageShare,
+  monthlyOtherCosts,
+  monthlyMaintenance,
   mortgageProjection,
   finalYear,
   state,
   etfFutureValueLost,
 }) {
   const purchaseTax = home.purchaseTax();
-  const spareMonthly = takeHomeMonthly - monthlyMortgage;
+  const spareMonthly = takeHomeMonthly - monthlyMortgage - monthlyOtherCosts;
   const taxLabel = home.purchaseTaxLabel();
   const budgetAssessment = assessBudget({
     monthlyMortgage,
     takeHomeMonthly,
-    mortgageShare,
     spareMonthly,
     fundingGap: funding.fundingGap,
   });
-  const mortgageBar = takeHomeMonthly <= 0
-    ? (monthlyMortgage > 0 ? 100 : 0)
-    : Math.min(100, mortgageShare * 100);
-  const surplusBar = Math.max(0, 100 - mortgageBar);
+  let mortgageBar = 0;
+  let otherCostsBar = 0;
+  let surplusBar = 0;
+
+  if (takeHomeMonthly <= 0) {
+    mortgageBar = monthlyMortgage > 0 ? 100 : 0;
+  } else {
+    const totalCommitted = monthlyMortgage + monthlyOtherCosts;
+    if (totalCommitted >= takeHomeMonthly) {
+      const scale = 100 / Math.max(totalCommitted, 1);
+      mortgageBar = monthlyMortgage * scale;
+      otherCostsBar = monthlyOtherCosts * scale;
+    } else {
+      mortgageBar = (monthlyMortgage / takeHomeMonthly) * 100;
+      otherCostsBar = (monthlyOtherCosts / takeHomeMonthly) * 100;
+      surplusBar = ((takeHomeMonthly - totalCommitted) / takeHomeMonthly) * 100;
+    }
+  }
 
   setText("monthly-mortgage", pounds(monthlyMortgage));
   setText("monthly-mortgage-detail", `${pounds(home.loanAmount())} borrowed over ${years(state.mortgageTerm)}.`);
@@ -1644,15 +1689,16 @@ function updateSummary({
   setText(
     "monthly-headroom-detail",
     spareMonthly >= 0
-      ? "After the mortgage, before bills and other living costs."
-      : "Shortfall before council tax, utilities, insurance, and maintenance.",
+      ? "After mortgage, living costs, and home maintenance."
+      : "Shortfall after mortgage, living costs, and home maintenance.",
   );
 
-  setText("budget-load", ratio(mortgageShare));
+  setText("budget-load", signedPounds(spareMonthly));
   setText("budget-mortgage-legend", pounds(monthlyMortgage));
-  setText("budget-surplus-legend", signedPounds(spareMonthly));
-  setText("budget-scale-note", `${pounds(takeHomeMonthly)} net monthly income, with the mortgage using ${ratio(mortgageShare)} of take-home.`);
+  setText("budget-other-costs-legend", pounds(monthlyOtherCosts));
+  setText("budget-scale-note", `${pounds(takeHomeMonthly)} net monthly income less ${pounds(monthlyMortgage)} mortgage, ${pounds(state.livingCosts)} living costs, and ${pounds(monthlyMaintenance)} maintenance leaves ${signedPounds(spareMonthly)}.`);
   document.getElementById("mortgage-share-bar").style.width = `${mortgageBar}%`;
+  document.getElementById("other-costs-share-bar").style.width = `${otherCostsBar}%`;
   document.getElementById("surplus-share-bar").style.width = `${surplusBar}%`;
 
   const budgetStatus = document.getElementById("budget-status");
@@ -1856,6 +1902,86 @@ function applyInputs(values) {
   syncDisplays(values);
 }
 
+function storageAvailable() {
+  try {
+    const testKey = "__mortgage_budget_tool__";
+    window.localStorage.setItem(testKey, testKey);
+    window.localStorage.removeItem(testKey);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function readPersistedInputs() {
+  if (!canPersistInputs) {
+    return { ...baseline };
+  }
+
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return { ...baseline };
+    }
+    return normalizeInputs(JSON.parse(raw));
+  } catch {
+    return { ...baseline };
+  }
+}
+
+function persistInputs(values) {
+  if (!canPersistInputs) {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(values));
+  } catch {
+    // Ignore storage write failures and keep the calculator usable.
+  }
+}
+
+function clearPersistedInputs() {
+  if (!canPersistInputs) {
+    return;
+  }
+
+  try {
+    window.localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Ignore storage removal failures and keep the calculator usable.
+  }
+}
+
+function normalizeInputs(values) {
+  const normalized = { ...baseline };
+  if (!values || typeof values !== "object") {
+    return normalized;
+  }
+
+  Object.entries(inputConfig).forEach(([key, config]) => {
+    if (!(key in values)) {
+      return;
+    }
+
+    if (config.type === "number") {
+      const numericValue = Number(values[key]);
+      if (Number.isFinite(numericValue)) {
+        normalized[key] = numericValue;
+      }
+      return;
+    }
+
+    const selectedValue = String(values[key]);
+    const optionExists = Array.from(config.element.options).some((option) => option.value === selectedValue);
+    if (optionExists) {
+      normalized[key] = selectedValue;
+    }
+  });
+
+  return normalized;
+}
+
 function syncDisplays(state) {
   Object.entries(inputConfig).forEach(([key, config]) => {
     if (!config.display) {
@@ -1973,7 +2099,12 @@ function signedPounds(value) {
   return value < 0 ? `-${pounds(Math.abs(value))}` : pounds(value);
 }
 
-function assessBudget({ monthlyMortgage, takeHomeMonthly, mortgageShare, spareMonthly, fundingGap }) {
+function assessBudget({
+  monthlyMortgage,
+  takeHomeMonthly,
+  spareMonthly,
+  fundingGap,
+}) {
   if (fundingGap > 0) {
     return {
       label: "Underfunded",
@@ -1998,34 +2129,34 @@ function assessBudget({ monthlyMortgage, takeHomeMonthly, mortgageShare, spareMo
     };
   }
 
-  if (mortgageShare <= 0.25) {
+  if (spareMonthly >= 3000) {
     return {
       label: "Comfortable",
       tone: "good",
-      detail: `${signedPounds(spareMonthly)} left each month after the mortgage, before running costs.`,
+      detail: `${signedPounds(spareMonthly)} left each month after mortgage, living costs, and maintenance.`,
     };
   }
 
-  if (mortgageShare <= 0.35) {
+  if (spareMonthly >= 1500) {
     return {
       label: "Balanced",
       tone: "ok",
-      detail: `Mortgage cost is material but still leaves ${signedPounds(spareMonthly)} before running costs.`,
+      detail: `${signedPounds(spareMonthly)} left each month after mortgage, living costs, and maintenance.`,
     };
   }
 
-  if (mortgageShare <= 0.45) {
+  if (spareMonthly >= 0) {
     return {
       label: "Tight",
       tone: "watch",
-      detail: `Monthly housing cost is starting to dominate take-home pay at ${ratio(mortgageShare)}.`,
+      detail: `${signedPounds(spareMonthly)} left each month after mortgage, living costs, and maintenance.`,
     };
   }
 
   return {
     label: "Stretched",
     tone: "risk",
-    detail: `Mortgage alone consumes ${ratio(mortgageShare)} of take-home before any other housing costs.`,
+    detail: `${signedPounds(spareMonthly)} left after mortgage, living costs, and maintenance.`,
   };
 }
     </script>
