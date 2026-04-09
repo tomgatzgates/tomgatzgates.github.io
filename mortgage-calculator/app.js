@@ -373,6 +373,7 @@ function render() {
   const state = readInputs();
   syncDisplays(state);
   persistInputs(state);
+  syncQueryParams(state);
 
   // Update slider fill positions
   document.querySelectorAll('input[type="range"]').forEach(el => {
@@ -1137,6 +1138,20 @@ function renderPoints(series, stroke, accessor, xAt, yAt) {
     .join("");
 }
 
+function readQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  if (!params.toString()) return null;
+  const values = {};
+  params.forEach((value, key) => { values[key] = value; });
+  return values;
+}
+
+function syncQueryParams(state) {
+  const params = new URLSearchParams();
+  Object.entries(state).forEach(([key, value]) => params.set(key, value));
+  history.replaceState(null, '', '?' + params.toString());
+}
+
 function readInputs() {
   const state = {};
   Object.entries(inputConfig).forEach(([key, config]) => {
@@ -1165,6 +1180,11 @@ function storageAvailable() {
 }
 
 function readPersistedInputs() {
+  const fromQuery = readQueryParams();
+  if (fromQuery) {
+    return normalizeInputs(fromQuery);
+  }
+
   if (!canPersistInputs) {
     return { ...baseline };
   }
