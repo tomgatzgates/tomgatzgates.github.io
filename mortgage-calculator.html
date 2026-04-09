@@ -4,33 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mortgage Budget Mapper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
 :root {
-  --bg: #eff3f6;
-  --surface: #ffffff;
-  --surface-subtle: #f8fafc;
-  --surface-tint: #f3f7fa;
-  --border: #dbe3ea;
-  --border-strong: #c7d2dc;
-  --text: #1f2933;
-  --muted: #66788a;
-  --accent: #215a69;
-  --accent-soft: rgba(33, 90, 105, 0.08);
-  --success: #5f8f5b;
-  --success-soft: rgba(95, 143, 91, 0.14);
-  --warning: #c5a24f;
-  --warning-soft: rgba(197, 162, 79, 0.16);
-  --danger: #b45c55;
-  --danger-soft: rgba(180, 92, 85, 0.14);
+  /* Type scale — 3 tiers */
+  --fs-h:     0.875rem;  /* headings: card titles, panel titles */
+  --fs-body:  0.82rem;   /* body: descriptions, table cells, field text */
+  --fs-label: 0.68rem;   /* labels: eyebrows, badges, table col headers */
+
+  --bg:              #F1F2F4;
+  --surface:         #FFFFFF;
+  --surface-subdued: #F6F7F8;
+  --border:          #E1E3E5;
+  --border-strong:   #C4C7CB;
+  --text:            #1A1B1E;
+  --text-secondary:  #5C5F66;
+  --text-disabled:   #9BA0A7;
+  --accent:          #2A6B7C;
+  --accent-light:    #EBF4F6;
+  --accent-soft:     rgba(42, 107, 124, 0.1);
+  --success:         #1A7F4B;
+  --success-soft:    #EBF5EC;
+  --success-light:   rgba(26, 127, 75, 0.12);
+  --warning:         #8A5A00;
+  --warning-soft:    #FFF4D6;
+  --warning-light:   rgba(138, 90, 0, 0.1);
+  --danger:          #C42F1F;
+  --danger-soft:     #FDEEED;
+  --danger-light:    rgba(196, 47, 31, 0.1);
+  --stretch:         #3B5BA5;
+  --stretch-soft:    #EEF2FB;
+  --stretch-light:   rgba(59, 91, 165, 0.1);
+  /* legacy aliases */
+  --surface-subtle:  #F6F7F8;
+  --muted:           #5C5F66;
+  /* chart colours */
   --cash: #d0a14d;
   --etf: #37705f;
-  --gap: #b45c55;
-  --mortgage: #5470a6;
+  --gap: #C42F1F;
+  --mortgage: #3B5BA5;
   --surplus: #6f9a63;
   --total-line: #243444;
   --equity-line: #c27a37;
   --etf-line: #2a7a59;
-  --shadow: 0 8px 24px rgba(31, 41, 51, 0.07);
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
   --radius-xl: 18px;
   --radius-lg: 14px;
   --radius-md: 10px;
@@ -45,18 +62,17 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(33, 90, 105, 0.06), transparent 24%),
-    linear-gradient(180deg, #f7fafc 0%, var(--bg) 100%);
+  background: var(--bg);
   color: var(--text);
-  font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, sans-serif;
+  font-size: var(--fs-body);
 }
 
 h1,
 h2,
 h3 {
   margin: 0;
-  font-family: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
@@ -73,12 +89,38 @@ a {
 .page-shell {
   width: min(1480px, calc(100% - 20px));
   margin: 8px auto 16px;
+  height: calc(100vh - 16px);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
 }
 
-.hero,
-.panel-heading,
+/* App bar */
+.app-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.app-bar-brand { display: flex; align-items: baseline; gap: 10px; }
+.app-bar-name { font-size: var(--fs-h); font-weight: 700; letter-spacing: 0.01em; color: var(--text); }
+.app-bar-sub { font-size: var(--fs-body); color: var(--text-secondary); }
+.app-bar-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.app-badge {
+  padding: 4px 10px;
+  background: var(--surface-subdued);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
 .control-group,
-.summary-strip,
 .detail-card,
 .status-banner,
 .footnotes {
@@ -88,94 +130,91 @@ a {
   box-shadow: var(--shadow);
 }
 
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: center;
-  padding: 10px 14px;
-}
-
-.hero-copy {
-  display: grid;
-  gap: 2px;
-}
-
-.eyebrow {
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.hero h1 {
-  max-width: 34ch;
-  font-size: clamp(1.12rem, 1.5vw, 1.38rem);
-  line-height: 1.06;
-}
-
-.hero-text {
-  max-width: 74ch;
-  font-size: 0.8rem;
-  color: var(--muted);
-}
-
-.hero-badges {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 6px;
-}
-
-.hero-badge {
-  min-width: 126px;
-  padding: 7px 9px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--surface-subtle);
-}
-
-.badge-label {
-  display: block;
-  margin-bottom: 2px;
-  font-size: 0.56rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.hero-badge strong {
-  display: block;
-  font-size: 0.76rem;
-  font-weight: 600;
-}
-
 .layout {
   display: grid;
-  grid-template-columns: minmax(280px, 312px) minmax(0, 1.6fr) minmax(290px, 340px);
+  grid-template-columns: minmax(292px, 320px) minmax(0, 1fr);
   gap: 12px;
   margin-top: 10px;
-  align-items: start;
+  align-items: stretch;
+  min-height: 0;
 }
 
 .controls-panel,
+.outputs-column,
 .analysis-column,
 .facts-column {
   display: grid;
   gap: 10px;
+  min-height: 0;
 }
 
 .controls-panel {
-  position: sticky;
-  top: 10px;
+  height: 100%;
+  overflow-y: auto;
   align-content: start;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
 }
 
-.analysis-column,
-.facts-column {
+.outputs-column {
+  height: 100%;
+  overflow-y: auto;
   align-content: start;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+/* Mobile inputs drawer */
+.inputs-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 400;
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+.inputs-overlay.visible {
+  display: block;
+}
+.inputs-overlay.open {
+  opacity: 1;
+}
+
+.inputs-open-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.inputs-close-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--surface-subdued);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .controls-actions {
@@ -199,7 +238,10 @@ a {
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
-  background: var(--surface-subtle);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding-bottom: 4px;
 }
 
 .facts-heading {
@@ -212,11 +254,11 @@ a {
 }
 
 .panel-heading h2 {
-  font-size: 0.92rem;
+  font-size: var(--fs-h);
 }
 
 .panel-subtitle {
-  font-size: 0.74rem;
+  font-size: var(--fs-body);
   color: var(--muted);
 }
 
@@ -227,7 +269,7 @@ a {
   color: var(--accent);
   padding: 7px 11px;
   font: inherit;
-  font-size: 0.8rem;
+  font-size: var(--fs-body);
   cursor: pointer;
   white-space: nowrap;
 }
@@ -244,7 +286,7 @@ a {
 .control-group h3 {
   padding-bottom: 7px;
   border-bottom: 1px solid var(--border);
-  font-size: 0.68rem;
+  font-size: var(--fs-label);
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -256,9 +298,15 @@ a {
   gap: 5px;
 }
 
+.field-note {
+  font-size: var(--fs-label);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 .field > span,
 .field-header span {
-  font-size: 0.79rem;
+  font-size: var(--fs-body);
   color: var(--muted);
 }
 
@@ -270,8 +318,8 @@ a {
 }
 
 .field strong {
-  font-family: "SFMono-Regular", "Menlo", monospace;
-  font-size: 0.8rem;
+  font-family: "DM Mono", monospace;
+  font-size: var(--fs-body);
   font-variant-numeric: tabular-nums;
   color: var(--text);
 }
@@ -283,45 +331,76 @@ input[type="range"] {
 
 select {
   border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface-subtle);
+  border-radius: 8px;
+  background-color: var(--surface);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5l3.5 3.5 3.5-3.5' stroke='%235C5F66' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  appearance: none;
+  -webkit-appearance: none;
   color: var(--text);
-  padding: 8px 10px;
+  padding: 8px 32px 8px 10px;
   font: inherit;
-  font-size: 0.86rem;
+  font-size: var(--fs-body);
+  cursor: pointer;
+}
+select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
 }
 
 input[type="range"] {
   appearance: none;
-  height: 5px;
+  -webkit-appearance: none;
+  height: 4px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(84, 112, 166, 0.22), rgba(33, 90, 105, 0.18));
+  background: linear-gradient(
+    to right,
+    var(--accent) var(--fill, 0%),
+    var(--border-strong) var(--fill, 0%)
+  );
   outline: none;
+  cursor: pointer;
 }
 
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
-  width: 14px;
-  height: 14px;
-  border: 2px solid #fff;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 2px 8px rgba(33, 90, 105, 0.18);
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  cursor: pointer;
+  transition: border-width 100ms ease, box-shadow 100ms ease;
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 14px;
-  height: 14px;
-  border: 2px solid #fff;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 2px 8px rgba(33, 90, 105, 0.18);
+  background: var(--surface);
+  border: 2px solid var(--accent);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  cursor: pointer;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+  border-width: 2.5px;
+  box-shadow: 0 2px 8px rgba(42,107,124,0.3), 0 0 0 4px var(--accent-light);
+}
+
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .status-banner {
   display: none;
   padding: 10px 14px;
-  font-size: 0.84rem;
+  font-size: var(--fs-body);
   line-height: 1.45;
 }
 
@@ -341,37 +420,255 @@ input[type="range"]::-moz-range-thumb {
   color: var(--accent);
 }
 
-.summary-strip {
+/* Verdict banner */
+.verdict-banner {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  overflow: hidden;
-  padding: 0;
+  grid-template-columns: auto 1fr auto;
+  gap: 0;
+  transition: border-color 300ms ease;
 }
+.verdict-banner[data-tone="good"]  { border-left: 3px solid var(--success); }
+.verdict-banner[data-tone="ok"]    { border-left: 3px solid var(--stretch); }
+.verdict-banner[data-tone="watch"] { border-left: 3px solid var(--warning); }
+.verdict-banner[data-tone="risk"]  { border-left: 3px solid var(--danger); }
 
-.summary-card {
+.vb-verdict {
+  padding: 14px 18px;
   display: grid;
-  grid-template-rows: minmax(2.1rem, auto) auto minmax(2.2rem, auto);
   gap: 6px;
-  padding: 10px 12px;
-  align-content: start;
+  align-content: center;
+  min-width: 200px;
+}
+.vb-pill-row { display: flex; }
+.vb-headline {
+  font-size: var(--fs-h);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
 }
 
-.summary-card + .summary-card {
+.vb-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+.vb-stat {
+  padding: 14px 14px 12px;
+  display: grid;
+  gap: 2px;
+  border-right: 1px solid var(--border);
+}
+.vb-stat:last-child { border-right: 0; }
+.vb-stat-label {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.vb-stat-value {
+  font-family: "DM Mono", monospace;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--text);
+}
+.vb-stat-sub {
+  font-size: var(--fs-label);
+  color: var(--text-secondary);
 }
 
-.priority-card {
-  background: linear-gradient(180deg, rgba(33, 90, 105, 0.04), #ffffff 70%);
+/* Tooltip trigger cursor */
+[data-tooltip] { cursor: help; }
+
+/* '?' indicator dot — appears after the label text */
+.vb-stat-label[data-tooltip]::after {
+  content: '?';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  margin-left: 5px;
+  background: var(--border-strong);
+  color: var(--text-secondary);
+  font-size: 0.55rem;
+  font-weight: 700;
+  border-radius: 50%;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
 }
 
-.wealth-card {
-  background: linear-gradient(180deg, rgba(95, 143, 91, 0.07), #ffffff 72%);
+/* JS-driven tooltip panel — appended to body, position: fixed */
+.js-tooltip {
+  position: fixed;
+  z-index: 9999;
+  display: none;
+  max-width: 240px;
+  padding: 8px 11px;
+  background: #1A1B1E;
+  color: #fff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 140ms ease;
+  white-space: normal;
 }
 
+.vb-detail {
+  padding: 14px 16px;
+  display: grid;
+  align-content: center;
+  max-width: 260px;
+}
+.vb-detail-text {
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Tab bar */
+.tab-bar {
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  background: var(--surface-subdued);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.tab-btn {
+  flex: 1;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font: inherit;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, box-shadow 120ms ease;
+  white-space: nowrap;
+}
+.tab-btn[aria-selected="true"] {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.tab-btn:hover:not([aria-selected="true"]) {
+  background: rgba(255,255,255,0.7);
+  color: var(--text);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: grid; gap: 10px; }
+
+/* Advanced drawer */
+.advanced-section { display: grid; gap: 0; }
+.advanced-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 9px 14px;
+  background: var(--surface-subdued);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.advanced-toggle:hover { background: var(--border); }
+.advanced-chevron {
+  width: 14px; height: 14px;
+  transition: transform 250ms ease;
+  flex-shrink: 0;
+}
+.advanced-toggle[aria-expanded="true"] .advanced-chevron { transform: rotate(180deg); }
+.advanced-drawer {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 350ms cubic-bezier(0.25,1,0.5,1);
+  display: grid;
+  gap: 10px;
+}
+.advanced-drawer.open {
+  max-height: 600px;
+}
+
+/* Mobile verdict bar */
+.mobile-verdict-bar {
+  display: none;
+}
+@media (max-width: 640px) {
+  .mobile-verdict-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+    z-index: 100;
+  }
+  .mvb-slack {
+    font-family: "DM Mono", monospace;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .mvb-label {
+    font-size: var(--fs-label);
+    color: var(--text-secondary);
+  }
+  body { padding-bottom: 68px; }
+}
+
+/* Value update pulse */
+@keyframes pulse-update {
+  0%   { background-color: var(--accent-light); border-radius: 3px; }
+  100% { background-color: transparent; }
+}
+.value-updated {
+  animation: pulse-update 500ms ease forwards;
+}
+
+/* Value flash on field strong */
+@keyframes value-flash {
+  0%   { background: var(--accent-light); color: var(--accent); }
+  100% { background: transparent; color: var(--text); }
+}
+.field strong.changed {
+  animation: value-flash 500ms ease forwards;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+/* Legacy summary label used in metric tiles */
 .summary-label {
   display: block;
-  min-height: 2.1rem;
-  font-size: 0.68rem;
+  min-height: 0;
+  font-size: var(--fs-label);
   font-weight: 800;
   letter-spacing: 0.1em;
   line-height: 1.15;
@@ -390,7 +687,7 @@ input[type="range"]::-moz-range-thumb {
 
 .summary-detail {
   display: block;
-  font-size: 0.76rem;
+  font-size: var(--fs-body);
   line-height: 1.4;
   color: var(--muted);
 }
@@ -398,6 +695,11 @@ input[type="range"]::-moz-range-thumb {
 .detail-card {
   display: grid;
   gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  padding: 14px 16px;
 }
 
 .card-heading {
@@ -406,11 +708,11 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .card-heading h2 {
-  font-size: 0.84rem;
+  font-size: var(--fs-h);
 }
 
 .card-heading p {
-  font-size: 0.76rem;
+  font-size: var(--fs-body);
   color: var(--muted);
 }
 
@@ -422,7 +724,7 @@ input[type="range"]::-moz-range-thumb {
 
 .results-kicker {
   margin-bottom: 3px;
-  font-size: 0.62rem;
+  font-size: var(--fs-label);
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -447,7 +749,7 @@ input[type="range"]::-moz-range-thumb {
   min-width: 102px;
   padding: 7px 10px;
   border-radius: 999px;
-  font-size: 0.68rem;
+  font-size: var(--fs-label);
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -459,13 +761,13 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .status-pill.ok {
-  background: rgba(84, 112, 166, 0.12);
-  color: var(--mortgage);
+  background: var(--stretch-soft);
+  color: var(--stretch);
 }
 
 .status-pill.watch {
   background: var(--warning-soft);
-  color: #8d6b1f;
+  color: var(--warning);
 }
 
 .status-pill.risk {
@@ -476,7 +778,7 @@ input[type="range"]::-moz-range-thumb {
 .status-copy,
 .budget-note,
 .panel-note {
-  font-size: 0.76rem;
+  font-size: var(--fs-body);
   line-height: 1.45;
   color: var(--muted);
 }
@@ -519,14 +821,14 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .budget-scale span {
-  font-size: 0.68rem;
+  font-size: var(--fs-label);
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
 .budget-scale strong {
-  font-size: 0.84rem;
+  font-size: var(--fs-h);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -575,7 +877,7 @@ input[type="range"]::-moz-range-thumb {
   gap: 12px 18px;
   align-items: center;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: var(--fs-body);
   line-height: 1.35;
 }
 
@@ -616,15 +918,15 @@ input[type="range"]::-moz-range-thumb {
 
 .metrics-list dt,
 .income-card dt {
-  font-size: 0.78rem;
+  font-size: var(--fs-body);
   color: var(--muted);
 }
 
 .metrics-list dd,
 .income-card dd {
   margin: 0;
-  font-family: "SFMono-Regular", "Menlo", monospace;
-  font-size: 0.78rem;
+  font-family: "DM Mono", monospace;
+  font-size: var(--fs-body);
   font-variant-numeric: tabular-nums;
   text-align: right;
   justify-self: end;
@@ -643,7 +945,7 @@ input[type="range"]::-moz-range-thumb {
 
 .income-card h3 {
   margin-bottom: 8px;
-  font-size: 0.84rem;
+  font-size: var(--fs-h);
 }
 
 .income-card dl {
@@ -684,7 +986,7 @@ input[type="range"]::-moz-range-thumb {
   flex-wrap: wrap;
   gap: 10px;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: var(--fs-body);
 }
 
 .legend-line {
@@ -714,7 +1016,7 @@ input[type="range"]::-moz-range-thumb {
   min-height: 260px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  background: linear-gradient(180deg, #fbfdfe 0%, #f4f8fb 100%);
+  background: var(--surface-subdued);
 }
 
 .snapshot-grid {
@@ -731,7 +1033,7 @@ input[type="range"]::-moz-range-thumb {
 .snapshot-card span {
   display: block;
   margin-bottom: 5px;
-  font-size: 0.66rem;
+  font-size: var(--fs-label);
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -740,20 +1042,262 @@ input[type="range"]::-moz-range-thumb {
 
 .snapshot-card strong {
   display: block;
-  font-size: 0.9rem;
+  font-size: var(--fs-h);
   font-variant-numeric: tabular-nums;
 }
 
 .snapshot-card small {
   display: block;
   margin-top: 4px;
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   line-height: 1.4;
   color: var(--muted);
 }
 
+.decision-card {
+  gap: 14px;
+}
+
+.decision-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+}
+
+.decision-top .card-heading h2 {
+  font-size: 1rem;
+}
+
+.decision-metric-grid,
+.tradeoff-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metric-tile,
+.tradeoff-item {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subtle);
+}
+
+.metric-tile .summary-label,
+.inline-metric .summary-label,
+.tradeoff-item .summary-label {
+  min-height: 0;
+}
+
+.metric-tile strong {
+  display: flex;
+  align-items: flex-end;
+  font-size: 1.04rem;
+  line-height: 1.04;
+  font-variant-numeric: tabular-nums;
+}
+
+.dual-inline-metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.scenario-card,
+.resilience-card,
+.reserve-card,
+.tradeoff-card,
+.decision-summary-card {
+  gap: 12px;
+}
+
+.scenario-table {
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-subdued);
+}
+
+.scenario-table-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 1.15fr) repeat(3, minmax(0, 1fr));
+}
+
+.scenario-table-row > span {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+#monthly-table-body .scenario-table-row:last-child > span,
+#resilience-table-body .scenario-table-row:last-child > span,
+#stress-table-body .scenario-table-row:last-child > span {
+  border-bottom: 0;
+}
+
+.scenario-table-head {
+  background: rgba(248, 250, 252, 0.96);
+}
+
+.scenario-table-head > span {
+  font-size: var(--fs-label);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.scenario-mode {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.scenario-value {
+  font-family: "DM Mono", monospace;
+  font-size: var(--fs-body);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.slack-good {
+  color: var(--success);
+}
+
+.slack-watch {
+  color: #8d6b1f;
+}
+
+.slack-risk {
+  color: var(--danger);
+}
+
+.reserve-stack-bar {
+  min-height: 14px;
+}
+
+.reserve-segment {
+  background: rgba(33, 90, 105, 0.72);
+}
+
+.tax-segment {
+  background: var(--warning);
+}
+
+.remaining-segment {
+  background: rgba(111, 154, 99, 0.88);
+}
+
+.tradeoff-item h3 {
+  font-size: var(--fs-h);
+}
+
+.tradeoff-list {
+  display: grid;
+  gap: 7px;
+}
+
+.tradeoff-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.tradeoff-list dt {
+  font-size: var(--fs-body);
+  color: var(--muted);
+}
+
+.tradeoff-list dd {
+  margin: 0;
+  font-family: "DM Mono", monospace;
+  font-size: var(--fs-body);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.decision-summary-text {
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.headline-card {
+  background: var(--surface);
+}
+
+.metrics-table .scenario-table-row {
+  grid-template-columns: minmax(140px, 1.15fr) minmax(110px, 0.8fr) minmax(0, 1.4fr);
+}
+
+.metrics-table .scenario-table-row > span:nth-child(2) {
+  text-align: right;
+  font-family: "DM Mono", monospace;
+  font-size: var(--fs-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.metrics-table .scenario-table-row > span:nth-child(3) {
+  color: var(--muted);
+}
+
+.summary-bar .summary-card {
+  grid-template-rows: minmax(1.6rem, auto) auto minmax(1.6rem, auto);
+}
+
+.summary-bar .summary-label {
+  min-height: 1.6rem;
+}
+
+.verdict-card .metric-tile strong {
+  font-size: var(--fs-h);
+}
+
+.disclosure-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.disclosure-card summary {
+  display: block;
+  padding: 12px 14px;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--fs-h);
+  font-weight: 700;
+}
+
+.disclosure-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosure-card summary::after {
+  content: "+";
+  float: right;
+  color: var(--muted);
+}
+
+.disclosure-card[open] summary {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-subtle);
+}
+
+.disclosure-card[open] summary::after {
+  content: "−";
+}
+
+.disclosure-body {
+  padding: 12px 14px 0;
+}
+
+.nested-card {
+  box-shadow: none;
+  background: var(--surface-subtle);
+}
+
 .footnotes {
-  font-size: 0.72rem;
+  font-size: var(--fs-label);
   line-height: 1.55;
   color: var(--muted);
 }
@@ -768,8 +1312,8 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .chart-axis-label {
-  fill: rgba(102, 120, 138, 0.95);
-  font-family: "SFMono-Regular", "Menlo", monospace;
+  fill: rgba(92, 95, 102, 0.95);
+  font-family: "DM Mono", monospace;
   font-size: 11px;
 }
 
@@ -785,40 +1329,85 @@ input[type="range"]::-moz-range-thumb {
   fill: #fff;
 }
 
-@media (max-width: 1220px) {
+@media (max-width: 900px) {
+  .page-shell {
+    height: auto;
+    grid-template-rows: auto auto auto;
+  }
+
   .layout {
     grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .inputs-open-btn {
+    display: flex;
+  }
+
+  .inputs-close-btn {
+    display: flex;
   }
 
   .controls-panel {
-    position: static;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 87vw;
+    max-width: 400px;
+    z-index: 500;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.18);
+    border-radius: 0 var(--radius-xl) var(--radius-xl) 0;
+    overflow-y: auto;
+    padding: 0;
+    transform: translateX(-105%);
+    transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1);
+    scrollbar-width: thin;
   }
 
-  .hero {
+  .controls-panel.drawer-open {
+    transform: translateX(0);
+  }
+
+  .outputs-column {
+    height: auto;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .projection-header,
+  .decision-top,
+  .decision-metric-grid,
+  .tradeoff-grid,
+  .metrics-table .scenario-table-row {
     grid-template-columns: 1fr;
   }
 
-  .hero-badges {
-    justify-content: flex-start;
-  }
-
-  .summary-strip,
-  .projection-header {
+  .verdict-banner {
     grid-template-columns: 1fr;
   }
 
-  .summary-card + .summary-card {
-    border-left: 0;
+  .vb-stats {
+    grid-template-columns: repeat(2, 1fr);
+    border-left: none;
+    border-right: none;
     border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .vb-detail {
+    max-width: none;
   }
 }
 
 @media (max-width: 760px) {
   .page-shell {
     width: min(100% - 14px, 100%);
+    height: auto;
   }
 
-  .hero,
   .panel-heading,
   .control-group,
   .detail-card,
@@ -826,63 +1415,108 @@ input[type="range"]::-moz-range-thumb {
     padding: 12px;
   }
 
-  .summary-strip,
   .metrics-list,
   .income-grid,
   .snapshot-grid,
   .inline-metrics,
   .budget-scale,
-  .compact-heading {
+  .compact-heading,
+  .decision-metric-grid,
+  .tradeoff-grid,
+  .dual-inline-metrics {
     grid-template-columns: 1fr;
   }
 
-  .hero-badge {
-    width: 100%;
-    min-width: 0;
+  .verdict-banner {
+    grid-template-columns: 1fr;
+  }
+
+  .vb-stats {
+    grid-template-columns: repeat(2, 1fr);
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .vb-detail {
+    max-width: none;
   }
 
   .budget-status-row {
     grid-template-columns: 1fr;
+  }
+
+  .scenario-table-head {
+    display: none;
+  }
+
+  .scenario-table-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metrics-table .scenario-table-row {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+  }
+
+  .metrics-table .scenario-table-row > span:first-child {
+    grid-column: 1;
+    grid-row: 1;
+    padding-bottom: 2px;
+    border-bottom: none;
+  }
+
+  .metrics-table .scenario-table-row > span:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    padding-bottom: 2px;
+    border-bottom: none;
+  }
+
+  .metrics-table .scenario-table-row > span:nth-child(3) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    padding-top: 0;
+    padding-bottom: 10px;
+    color: var(--muted);
+    font-size: var(--fs-label);
   }
 }
     </style>
   </head>
   <body>
     <div class="page-shell">
-      <header class="hero">
-        <div class="hero-copy">
-          <p class="eyebrow">UK Mortgage Budget Tool</p>
-          <h1>Compare house price, deposit, monthly affordability, and long-run net worth.</h1>
-          <p class="hero-text">
-            Adjust property, mortgage, income, and investment assumptions to compare monthly affordability against long-run net worth.
-          </p>
+      <header class="app-bar">
+        <div class="app-bar-brand">
+          <span class="app-bar-name">Mortgage Budget Mapper</span>
+          <span class="app-bar-sub">UK affordability &amp; resilience tool</span>
         </div>
-        <div class="hero-badges">
-          <div class="hero-badge">
-            <span class="badge-label">Tax inputs</span>
-            <strong>Current on 4 April 2026</strong>
-          </div>
-          <div class="hero-badge">
-            <span class="badge-label">Regions</span>
-            <strong>England/NI, Scotland, Wales</strong>
-          </div>
-          <div class="hero-badge">
-            <span class="badge-label">Income tax year</span>
-            <strong>2025/26 to 5 April 2026</strong>
-          </div>
+        <div class="app-bar-badges">
+          <button class="inputs-open-btn" id="inputs-open-btn" aria-label="Open inputs panel">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 3h12M1 7h8M1 11h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            Inputs
+          </button>
+          <span class="app-badge">2025/26 tax year</span>
+          <span class="app-badge">England · Scotland · Wales</span>
+          <span class="app-badge">SDLT · LBTT · LTT</span>
         </div>
       </header>
 
+      <div class="inputs-overlay" id="inputs-overlay"></div>
+
       <main class="layout">
-        <aside class="controls-panel">
+        <aside class="controls-panel" id="controls-panel">
           <div class="panel-heading">
             <div class="panel-title-block">
               <h2>Inputs</h2>
+              <p class="panel-subtitle">House choice, capital structure, reserves, and monthly life assumptions.</p>
             </div>
+            <button class="inputs-close-btn" id="inputs-close-btn" aria-label="Close inputs panel">✕</button>
           </div>
 
           <section class="control-group">
-            <h3>Property</h3>
+            <h3>House choice</h3>
 
             <label class="field">
               <span>Property location</span>
@@ -909,6 +1543,10 @@ input[type="range"]::-moz-range-thumb {
               </div>
               <input id="house-price" type="range" min="200000" max="2500000" step="25000" />
             </label>
+          </section>
+
+          <section class="control-group">
+            <h3>Funding choice</h3>
 
             <label class="field range-field" for="deposit">
               <div class="field-header">
@@ -932,22 +1570,6 @@ input[type="range"]::-moz-range-thumb {
                 <strong id="interest-rate-value"></strong>
               </div>
               <input id="interest-rate" type="range" min="0" max="10" step="0.05" />
-            </label>
-
-            <label class="field range-field" for="house-appreciation">
-              <div class="field-header">
-                <span>House appreciation</span>
-                <strong id="house-appreciation-value"></strong>
-              </div>
-              <input id="house-appreciation" type="range" min="0" max="8" step="0.1" />
-            </label>
-
-            <label class="field range-field" for="projection-period">
-              <div class="field-header">
-                <span>Projection period</span>
-                <strong id="projection-period-value"></strong>
-              </div>
-              <input id="projection-period" type="range" min="1" max="40" step="1" />
             </label>
           </section>
 
@@ -980,7 +1602,7 @@ input[type="range"]::-moz-range-thumb {
           </section>
 
           <section class="control-group">
-            <h3>Investments</h3>
+            <h3>Liquid assets</h3>
 
             <label class="field range-field" for="cash-savings">
               <div class="field-header">
@@ -992,30 +1614,38 @@ input[type="range"]::-moz-range-thumb {
 
             <label class="field range-field" for="etf-portfolio">
               <div class="field-header">
-                <span>ETF portfolio</span>
+                <span>Investments</span>
                 <strong id="etf-portfolio-value"></strong>
               </div>
               <input id="etf-portfolio" type="range" min="0" max="3000000" step="25000" />
             </label>
-
-            <label class="field range-field" for="investment-return">
-              <div class="field-header">
-                <span>Investment return</span>
-                <strong id="investment-return-value"></strong>
-              </div>
-              <input id="investment-return" type="range" min="0" max="12" step="0.1" />
-            </label>
           </section>
 
           <section class="control-group">
-            <h3>Cost assumptions</h3>
+            <h3>Monthly life</h3>
+
+            <label class="field range-field" for="lean-living-costs">
+              <div class="field-header">
+                <span>Lean life costs</span>
+                <strong id="lean-living-costs-value"></strong>
+              </div>
+              <input id="lean-living-costs" type="range" min="0" max="10000" step="100" />
+            </label>
 
             <label class="field range-field" for="living-costs">
               <div class="field-header">
-                <span>Monthly living costs</span>
+                <span>Normal life costs</span>
                 <strong id="living-costs-value"></strong>
               </div>
               <input id="living-costs" type="range" min="0" max="10000" step="100" />
+            </label>
+
+            <label class="field range-field" for="comfortable-living-costs">
+              <div class="field-header">
+                <span>Comfortable life costs</span>
+                <strong id="comfortable-living-costs-value"></strong>
+              </div>
+              <input id="comfortable-living-costs" type="range" min="0" max="12000" step="100" />
             </label>
 
             <label class="field range-field" for="maintenance-rate">
@@ -1025,194 +1655,368 @@ input[type="range"]::-moz-range-thumb {
               </div>
               <input id="maintenance-rate" type="range" min="0" max="5" step="0.5" />
             </label>
+
+            <p class="field-note">These life-cost sliders exclude the mortgage and home maintenance. The tool adds both automatically.</p>
           </section>
+
+          <section class="control-group">
+            <h3>Liquidity target</h3>
+
+            <label class="field range-field" for="desired-liquid-reserve">
+              <div class="field-header">
+                <span>Desired liquid reserve after purchase</span>
+                <strong id="desired-liquid-reserve-value"></strong>
+              </div>
+              <input id="desired-liquid-reserve" type="range" min="0" max="500000" step="5000" />
+            </label>
+
+            <p class="field-note">Cash is spent first to fund the purchase. Investments (stocks, funds, ISAs) are only drawn on if cash falls short — and they're assumed to grow at the investment return rate in the long-run projection.</p>
+          </section>
+
+          <div class="advanced-section">
+            <button class="advanced-toggle" aria-expanded="false" id="advanced-toggle">
+              <span>Advanced assumptions</span>
+              <svg class="advanced-chevron" viewBox="0 0 16 16" fill="none">
+                <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="advanced-drawer" id="advanced-drawer">
+              <section class="control-group">
+                <h3>Long-run assumptions</h3>
+
+                <label class="field range-field" for="investment-return">
+                  <div class="field-header">
+                    <span>Investment return</span>
+                    <strong id="investment-return-value"></strong>
+                  </div>
+                  <input id="investment-return" type="range" min="0" max="12" step="0.1" />
+                </label>
+
+                <label class="field range-field" for="house-appreciation">
+                  <div class="field-header">
+                    <span>House appreciation</span>
+                    <strong id="house-appreciation-value"></strong>
+                  </div>
+                  <input id="house-appreciation" type="range" min="0" max="8" step="0.1" />
+                </label>
+
+                <label class="field range-field" for="projection-period">
+                  <div class="field-header">
+                    <span>Projection period</span>
+                    <strong id="projection-period-value"></strong>
+                  </div>
+                  <input id="projection-period" type="range" min="1" max="40" step="1" />
+                </label>
+              </section>
+            </div>
+          </div>
 
           <div class="controls-actions">
             <button id="reset-button" type="button" class="ghost-button">Reset baseline</button>
           </div>
         </aside>
 
-        <section class="analysis-column">
-          <section class="summary-strip">
-            <article class="summary-card">
-              <span class="summary-label">Combined take-home</span>
-              <strong id="combined-take-home"></strong>
-              <p id="combined-take-home-detail" class="summary-detail"></p>
-            </article>
+        <div class="outputs-column">
 
-            <article class="summary-card priority-card">
-              <span class="summary-label">Monthly mortgage</span>
-              <strong id="monthly-mortgage"></strong>
-              <p id="monthly-mortgage-detail" class="summary-detail"></p>
-            </article>
+          <!-- Verdict banner -->
+          <div class="verdict-banner" id="verdict-banner" data-tone="ok">
+            <!-- hidden legacy IDs for JS compatibility -->
+            <span id="top-house-price" style="display:none"></span>
+            <span id="top-deposit" style="display:none"></span>
+            <span id="top-mortgage" style="display:none"></span>
+            <span id="top-ltv" style="display:none"></span>
+            <span id="top-lti" style="display:none"></span>
+            <span id="top-verdict" style="display:none"></span>
+            <span id="top-lti-detail" style="display:none"></span>
+            <span id="top-ltv-detail" style="display:none"></span>
 
-            <article class="summary-card">
-              <span class="summary-label">Monthly headroom</span>
-              <strong id="monthly-headroom"></strong>
-              <p id="monthly-headroom-detail" class="summary-detail"></p>
-            </article>
-
-            <article class="summary-card priority-card wealth-card">
-              <span class="summary-label">Projected net worth</span>
-              <strong id="projection-net-worth"></strong>
-              <p id="projection-net-worth-detail" class="summary-detail"></p>
-            </article>
-          </section>
-
-          <section class="detail-card chart-card">
-            <div class="projection-header">
-              <div class="card-heading">
-                <h2>Projection and trade-offs</h2>
-                <p>How equity, ETFs, and total net worth evolve over the selected horizon.</p>
+            <div class="vb-verdict">
+              <div class="vb-pill-row">
+                <span class="status-pill ok" id="verdict-pill">Calculating…</span>
               </div>
-              <div class="inline-metrics">
-                <article class="inline-metric">
-                  <span class="summary-label">Mortgage balance at horizon</span>
-                  <strong id="projection-balance"></strong>
-                  <p id="projection-balance-detail" class="summary-detail"></p>
+              <div class="vb-headline" id="decision-headline">—</div>
+            </div>
+
+            <div class="vb-stats">
+              <div class="vb-stat">
+                <span class="vb-stat-label" data-tooltip="Money left over each month after your mortgage, maintenance, and normal living costs. Positive means you're comfortable; negative means you'd need to dip into savings each month.">Monthly slack</span>
+                <strong class="vb-stat-value" id="vb-slack">—</strong>
+                <span class="vb-stat-sub" id="vb-slack-sub">normal scenario</span>
+              </div>
+              <div class="vb-stat">
+                <span class="vb-stat-label" data-tooltip="How many months your remaining cash (not investments) would cover bare-minimum spending — mortgage plus cut-back living costs. Excludes your investment portfolio, which shouldn't need to be touched in an emergency.">Lean runway</span>
+                <strong class="vb-stat-value" id="vb-runway">—</strong>
+                <span class="vb-stat-sub">months of cover</span>
+              </div>
+              <div class="vb-stat">
+                <span class="vb-stat-label" data-tooltip="The difference between your liquid assets remaining after the purchase and your desired cash reserve target. Positive means you exceed your buffer goal; negative means you'd fall short of your safety net.">Reserve gap</span>
+                <strong class="vb-stat-value" id="vb-reserve">—</strong>
+                <span class="vb-stat-sub" id="vb-reserve-sub">vs target</span>
+              </div>
+              <div class="vb-stat">
+                <span class="vb-stat-label" data-tooltip="Loan-to-Value: your mortgage as a percentage of the property price. Below 80% is broadly acceptable; below 60% typically unlocks the best interest rates. Higher LTV = more leverage and risk.">LTV</span>
+                <strong class="vb-stat-value" id="vb-ltv">—</strong>
+                <span class="vb-stat-sub" id="vb-ltv-sub">loan to value</span>
+              </div>
+            </div>
+
+            <div class="vb-detail">
+              <p class="vb-detail-text" id="decision-detail">—</p>
+            </div>
+          </div>
+
+          <!-- Tab bar -->
+          <div class="tab-bar" role="tablist">
+            <button class="tab-btn" role="tab" aria-selected="true"  data-tab="monthly"    >Monthly</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="resilience" >Resilience</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="verdict"    >Verdict</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="projection" >Projection</button>
+            <button class="tab-btn" role="tab" aria-selected="false" data-tab="detail"     >Detail</button>
+          </div>
+
+          <!-- Tab panel: Monthly -->
+          <div class="tab-panel" data-panel="monthly">
+            <article class="detail-card monthly-card">
+              <div class="card-heading">
+                <h2>Monthly reality</h2>
+                <p>Default view: normal, lean, and stress.</p>
+              </div>
+              <div class="scenario-table metrics-table">
+                <div class="scenario-table-row scenario-table-head">
+                  <span>What we're measuring</span>
+                  <span>Your figure</span>
+                  <span>What this means</span>
+                </div>
+                <div id="monthly-table-body"></div>
+              </div>
+              <p id="monthly-interpretation" class="decision-summary-text"></p>
+            </article>
+          </div>
+
+          <!-- Tab panel: Resilience -->
+          <div class="tab-panel" data-panel="resilience">
+            <article class="detail-card resilience-card">
+              <div class="card-heading">
+                <h2>Resilience after purchase</h2>
+                <p>Liquidity and runway after buying.</p>
+              </div>
+              <div class="scenario-table metrics-table">
+                <div class="scenario-table-row scenario-table-head">
+                  <span>What we're measuring</span>
+                  <span>Your figure</span>
+                  <span>What this means</span>
+                </div>
+                <div id="resilience-table-body"></div>
+              </div>
+              <p id="resilience-interpretation" class="decision-summary-text"></p>
+            </article>
+          </div>
+
+          <!-- Tab panel: Verdict -->
+          <div class="tab-panel" data-panel="verdict">
+            <article class="detail-card verdict-card">
+              <div class="card-heading">
+                <h2>Why this verdict?</h2>
+                <p>Monthly fit, resilience, and leverage are shown separately so the verdict is not a black box.</p>
+              </div>
+              <div class="decision-metric-grid">
+                <article class="metric-tile">
+                  <span class="summary-label">Monthly fit</span>
+                  <strong id="why-monthly-fit"></strong>
+                  <p id="why-monthly-fit-detail" class="summary-detail"></p>
+                </article>
+                <article class="metric-tile">
+                  <span class="summary-label">Resilience</span>
+                  <strong id="why-resilience"></strong>
+                  <p id="why-resilience-detail" class="summary-detail"></p>
+                </article>
+                <article class="metric-tile">
+                  <span class="summary-label">Leverage</span>
+                  <strong id="why-leverage"></strong>
+                  <p id="why-leverage-detail" class="summary-detail"></p>
+                </article>
+                <article class="metric-tile">
+                  <span class="summary-label">Decision summary</span>
+                  <strong id="top-verdict-long"></strong>
+                  <p id="why-verdict-detail" class="summary-detail"></p>
                 </article>
               </div>
-            </div>
-            <div class="chart-legend">
-              <span><i class="legend-line total-line"></i>Total net worth</span>
-              <span><i class="legend-line equity-line"></i>Home equity</span>
-              <span><i class="legend-line etf-line"></i>ETF portfolio</span>
-            </div>
-            <svg id="projection-chart" viewBox="0 0 760 320" preserveAspectRatio="none" aria-label="Projection chart"></svg>
-            <div id="projection-snapshots" class="snapshot-grid"></div>
-          </section>
+            </article>
 
-          <article class="detail-card funding-card">
-            <div class="projection-header">
+            <article class="detail-card tradeoff-card">
               <div class="card-heading">
-                <h2>Upfront funding stack</h2>
-                <p>Deposit plus purchase tax, with cash used first and ETF sales only after that.</p>
+                <h2>Marginal trade-offs</h2>
+                <p>Make the next £100k explicit: more house versus more certainty.</p>
               </div>
-              <div class="inline-metrics">
-                <article class="inline-metric">
-                  <span class="summary-label">Purchase tax</span>
-                  <strong id="purchase-tax"></strong>
-                  <p id="purchase-tax-detail" class="summary-detail"></p>
+              <div class="tradeoff-grid">
+                <article class="tradeoff-item">
+                  <h3 id="tradeoff-house-title">House price +£100k</h3>
+                  <p id="tradeoff-house-note" class="summary-detail"></p>
+                  <dl class="tradeoff-list">
+                    <div><dt>Monthly mortgage</dt><dd id="tradeoff-house-payment"></dd></div>
+                    <div><dt>Purchase tax</dt><dd id="tradeoff-house-tax"></dd></div>
+                    <div><dt>Liquid after purchase</dt><dd id="tradeoff-house-liquidity"></dd></div>
+                    <div><dt>Expected net worth</dt><dd id="tradeoff-house-networth"></dd></div>
+                  </dl>
+                </article>
+                <article class="tradeoff-item">
+                  <h3 id="tradeoff-deposit-title">Deposit +£100k</h3>
+                  <p id="tradeoff-deposit-note" class="summary-detail"></p>
+                  <dl class="tradeoff-list">
+                    <div><dt>Monthly mortgage</dt><dd id="tradeoff-deposit-payment"></dd></div>
+                    <div><dt>Liquid after purchase</dt><dd id="tradeoff-deposit-liquidity"></dd></div>
+                    <div><dt>Interest over horizon</dt><dd id="tradeoff-deposit-interest"></dd></div>
+                    <div><dt>Expected net worth</dt><dd id="tradeoff-deposit-networth"></dd></div>
+                  </dl>
                 </article>
               </div>
-            </div>
-            <div class="stack">
-              <div class="stack-bar">
-                <div id="cash-stack" class="stack-segment cash-segment"></div>
-                <div id="etf-stack" class="stack-segment etf-segment"></div>
-                <div id="gap-stack" class="stack-segment gap-segment"></div>
-              </div>
-              <div class="stack-legend">
-                <div class="stack-legend-item"><span class="legend-swatch cash-segment"></span><span id="cash-stack-label"></span></div>
-                <div class="stack-legend-item"><span class="legend-swatch etf-segment"></span><span id="etf-stack-label"></span></div>
-                <div class="stack-legend-item"><span class="legend-swatch gap-segment"></span><span id="gap-stack-label"></span></div>
-              </div>
-            </div>
-            <dl class="metrics-list">
-              <div>
-                <dt>Total upfront cost</dt>
-                <dd id="total-upfront"></dd>
-              </div>
-              <div>
-                <dt>Deposit</dt>
-                <dd id="total-deposit"></dd>
-              </div>
-              <div>
-                <dt>Cash used first</dt>
-                <dd id="total-tax"></dd>
-              </div>
-              <div>
-                <dt>Loan-to-value</dt>
-                <dd id="ltv-value"></dd>
-              </div>
-              <div>
-                <dt>ETF drawdown now</dt>
-                <dd id="etf-drawdown"></dd>
-              </div>
-              <div>
-                <dt>ETF value foregone</dt>
-                <dd id="etf-opportunity-cost"></dd>
-              </div>
-            </dl>
-            <p id="etf-opportunity-cost-detail" class="panel-note"></p>
-          </article>
+            </article>
+          </div>
 
-        </section>
-
-        <aside class="facts-column">
-          <article class="detail-card budget-card">
-            <div class="card-heading">
-              <h2>Affordability and monthly budget</h2>
-              <p>Use this rail for the supporting monthly numbers while the centre column stays focused on the main trade-off.</p>
-            </div>
-            <div class="budget-status-row">
-              <div id="budget-status" class="status-pill"></div>
-              <p id="budget-status-detail" class="status-copy"></p>
-            </div>
-            <div class="budget-meter">
-              <div class="budget-track">
-                <div id="mortgage-share-bar" class="budget-segment mortgage-segment"></div>
-                <div id="other-costs-share-bar" class="budget-segment other-costs-segment"></div>
-                <div id="surplus-share-bar" class="budget-segment surplus-segment"></div>
+          <!-- Tab panel: Projection -->
+          <div class="tab-panel" data-panel="projection">
+            <article class="detail-card">
+              <div class="projection-header">
+                <div class="card-heading">
+                  <h2>Expected long-run outcome</h2>
+                  <p>Expected outcome only, not a promise.</p>
+                </div>
+                <div class="inline-metrics dual-inline-metrics">
+                  <article class="inline-metric">
+                    <span class="summary-label">Expected net worth at horizon</span>
+                    <strong id="projection-net-worth"></strong>
+                    <p id="projection-net-worth-detail" class="summary-detail"></p>
+                  </article>
+                  <article class="inline-metric">
+                    <span class="summary-label">Mortgage balance at horizon</span>
+                    <strong id="projection-balance"></strong>
+                    <p id="projection-balance-detail" class="summary-detail"></p>
+                  </article>
+                </div>
               </div>
-              <div class="budget-scale">
-                <div><span>Mortgage</span><strong id="budget-mortgage-legend"></strong></div>
-                <div><span>Other costs</span><strong id="budget-other-costs-legend"></strong></div>
-                <div><span>Headroom</span><strong id="budget-load"></strong></div>
+              <div class="chart-legend">
+                <span><i class="legend-line total-line"></i>Total net worth</span>
+                <span><i class="legend-line equity-line"></i>Home equity</span>
+                <span><i class="legend-line etf-line"></i>Investments</span>
               </div>
-              <p id="budget-scale-note" class="budget-note"></p>
-            </div>
-          </article>
+              <svg id="projection-chart" viewBox="0 0 760 320" preserveAspectRatio="none" aria-label="Projection chart"></svg>
+              <div id="projection-snapshots" class="snapshot-grid"></div>
+            </article>
+          </div>
 
-          <article class="detail-card">
-            <div class="card-heading">
-              <h2>Income after tax and NI</h2>
-              <p>The UK personal allowance taper is applied once income goes above £100,000.</p>
-            </div>
-            <div class="income-grid">
-              <div class="income-card">
-                <h3>You</h3>
-                <dl>
-                  <div><dt>Gross</dt><dd id="income-one-gross"></dd></div>
-                  <div><dt>Tax + NI</dt><dd id="income-one-tax"></dd></div>
-                  <div><dt>Take-home</dt><dd id="income-one-net"></dd></div>
-                  <div><dt>Marginal take-home</dt><dd id="income-one-marginal"></dd></div>
-                </dl>
+          <!-- Tab panel: Detail -->
+          <div class="tab-panel" data-panel="detail">
+            <article class="detail-card">
+              <div class="card-heading">
+                <h2>Stress testing</h2>
+                <p>How the budget holds under pressure.</p>
               </div>
-              <div class="income-card">
-                <h3>Partner</h3>
-                <dl>
-                  <div><dt>Gross</dt><dd id="income-two-gross"></dd></div>
-                  <div><dt>Tax + NI</dt><dd id="income-two-tax"></dd></div>
-                  <div><dt>Take-home</dt><dd id="income-two-net"></dd></div>
-                  <div><dt>Marginal take-home</dt><dd id="income-two-marginal"></dd></div>
-                </dl>
+              <div class="scenario-table metrics-table">
+                <div class="scenario-table-row scenario-table-head">
+                  <span>Scenario</span>
+                  <span>Value</span>
+                  <span>Meaning</span>
+                </div>
+                <div id="stress-table-body"></div>
               </div>
-            </div>
-          </article>
+            </article>
 
-          <div id="status-banner" class="status-banner"></div>
+            <article class="detail-card reserve-card">
+              <div class="projection-header">
+                <div class="card-heading">
+                  <h2>Liquidity after purchase</h2>
+                  <p>Liquid assets left versus target.</p>
+                </div>
+                <div class="inline-metrics">
+                  <article class="inline-metric">
+                    <span class="summary-label">Against liquid target</span>
+                    <strong id="reserve-gap"></strong>
+                    <p id="reserve-gap-detail" class="summary-detail"></p>
+                  </article>
+                </div>
+              </div>
+              <div class="stack">
+                <div class="stack-bar reserve-stack-bar">
+                  <div id="reserve-stack" class="stack-segment reserve-segment"></div>
+                  <div id="deposit-stack" class="stack-segment cash-segment"></div>
+                  <div id="tax-stack" class="stack-segment tax-segment"></div>
+                  <div id="remaining-stack" class="stack-segment remaining-segment"></div>
+                  <div id="reserve-gap-stack" class="stack-segment gap-segment"></div>
+                </div>
+                <div class="stack-legend">
+                  <div class="stack-legend-item"><span class="legend-swatch reserve-segment"></span><span id="reserve-stack-label"></span></div>
+                  <div class="stack-legend-item"><span class="legend-swatch cash-segment"></span><span id="deposit-stack-label"></span></div>
+                  <div class="stack-legend-item"><span class="legend-swatch tax-segment"></span><span id="tax-stack-label"></span></div>
+                  <div class="stack-legend-item"><span class="legend-swatch remaining-segment"></span><span id="remaining-stack-label"></span></div>
+                  <div class="stack-legend-item"><span class="legend-swatch gap-segment"></span><span id="reserve-gap-stack-label"></span></div>
+                </div>
+              </div>
+              <dl class="metrics-list reserve-metrics">
+                <div><dt>Total liquid assets today</dt><dd id="total-liquid-assets"></dd></div>
+                <div><dt>Desired liquid reserve</dt><dd id="reserve-target"></dd></div>
+                <div><dt>Deployable capital</dt><dd id="deployable-capital"></dd></div>
+                <div><dt>Upfront cost</dt><dd id="total-upfront"></dd></div>
+                <div><dt>Liquid after purchase</dt><dd id="liquid-after-purchase"></dd></div>
+                <div><dt>House equity bought now</dt><dd id="locked-into-house"></dd></div>
+                <div><dt>Purchase tax</dt><dd id="purchase-tax"></dd></div>
+                <div><dt>Investments remaining</dt><dd id="investments-remaining"></dd></div>
+              </dl>
+            </article>
 
-          <section class="footnotes">
-            <p id="tax-footnote"></p>
-            <p>
-              Unused cash is assumed to remain cash at 0% nominal return. The calculator ignores legal fees,
-              maintenance, insurance, rent avoided, pension tax relief, student loans, and inflation.
-            </p>
-            <p>
-              Sources:
-              <a href="https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2025-to-2026" target="_blank" rel="noreferrer">HMRC 2025/26 Income Tax and NI</a>,
-              <a href="https://www.gov.uk/income-tax-rates" target="_blank" rel="noreferrer">UK Personal Allowance taper</a>,
-              <a href="https://www.gov.uk/scottish-income-tax" target="_blank" rel="noreferrer">Scottish Income Tax 2025/26</a>,
-              <a href="https://www.gov.uk/stamp-duty-land-tax/residential-property-rates" target="_blank" rel="noreferrer">SDLT</a>,
-              <a href="https://revenue.scot/taxes/land-buildings-transaction-tax/residential-property" target="_blank" rel="noreferrer">LBTT</a>,
-              <a href="https://revenue.scot/taxes/land-buildings-transaction-tax/additional-dwelling-supplement-ads" target="_blank" rel="noreferrer">Scottish ADS</a>,
-              <a href="https://www.gov.wales/land-transaction-tax-rates-and-bands" target="_blank" rel="noreferrer">Welsh LTT</a>,
-              <a href="https://www.gov.wales/land-transaction-tax-guide" target="_blank" rel="noreferrer">Welsh reliefs</a>.
-            </p>
-          </section>
-        </section>
+            <article class="detail-card">
+              <div class="card-heading">
+                <h2>Income after tax and NI</h2>
+                <p>Tax and NI detail used in the model.</p>
+              </div>
+              <div class="income-grid">
+                <div class="income-card">
+                  <h3>You</h3>
+                  <dl>
+                    <div><dt>Gross</dt><dd id="income-one-gross"></dd></div>
+                    <div><dt>Tax + NI</dt><dd id="income-one-tax"></dd></div>
+                    <div><dt>Take-home</dt><dd id="income-one-net"></dd></div>
+                    <div><dt>Marginal take-home</dt><dd id="income-one-marginal"></dd></div>
+                  </dl>
+                </div>
+                <div class="income-card">
+                  <h3>Partner</h3>
+                  <dl>
+                    <div><dt>Gross</dt><dd id="income-two-gross"></dd></div>
+                    <div><dt>Tax + NI</dt><dd id="income-two-tax"></dd></div>
+                    <div><dt>Take-home</dt><dd id="income-two-net"></dd></div>
+                    <div><dt>Marginal take-home</dt><dd id="income-two-marginal"></dd></div>
+                  </dl>
+                </div>
+              </div>
+            </article>
+
+            <div id="status-banner" class="status-banner"></div>
+
+            <section class="footnotes">
+              <p id="tax-footnote"></p>
+              <p id="assumption-footnote"></p>
+              <p>
+                Sources:
+                <a href="https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2025-to-2026" target="_blank" rel="noreferrer">HMRC 2025/26 Income Tax and NI</a>,
+                <a href="https://www.gov.uk/income-tax-rates" target="_blank" rel="noreferrer">UK Personal Allowance taper</a>,
+                <a href="https://www.gov.uk/scottish-income-tax" target="_blank" rel="noreferrer">Scottish Income Tax 2025/26</a>,
+                <a href="https://www.gov.uk/stamp-duty-land-tax/residential-property-rates" target="_blank" rel="noreferrer">SDLT</a>,
+                <a href="https://revenue.scot/taxes/land-buildings-transaction-tax/residential-property" target="_blank" rel="noreferrer">LBTT</a>,
+                <a href="https://revenue.scot/taxes/land-buildings-transaction-tax/additional-dwelling-supplement-ads" target="_blank" rel="noreferrer">Scottish ADS</a>,
+                <a href="https://www.gov.wales/land-transaction-tax-rates-and-bands" target="_blank" rel="noreferrer">Welsh LTT</a>,
+                <a href="https://www.gov.wales/land-transaction-tax-guide" target="_blank" rel="noreferrer">Welsh reliefs</a>.
+              </p>
+            </section>
+          </div>
+
+        </div>
       </main>
+    </div>
+
+    <div class="mobile-verdict-bar" id="mobile-verdict-bar">
+      <span class="status-pill ok" id="mobile-verdict-pill">Calculating…</span>
+      <strong class="mvb-slack" id="mvb-slack">—</strong>
+      <span class="mvb-label">monthly slack</span>
     </div>
 
     <script>
@@ -1231,8 +2035,11 @@ const baseline = {
   cashSavings: 150000,
   etfPortfolio: 500000,
   investmentReturn: 7.0,
-  livingCosts: 4000,
+  leanLivingCosts: 3000,
+  livingCosts: 4200,
+  comfortableLivingCosts: 5400,
   maintenanceRate: 1.0,
+  desiredLiquidReserve: 75000,
 };
 
 const inputConfig = {
@@ -1250,11 +2057,14 @@ const inputConfig = {
   cashSavings: { element: document.getElementById("cash-savings"), type: "number", display: document.getElementById("cash-savings-value"), format: pounds },
   etfPortfolio: { element: document.getElementById("etf-portfolio"), type: "number", display: document.getElementById("etf-portfolio-value"), format: pounds },
   investmentReturn: { element: document.getElementById("investment-return"), type: "number", display: document.getElementById("investment-return-value"), format: percent },
+  leanLivingCosts: { element: document.getElementById("lean-living-costs"), type: "number", display: document.getElementById("lean-living-costs-value"), format: pounds },
   livingCosts: { element: document.getElementById("living-costs"), type: "number", display: document.getElementById("living-costs-value"), format: pounds },
+  comfortableLivingCosts: { element: document.getElementById("comfortable-living-costs"), type: "number", display: document.getElementById("comfortable-living-costs-value"), format: pounds },
   maintenanceRate: { element: document.getElementById("maintenance-rate"), type: "number", display: document.getElementById("maintenance-rate-value"), format: percent },
+  desiredLiquidReserve: { element: document.getElementById("desired-liquid-reserve"), type: "number", display: document.getElementById("desired-liquid-reserve-value"), format: pounds },
 };
 
-const STORAGE_KEY = "mortgage-budget-tool:inputs:v1";
+const STORAGE_KEY = "mortgage-budget-tool:inputs:v3";
 const canPersistInputs = storageAvailable();
 
 class Earner {
@@ -1586,17 +2396,107 @@ function render() {
   syncDisplays(state);
   persistInputs(state);
 
-  const home = new PropertyPurchase(
-    state.housePrice,
-    state.deposit,
-    state.propertyLocation,
-    state.buyerStatus,
-  );
-  const mortgage = new Mortgage(home.loanAmount(), state.interestRate, state.mortgageTerm);
+  // Update slider fill positions
+  document.querySelectorAll('input[type="range"]').forEach(el => {
+    const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
+    el.style.setProperty('--fill', `${pct}%`);
+  });
+
   const me = new Earner(state.incomeOne, state.taxResidence);
   const partner = new Earner(state.incomeTwo, state.taxResidence);
   const takeHomeYearly = me.takeHome() + partner.takeHome();
   const takeHomeMonthly = takeHomeYearly / 12;
+  const current = buildPurchaseOutcome({ state });
+  const note = current.home.buyerStatusNote();
+  const scenarios = buildScenarioBudgets({
+    state,
+    takeHomeMonthly,
+    monthlyMortgage: current.monthlyMortgage,
+    monthlyMaintenance: current.monthlyMaintenance,
+  });
+  const reservePlan = buildReservePlan({ state, current });
+  const resilience = buildResilienceMetrics({
+    state,
+    current,
+    takeHomeMonthly,
+    scenarios,
+  });
+  const verdict = assessDecision({
+    current,
+    reservePlan,
+    scenarios,
+    resilience,
+  });
+  const tradeoffs = buildTradeoffs({
+    state,
+    current,
+  });
+
+  updateDecisionCard({
+    state,
+    current,
+    takeHomeMonthly,
+    scenarios,
+    reservePlan,
+    resilience,
+    verdict,
+  });
+  updateScenarioCard({
+    current,
+    takeHomeMonthly,
+    scenarios,
+    resilience,
+  });
+  updateResilienceCard({
+    current,
+    reservePlan,
+    resilience,
+  });
+  updateReserveCard({
+    current,
+    reservePlan,
+  });
+  updateTradeoffCard({ tradeoffs });
+  updateIncomeCard({ me, partner });
+  updateDecisionSummary({
+    verdict,
+    current,
+    scenarios,
+    reservePlan,
+    resilience,
+    tradeoffs,
+  });
+  updateStatusBanner({
+    current,
+    reservePlan,
+    note,
+    me,
+    partner,
+    state,
+  });
+  updateStressCard({
+    scenarios,
+    resilience,
+  });
+  updateChart(current.annualSeries);
+  updateSnapshots(current.annualSeries);
+  updateFootnote(state, current.home.purchaseTaxLabel());
+}
+
+function buildPurchaseOutcome({
+  state,
+  housePrice = state.housePrice,
+  deposit = state.deposit,
+  interestRate = state.interestRate,
+}) {
+  const cappedDeposit = clamp(deposit, 0, housePrice);
+  const home = new PropertyPurchase(
+    housePrice,
+    cappedDeposit,
+    state.propertyLocation,
+    state.buyerStatus,
+  );
+  const mortgage = new Mortgage(home.loanAmount(), interestRate, state.mortgageTerm);
   const projection = new WealthProjection({
     propertyPurchase: home,
     mortgage,
@@ -1606,143 +2506,487 @@ function render() {
     cashSavings: state.cashSavings,
     etfPortfolio: state.etfPortfolio,
   });
-
   const funding = projection.funding();
   const mortgageProjection = mortgage.projection(state.projectionPeriod);
   const annualSeries = projection.annualSeries();
   const finalYear = annualSeries[annualSeries.length - 1];
+  const purchaseTax = home.purchaseTax();
   const monthlyMortgage = mortgageProjection.monthlyPayment;
-  const monthlyMaintenance = (state.housePrice * (state.maintenanceRate / 100)) / 12;
-  const monthlyOtherCosts = state.livingCosts + monthlyMaintenance;
-  const etfFutureValueLost = funding.etfDrawdown * Math.pow(1 + state.investmentReturn / 100, state.projectionPeriod);
-  const note = home.buyerStatusNote();
+  const monthlyMaintenance = monthlyMaintenanceFor(housePrice, state.maintenanceRate);
+  const liquidAfterPurchase = funding.cashRemaining + funding.etfRemaining;
 
-  updateSummary({
-    monthlyMortgage,
+  return {
     home,
+    mortgage,
+    projection,
     funding,
-    takeHomeMonthly,
-    takeHomeYearly,
-    monthlyOtherCosts,
-    monthlyMaintenance,
     mortgageProjection,
+    annualSeries,
     finalYear,
-    state,
-    etfFutureValueLost,
-  });
-  updateFundingCard({ funding, home, state });
-  updateIncomeCard({ me, partner });
-  updateStatusBanner({ funding, note, me, partner, state });
-  updateChart(annualSeries);
-  updateSnapshots(annualSeries);
-  updateFootnote(state, home.purchaseTaxLabel());
+    purchaseTax,
+    monthlyMortgage,
+    monthlyMaintenance,
+    liquidAfterPurchase,
+  };
 }
 
-function updateSummary({
-  monthlyMortgage,
-  home,
-  funding,
-  takeHomeMonthly,
-  takeHomeYearly,
-  monthlyOtherCosts,
-  monthlyMaintenance,
-  mortgageProjection,
-  finalYear,
+function buildScenarioBudgets({
   state,
-  etfFutureValueLost,
+  takeHomeMonthly,
+  monthlyMortgage,
+  monthlyMaintenance,
 }) {
-  const purchaseTax = home.purchaseTax();
-  const spareMonthly = takeHomeMonthly - monthlyMortgage - monthlyOtherCosts;
-  const taxLabel = home.purchaseTaxLabel();
-  const budgetAssessment = assessBudget({
-    monthlyMortgage,
-    takeHomeMonthly,
-    spareMonthly,
-    fundingGap: funding.fundingGap,
+  const fixedHousing = monthlyMortgage + monthlyMaintenance;
+  const rows = [
+    { key: "normal", label: "Normal life", livingCosts: state.livingCosts },
+    { key: "lean", label: "Lean mode", livingCosts: state.leanLivingCosts },
+    { key: "comfortable", label: "Comfortable mode", livingCosts: state.comfortableLivingCosts },
+  ].map((row) => {
+    const totalBurn = fixedHousing + row.livingCosts;
+    const slack = takeHomeMonthly - totalBurn;
+    return {
+      ...row,
+      totalBurn,
+      slack,
+      tone: scenarioTone(slack),
+    };
   });
-  let mortgageBar = 0;
-  let otherCostsBar = 0;
-  let surplusBar = 0;
 
-  if (takeHomeMonthly <= 0) {
-    mortgageBar = monthlyMortgage > 0 ? 100 : 0;
-  } else {
-    const totalCommitted = monthlyMortgage + monthlyOtherCosts;
-    if (totalCommitted >= takeHomeMonthly) {
-      const scale = 100 / Math.max(totalCommitted, 1);
-      mortgageBar = monthlyMortgage * scale;
-      otherCostsBar = monthlyOtherCosts * scale;
-    } else {
-      mortgageBar = (monthlyMortgage / takeHomeMonthly) * 100;
-      otherCostsBar = (monthlyOtherCosts / takeHomeMonthly) * 100;
-      surplusBar = ((takeHomeMonthly - totalCommitted) / takeHomeMonthly) * 100;
-    }
+  return {
+    fixedHousing,
+    normal: rows.find((row) => row.key === "normal"),
+    lean: rows.find((row) => row.key === "lean"),
+    comfortable: rows.find((row) => row.key === "comfortable"),
+    rows,
+  };
+}
+
+function buildReservePlan({ state, current }) {
+  const totalLiquidAssets = state.cashSavings + state.etfPortfolio;
+  const reserveTarget = state.desiredLiquidReserve;
+  const liquidAfterPurchase = current.liquidAfterPurchase;
+  const deployableCapital = Math.max(0, totalLiquidAssets - reserveTarget);
+  const reserveGap = liquidAfterPurchase - reserveTarget;
+  const remainingAboveReserve = Math.max(0, liquidAfterPurchase - reserveTarget);
+  const reserveShortfall = Math.max(0, reserveTarget - liquidAfterPurchase);
+  const reserveCovered = Math.min(reserveTarget, liquidAfterPurchase);
+  const stackTotal = Math.max(
+    totalLiquidAssets,
+    reserveTarget + current.home.deposit + current.purchaseTax,
+  );
+
+  return {
+    totalLiquidAssets,
+    reserveTarget,
+    deployableCapital,
+    liquidAfterPurchase,
+    reserveGap,
+    remainingAboveReserve,
+    reserveShortfall,
+    reserveCovered,
+    stackTotal,
+    reserveShare: percentageOf(reserveCovered, stackTotal),
+    depositShare: percentageOf(current.home.deposit, stackTotal),
+    taxShare: percentageOf(current.purchaseTax, stackTotal),
+    remainingShare: percentageOf(remainingAboveReserve, stackTotal),
+    gapShare: percentageOf(reserveShortfall, stackTotal),
+    depositLockRatio: totalLiquidAssets === 0 ? 0 : current.home.deposit / totalLiquidAssets,
+    upfrontShare: totalLiquidAssets === 0 ? 0 : current.funding.upfront / totalLiquidAssets,
+  };
+}
+
+function buildResilienceMetrics({
+  state,
+  current,
+  takeHomeMonthly,
+  scenarios,
+}) {
+  const stressedMortgage = new Mortgage(
+    current.home.loanAmount(),
+    state.interestRate + 1,
+    state.mortgageTerm,
+  ).monthlyPayment();
+  const stressedLeanBurn = stressedMortgage + current.monthlyMaintenance + state.leanLivingCosts;
+  const stressedLeanSlack = takeHomeMonthly - stressedLeanBurn;
+  const remainingSingleIncome = Math.max(state.incomeOne, state.incomeTwo);
+  const singleIncomeLeanSlack = monthlyTakeHomeForGross(
+    state.taxResidence,
+    remainingSingleIncome,
+    0,
+  ) - scenarios.lean.totalBurn;
+
+  return {
+    stressedLeanSlack,
+    singleIncomeLeanSlack,
+    runwayNormal: runwayMonths(current.funding.cashRemaining, scenarios.normal.totalBurn),
+    runwayLean: runwayMonths(state.desiredLiquidReserve, scenarios.lean.totalBurn),
+    runwayStress: runwayMonths(state.desiredLiquidReserve, stressedLeanBurn),
+    stressedLeanBurn,
+  };
+}
+
+function assessDecision({
+  current,
+  reservePlan,
+  scenarios,
+  resilience,
+}) {
+  if (current.funding.fundingGap > 0) {
+    return {
+      label: "Too far",
+      tone: "risk",
+      headline: "Not currently fundable",
+      detail: `Upfront funding is short by ${pounds(current.funding.fundingGap)} before even protecting reserves.`,
+    };
   }
 
-  setText("monthly-mortgage", pounds(monthlyMortgage));
-  setText("monthly-mortgage-detail", `${pounds(home.loanAmount())} borrowed over ${years(state.mortgageTerm)}.`);
+  let score = 0;
+  const concerns = [];
 
-  setText("combined-take-home", pounds(takeHomeMonthly));
-  setText("combined-take-home-detail", `${pounds(takeHomeYearly)} per year after income tax and NI.`);
+  if (scenarios.normal.slack >= 1500) {
+    score += 2;
+  } else if (scenarios.normal.slack >= 500) {
+    score += 1;
+  } else if (scenarios.normal.slack < 0) {
+    score -= 2;
+    concerns.push(`Normal life runs ${signedPounds(scenarios.normal.slack)} per month.`);
+  }
 
-  setText("monthly-headroom", signedPounds(spareMonthly));
-  setText(
-    "monthly-headroom-detail",
-    spareMonthly >= 0
-      ? "After mortgage, living costs, and home maintenance."
-      : "Shortfall after mortgage, living costs, and home maintenance.",
-  );
+  if (scenarios.lean.slack >= 3000) {
+    score += 2;
+  } else if (scenarios.lean.slack >= 1500) {
+    score += 1;
+  } else if (scenarios.lean.slack < 500) {
+    score -= 1;
+    concerns.push(`Lean mode only leaves ${signedPounds(scenarios.lean.slack)}.`);
+  }
 
-  setText("budget-load", signedPounds(spareMonthly));
-  setText("budget-mortgage-legend", pounds(monthlyMortgage));
-  setText("budget-other-costs-legend", pounds(monthlyOtherCosts));
-  setText("budget-scale-note", `${pounds(takeHomeMonthly)} net monthly income less ${pounds(monthlyMortgage)} mortgage, ${pounds(state.livingCosts)} living costs, and ${pounds(monthlyMaintenance)} maintenance leaves ${signedPounds(spareMonthly)}.`);
-  document.getElementById("mortgage-share-bar").style.width = `${mortgageBar}%`;
-  document.getElementById("other-costs-share-bar").style.width = `${otherCostsBar}%`;
-  document.getElementById("surplus-share-bar").style.width = `${surplusBar}%`;
+  if (resilience.stressedLeanSlack >= 750) {
+    score += 1;
+  } else if (resilience.stressedLeanSlack < 0) {
+    score -= 1;
+    concerns.push(`Lean mode turns negative if rates reset 1 point higher.`);
+  }
 
-  const budgetStatus = document.getElementById("budget-status");
-  budgetStatus.className = `status-pill ${budgetAssessment.tone}`;
-  budgetStatus.textContent = budgetAssessment.label;
-  setText("budget-status-detail", budgetAssessment.detail);
+  if (reservePlan.reserveGap >= 0) {
+    score += 2;
+  } else if (reservePlan.reserveGap >= -25000) {
+    concerns.push(`You would eat into reserve targets by ${pounds(Math.abs(reservePlan.reserveGap))}.`);
+  } else {
+    score -= 2;
+    concerns.push(`Reserves fall short by ${pounds(Math.abs(reservePlan.reserveGap))} after purchase.`);
+  }
 
-  setText("purchase-tax", pounds(purchaseTax));
-  setText("purchase-tax-detail", `${taxLabel} on a ${buyerStatusLabel(state.buyerStatus)} purchase.`);
+  if (resilience.runwayLean >= 12) {
+    score += 2;
+  } else if (resilience.runwayLean >= 6) {
+    score += 1;
+  } else if (resilience.runwayLean < 3) {
+    score -= 2;
+    concerns.push(`Lean runway is only ${monthsText(resilience.runwayLean)} if income stopped.`);
+  }
 
-  setText("etf-drawdown", pounds(funding.etfDrawdown));
-  setText("etf-opportunity-cost", pounds(etfFutureValueLost));
-  setText(
-    "etf-opportunity-cost-detail",
-    funding.etfDrawdown > 0
-      ? `${pounds(funding.cashUsed)} still comes from cash first. Sold ETF capital compounds to ${pounds(etfFutureValueLost)} over ${years(state.projectionPeriod)}.`
-      : `No ETF sale needed at this deposit and price over ${years(state.projectionPeriod)}.`,
-  );
+  if (reservePlan.depositLockRatio > 0.65) {
+    score -= 1;
+    concerns.push(`${ratio(reservePlan.depositLockRatio)} of liquid assets become house equity on day 1.`);
+  } else if (reservePlan.depositLockRatio <= 0.45) {
+    score += 1;
+  }
 
-  setText("projection-balance", pounds(finalYear.balance));
-  setText("projection-balance-detail", `${pounds(mortgageProjection.interestPaid)} interest paid over the horizon.`);
+  if (score >= 8) {
+    return {
+      label: "Target",
+      tone: "good",
+      headline: "Looks resilient",
+      detail: concerns[0] || `${signedPounds(scenarios.normal.slack)} in normal life, ${signedPounds(scenarios.lean.slack)} in lean mode, and ${monthsText(resilience.runwayLean)} of lean runway.`,
+    };
+  }
 
-  setText("projection-net-worth", pounds(finalYear.totalNetWorth));
-  setText("projection-net-worth-detail", `${pounds(finalYear.homeEquity)} home equity plus ${pounds(finalYear.etfValue)} in ETFs.`);
+  if (score >= 5) {
+    return {
+      label: "Stretch",
+      tone: "ok",
+      headline: "Stretch but workable",
+      detail: concerns.slice(0, 2).join(" ") || `You still keep ${monthsText(resilience.runwayLean)} of lean runway after purchase.`,
+    };
+  }
+
+  if (score >= 2) {
+    return {
+      label: "Tight",
+      tone: "watch",
+      headline: "Tight unless the house really earns it",
+      detail: concerns.slice(0, 2).join(" "),
+    };
+  }
+
+  return {
+    label: "Too far",
+    tone: "risk",
+    headline: "Too much house for the current resilience target",
+    detail: concerns.slice(0, 2).join(" "),
+  };
 }
 
-function updateFundingCard({ funding, home, state }) {
-  const totalUpfront = funding.upfront;
-  const cashShare = totalUpfront === 0 ? 0 : (funding.cashUsed / totalUpfront) * 100;
-  const etfShare = totalUpfront === 0 ? 0 : (funding.etfDrawdown / totalUpfront) * 100;
-  const gapShare = totalUpfront === 0 ? 0 : (funding.fundingGap / totalUpfront) * 100;
+function buildTradeoffs({
+  state,
+  current,
+}) {
+  const higherHousePrice = clamp(state.housePrice + 100000, 200000, 2500000);
+  const higherHouse = buildPurchaseOutcome({
+    state,
+    housePrice: higherHousePrice,
+    deposit: state.deposit,
+  });
 
-  document.getElementById("cash-stack").style.width = `${cashShare}%`;
-  document.getElementById("etf-stack").style.width = `${etfShare}%`;
-  document.getElementById("gap-stack").style.width = `${gapShare}%`;
+  const higherDepositAmount = clamp(state.deposit + 100000, 0, state.housePrice);
+  const higherDeposit = buildPurchaseOutcome({
+    state,
+    deposit: higherDepositAmount,
+  });
 
-  setText("cash-stack-label", `Cash used: ${pounds(funding.cashUsed)}`);
-  setText("etf-stack-label", `ETFs sold: ${pounds(funding.etfDrawdown)}`);
-  setText("gap-stack-label", `Funding gap: ${pounds(funding.fundingGap)}`);
+  return {
+    house: {
+      delta: higherHousePrice - state.housePrice,
+      paymentDelta: higherHouse.monthlyMortgage - current.monthlyMortgage,
+      taxDelta: higherHouse.purchaseTax - current.purchaseTax,
+      liquidityDelta: higherHouse.liquidAfterPurchase - current.liquidAfterPurchase,
+      netWorthDelta: higherHouse.finalYear.totalNetWorth - current.finalYear.totalNetWorth,
+      note: "Buys more house, but mainly by asking more from leverage and monthly tolerance.",
+    },
+    deposit: {
+      delta: higherDeposit.home.deposit - current.home.deposit,
+      paymentDelta: higherDeposit.monthlyMortgage - current.monthlyMortgage,
+      liquidityDelta: higherDeposit.liquidAfterPurchase - current.liquidAfterPurchase,
+      interestDelta: higherDeposit.mortgageProjection.interestPaid - current.mortgageProjection.interestPaid,
+      netWorthDelta: higherDeposit.finalYear.totalNetWorth - current.finalYear.totalNetWorth,
+      note: "Buys more certainty and lower burn, but at the cost of flexibility.",
+    },
+  };
+}
 
-  setText("total-upfront", pounds(totalUpfront));
-  setText("total-deposit", pounds(home.deposit));
-  setText("total-tax", pounds(funding.cashUsed));
-  setText("ltv-value", ratio(home.loanAmount() / state.housePrice));
+function updateDecisionCard({
+  state,
+  current,
+  takeHomeMonthly,
+  scenarios,
+  reservePlan,
+  resilience,
+  verdict,
+}) {
+  const grossIncome = state.incomeOne + state.incomeTwo;
+  const ltv = current.home.price <= 0 ? 0 : current.home.loanAmount() / current.home.price;
+  const lti = grossIncome <= 0 ? null : current.home.loanAmount() / grossIncome;
+  const monthlyFit = monthlyFitLabel(scenarios.normal.slack);
+  const resilienceStatus = resilienceLabel({ reservePlan, resilience });
+  const leverageStatus = leverageLabel({ ltv, lti });
+  const verdictShort = verdict.label === "Target" ? "Comfortable" : verdict.label;
+
+  setText("top-house-price", pounds(state.housePrice));
+  setText("top-deposit", pounds(current.home.deposit));
+  setText("top-mortgage", pounds(current.home.loanAmount()));
+  setText("top-ltv", ratio(ltv));
+  setText("top-ltv-detail", ltvBandLabel(ltv));
+  setText("top-lti", lti === null ? "n/a" : `${trimZeros(lti.toFixed(2))}x`);
+  setText("top-lti-detail", ltiBandLabel(lti));
+  setText("top-verdict", verdict.headline);
+  setText("top-verdict-detail", `${monthlyFit} monthly fit, ${resilienceStatus.toLowerCase()} resilience.`);
+
+  setText(
+    "decision-headline",
+    `House decision: ${compactPounds(state.housePrice)} house · ${compactPounds(current.home.deposit)} deposit · ${compactPounds(current.home.loanAmount())} mortgage`,
+  );
+  setText(
+    "decision-detail",
+    `Leverage: ${ratio(ltv)} LTV · ${lti === null ? "n/a" : `${trimZeros(lti.toFixed(2))}x`} LTI. Verdict: ${verdict.headline}.`,
+  );
+
+  setText("projection-net-worth", pounds(current.finalYear.totalNetWorth));
+  setText(
+    "projection-net-worth-detail",
+    `${pounds(current.finalYear.homeEquity)} home equity plus ${pounds(current.finalYear.etfValue)} in investments.`,
+  );
+
+  setText("projection-balance", pounds(current.finalYear.balance));
+  setText(
+    "projection-balance-detail",
+    `${pounds(current.mortgageProjection.interestPaid)} interest paid over the horizon.`,
+  );
+
+  setText("why-monthly-fit", monthlyFit);
+  setText("why-monthly-fit-detail", `Normal life leaves ${signedPounds(scenarios.normal.slack)} after housing and life costs.`);
+  setText("why-resilience", resilienceStatus);
+  setText(
+    "why-resilience-detail",
+    reservePlan.reserveGap >= 0
+      ? `${pounds(reservePlan.reserveGap)} above the liquid target, with ${monthsText(resilience.runwayLean)} of lean runway.`
+      : `${pounds(Math.abs(reservePlan.reserveGap))} below the liquid target, with ${monthsText(resilience.runwayLean)} of lean runway.`,
+  );
+  setText("why-leverage", leverageStatus);
+  setText(
+    "why-leverage-detail",
+    `${ratio(ltv)} LTV and ${lti === null ? "n/a" : `${trimZeros(lti.toFixed(2))}x`} LTI.`,
+  );
+  setText("top-verdict-long", verdict.headline);
+  setText(
+    "why-verdict-detail",
+    `${verdictShort} because monthly fit is ${monthlyFit.toLowerCase()}, resilience is ${resilienceStatus.toLowerCase()}, and leverage is ${leverageStatus.toLowerCase()}.`,
+  );
+
+  // Update verdict banner
+  const banner = document.getElementById('verdict-banner');
+  if (banner) banner.dataset.tone = verdict.tone;
+
+  const pill = document.getElementById('verdict-pill');
+  if (pill) {
+    pill.textContent = verdict.label;
+    pill.className = `status-pill ${verdict.tone}`;
+  }
+
+  const ltvVal = current.home.price <= 0 ? 0 : (current.home.loanAmount() / current.home.price);
+  const ltiVal = (state.incomeOne + state.incomeTwo) <= 0 ? 0 : current.home.loanAmount() / (state.incomeOne + state.incomeTwo);
+  setText('vb-ltv', `${(ltvVal * 100).toFixed(1)}%`);
+  setText('vb-ltv-sub', `${ltiVal.toFixed(1)}× income`);
+
+  // Sync mobile verdict pill
+  const mobilePill = document.getElementById('mobile-verdict-pill');
+  if (mobilePill) {
+    mobilePill.textContent = verdict.label;
+    mobilePill.className = `status-pill ${verdict.tone}`;
+  }
+}
+
+function updateScenarioCard({
+  current,
+  takeHomeMonthly,
+  scenarios,
+  resilience,
+}) {
+  document.getElementById("monthly-table-body").innerHTML = [
+    metricTableRow("Net monthly income", pounds(takeHomeMonthly), "After income tax and NI."),
+    metricTableRow("Housing cost", pounds(scenarios.fixedHousing), `${pounds(current.monthlyMortgage)} mortgage plus ${pounds(current.monthlyMaintenance)} maintenance.`),
+    metricTableRow("Normal slack", signedPounds(scenarios.normal.slack), "After housing plus normal monthly life costs.", `slack-${scenarios.normal.tone}`),
+    metricTableRow("Lean slack", signedPounds(scenarios.lean.slack), "If spending dropped to lean mode.", `slack-${scenarios.lean.tone}`),
+    metricTableRow("Stress slack", signedPounds(resilience.stressedLeanSlack), "Lean mode with mortgage rate 1 point higher.", `slack-${scenarioTone(resilience.stressedLeanSlack)}`),
+  ].join("");
+
+  setText(
+    "monthly-interpretation",
+    monthlyInterpretation({
+      scenarios,
+      resilience,
+    }),
+  );
+
+  // Update verdict banner monthly slack stat
+  setText('vb-slack', signedPounds(scenarios.normal.slack));
+  setText('vb-slack-sub', scenarios.normal.slack >= 0 ? 'after normal costs' : 'shortfall');
+
+  // Update mobile verdict bar slack
+  setText('mvb-slack', signedPounds(scenarios.normal.slack));
+}
+
+function updateResilienceCard({
+  current,
+  reservePlan,
+  resilience,
+}) {
+  document.getElementById("resilience-table-body").innerHTML = [
+    metricTableRow("Liquid after purchase", pounds(current.liquidAfterPurchase), "Cash and investments left after upfront costs."),
+    metricTableRow("Reserve target", pounds(reservePlan.reserveTarget), "Minimum liquid buffer you want to keep."),
+    metricTableRow(
+      reservePlan.reserveGap >= 0 ? "Above reserve target" : "Below reserve target",
+      reservePlan.reserveGap >= 0 ? pounds(reservePlan.reserveGap) : `-${pounds(Math.abs(reservePlan.reserveGap))}`,
+      reservePlan.reserveGap >= 0 ? "Spare liquid capital above the target." : "Shortfall versus the target.",
+      reservePlan.reserveGap >= 0 ? "slack-good" : "slack-risk",
+    ),
+    metricTableRow("Normal runway", monthsText(resilience.runwayNormal), "Months your remaining cash (excluding investments) covers normal spending if income stopped."),
+    metricTableRow("Lean runway", monthsText(resilience.runwayLean), "Months your remaining cash (excluding investments) covers lean-mode spending if income stopped."),
+  ].join("");
+
+  setText(
+    "resilience-interpretation",
+    resilienceInterpretation({
+      reservePlan,
+      resilience,
+    }),
+  );
+
+  // Update verdict banner resilience stats
+  setText('vb-runway', String(Math.round(resilience.runwayLean)));
+  setText('vb-reserve', signedPounds(reservePlan.reserveGap));
+  setText('vb-reserve-sub', reservePlan.reserveGap >= 0 ? 'above target' : 'below target');
+}
+
+function updateReserveCard({
+  current,
+  reservePlan,
+}) {
+  document.getElementById("reserve-stack").style.width = `${reservePlan.reserveShare}%`;
+  document.getElementById("deposit-stack").style.width = `${reservePlan.depositShare}%`;
+  document.getElementById("tax-stack").style.width = `${reservePlan.taxShare}%`;
+  document.getElementById("remaining-stack").style.width = `${reservePlan.remainingShare}%`;
+  document.getElementById("reserve-gap-stack").style.width = `${reservePlan.gapShare}%`;
+
+  setText("reserve-gap", signedPounds(reservePlan.reserveGap));
+  setText(
+    "reserve-gap-detail",
+    reservePlan.reserveGap >= 0
+      ? "Remaining cash and investments still exceed the target after purchase."
+      : "The purchase would leave less liquidity than your target.",
+  );
+
+  setText(
+    "reserve-stack-label",
+    reservePlan.reserveShortfall > 0
+      ? `Reserve covered: ${pounds(reservePlan.reserveCovered)} of ${pounds(reservePlan.reserveTarget)}`
+      : `Reserve target: ${pounds(reservePlan.reserveTarget)}`,
+  );
+  setText("deposit-stack-label", `House equity now: ${pounds(current.home.deposit)}`);
+  setText("tax-stack-label", `Purchase tax: ${pounds(current.purchaseTax)}`);
+  setText("remaining-stack-label", `Liquid left above target: ${pounds(reservePlan.remainingAboveReserve)}`);
+  setText("reserve-gap-stack-label", `Reserve shortfall: ${pounds(reservePlan.reserveShortfall)}`);
+
+  setText("total-liquid-assets", pounds(reservePlan.totalLiquidAssets));
+  setText("reserve-target", pounds(reservePlan.reserveTarget));
+  setText("deployable-capital", pounds(reservePlan.deployableCapital));
+  setText("total-upfront", pounds(current.funding.upfront));
+  setText("liquid-after-purchase", pounds(current.liquidAfterPurchase));
+  setText("locked-into-house", `${pounds(current.home.deposit)} (${ratio(reservePlan.depositLockRatio)})`);
+  setText("purchase-tax", pounds(current.purchaseTax));
+  setText("investments-remaining", pounds(current.funding.etfRemaining));
+}
+
+function updateTradeoffCard({ tradeoffs }) {
+  setText("tradeoff-house-title", `House price +${compactPounds(tradeoffs.house.delta)}`);
+  setText("tradeoff-house-note", tradeoffs.house.note);
+  setText("tradeoff-house-payment", signedPounds(tradeoffs.house.paymentDelta));
+  setText("tradeoff-house-tax", signedPounds(tradeoffs.house.taxDelta));
+  setText("tradeoff-house-liquidity", signedPounds(tradeoffs.house.liquidityDelta));
+  setText("tradeoff-house-networth", signedPounds(tradeoffs.house.netWorthDelta));
+
+  setText("tradeoff-deposit-title", `Deposit +${compactPounds(tradeoffs.deposit.delta)}`);
+  setText("tradeoff-deposit-note", tradeoffs.deposit.note);
+  setText("tradeoff-deposit-payment", signedPounds(tradeoffs.deposit.paymentDelta));
+  setText("tradeoff-deposit-liquidity", signedPounds(tradeoffs.deposit.liquidityDelta));
+  setText("tradeoff-deposit-interest", signedPounds(tradeoffs.deposit.interestDelta));
+  setText("tradeoff-deposit-networth", signedPounds(tradeoffs.deposit.netWorthDelta));
+}
+
+function updateDecisionSummary({
+  verdict,
+  scenarios,
+  resilience,
+  reservePlan,
+}) {
+  setText(
+    "why-verdict-detail",
+    `${verdict.headline}. Normal leaves ${signedPounds(scenarios.normal.slack)}, lean leaves ${signedPounds(scenarios.lean.slack)}, and lean runway is ${monthsText(resilience.runwayLean)}. ${
+      reservePlan.reserveGap >= 0
+        ? `Liquid assets remain ${pounds(reservePlan.reserveGap)} above target after purchase.`
+        : `Liquid assets finish ${pounds(Math.abs(reservePlan.reserveGap))} below target after purchase.`
+    }`,
+  );
 }
 
 function updateIncomeCard({ me, partner }) {
@@ -1762,14 +3006,26 @@ function updateIncomeSlot(suffix, earner) {
   setText(`income-${suffix}-marginal`, `${pence(marginalTakeHome)} kept from each extra £1`);
 }
 
-function updateStatusBanner({ funding, note, me, partner, state }) {
+function updateStatusBanner({
+  current,
+  reservePlan,
+  note,
+  me,
+  partner,
+  state,
+}) {
   const banner = document.getElementById("status-banner");
   const messages = [];
   let bannerType = "info";
 
-  if (funding.fundingGap > 0) {
+  if (current.funding.fundingGap > 0) {
     bannerType = "warning";
-    messages.push(`This setup is short by ${pounds(funding.fundingGap)} versus the available cash plus ETF pot.`);
+    messages.push(`This setup is short by ${pounds(current.funding.fundingGap)} versus available cash and investments.`);
+  }
+
+  if (reservePlan.reserveGap < 0) {
+    bannerType = "warning";
+    messages.push(`Reserve-first check: the purchase would consume ${pounds(Math.abs(reservePlan.reserveGap))} of the reserve target.`);
   }
 
   if (me.grossIncome > 100000 || partner.grossIncome > 100000) {
@@ -1800,6 +3056,23 @@ function updateFootnote(state, purchaseTaxLabel) {
     "tax-footnote",
     `${purchaseTaxLabel} is calculated for ${propertyLocation} residential rates in force on 4 April 2026. Income tax and employee NI use ${residence} 2025/26 rules, which run from 6 April 2025 to 5 April 2026.`,
   );
+  setText(
+    "assumption-footnote",
+    `Monthly life uses lean, normal, and comfortable costs excluding mortgage and maintenance. Long-run assumptions use ${percent(state.investmentReturn)} investment return, ${percent(state.houseAppreciation)} house appreciation, ${trimZeros(state.maintenanceRate.toFixed(1))}% home maintenance, and a ${years(state.projectionPeriod)} horizon.`,
+  );
+}
+
+function updateStressCard({
+  scenarios,
+  resilience,
+}) {
+  document.getElementById("stress-table-body").innerHTML = [
+    metricTableRow("Normal", signedPounds(scenarios.normal.slack), "Current monthly slack in normal life.", `slack-${scenarios.normal.tone}`),
+    metricTableRow("Lean", signedPounds(scenarios.lean.slack), "Current monthly slack in lean mode.", `slack-${scenarios.lean.tone}`),
+    metricTableRow("Rate +1%", signedPounds(resilience.stressedLeanSlack), "Lean mode with the mortgage rate 1 point higher.", `slack-${scenarioTone(resilience.stressedLeanSlack)}`),
+    metricTableRow("One income only", signedPounds(resilience.singleIncomeLeanSlack), "Higher of the two incomes only, in lean mode.", `slack-${scenarioTone(resilience.singleIncomeLeanSlack)}`),
+    metricTableRow("Stress runway", monthsText(resilience.runwayStress), "Months of runway in lean mode with the higher rate."),
+  ].join("");
 }
 
 function updateChart(series) {
@@ -1866,7 +3139,7 @@ function updateSnapshots(series) {
       <article class="snapshot-card">
         <span>Year ${snapshot.year}</span>
         <strong>${pounds(snapshot.totalNetWorth)}</strong>
-        <small>${pounds(snapshot.homeEquity)} equity, ${pounds(snapshot.etfValue)} ETFs</small>
+        <small>${pounds(snapshot.homeEquity)} equity, ${pounds(snapshot.etfValue)} investments</small>
       </article>
     `)
     .join("");
@@ -2091,74 +3364,289 @@ function taxResidenceLabel(value) {
   return value === "scotland" ? "Scottish" : "England / Wales / Northern Ireland";
 }
 
-function setText(id, value) {
-  document.getElementById(id).textContent = value;
+function setText(id, val) {
+  const el = document.getElementById(id);
+  if (!el || el.textContent === String(val)) return;
+  el.textContent = val;
+  el.classList.remove('value-updated');
+  void el.offsetWidth;
+  el.classList.add('value-updated');
 }
 
 function signedPounds(value) {
   return value < 0 ? `-${pounds(Math.abs(value))}` : pounds(value);
 }
 
-function assessBudget({
-  monthlyMortgage,
-  takeHomeMonthly,
-  spareMonthly,
-  fundingGap,
-}) {
-  if (fundingGap > 0) {
-    return {
-      label: "Underfunded",
-      tone: "risk",
-      detail: `Upfront funding is short by ${pounds(fundingGap)} before considering monthly affordability.`,
-    };
+function compactPounds(value) {
+  if (!Number.isFinite(value)) {
+    return "n/a";
   }
 
-  if (monthlyMortgage === 0) {
-    return {
-      label: "Cash buy",
-      tone: "good",
-      detail: "No monthly mortgage payment in this scenario.",
-    };
+  if (Math.abs(value) >= 1000000) {
+    return `£${trimZeros((value / 1000000).toFixed(2))}M`;
   }
 
-  if (takeHomeMonthly <= 0) {
-    return {
-      label: "No income",
-      tone: "risk",
-      detail: "There is no after-tax monthly income to support the mortgage payment.",
-    };
+  if (Math.abs(value) >= 1000) {
+    return `£${Math.round(value / 1000)}k`;
   }
 
-  if (spareMonthly >= 3000) {
-    return {
-      label: "Comfortable",
-      tone: "good",
-      detail: `${signedPounds(spareMonthly)} left each month after mortgage, living costs, and maintenance.`,
-    };
-  }
-
-  if (spareMonthly >= 1500) {
-    return {
-      label: "Balanced",
-      tone: "ok",
-      detail: `${signedPounds(spareMonthly)} left each month after mortgage, living costs, and maintenance.`,
-    };
-  }
-
-  if (spareMonthly >= 0) {
-    return {
-      label: "Tight",
-      tone: "watch",
-      detail: `${signedPounds(spareMonthly)} left each month after mortgage, living costs, and maintenance.`,
-    };
-  }
-
-  return {
-    label: "Stretched",
-    tone: "risk",
-    detail: `${signedPounds(spareMonthly)} left after mortgage, living costs, and maintenance.`,
-  };
+  return pounds(value);
 }
+
+function trimZeros(value) {
+  return value.replace(/\.00$/, "").replace(/(\.\d)0$/, "$1");
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function monthlyMaintenanceFor(price, maintenanceRate) {
+  return (price * (maintenanceRate / 100)) / 12;
+}
+
+function monthlyTakeHomeForGross(taxResidence, incomeOne, incomeTwo) {
+  return (
+    new Earner(incomeOne, taxResidence).takeHome() +
+    new Earner(incomeTwo, taxResidence).takeHome()
+  ) / 12;
+}
+
+function runwayMonths(liquidAssets, monthlyBurn) {
+  if (liquidAssets <= 0) {
+    return 0;
+  }
+  if (monthlyBurn <= 0) {
+    return Number.POSITIVE_INFINITY;
+  }
+  return liquidAssets / monthlyBurn;
+}
+
+function monthsText(value) {
+  if (!Number.isFinite(value)) {
+    return "n/a";
+  }
+  if (value >= 24) {
+    return `${Math.round(value)} months`;
+  }
+  return `${trimZeros(value.toFixed(1))} months`;
+}
+
+function percentageOf(value, total) {
+  if (total <= 0) {
+    return 0;
+  }
+  return (value / total) * 100;
+}
+
+function scenarioTone(slack) {
+  if (slack >= 1500) {
+    return "good";
+  }
+  if (slack >= 0) {
+    return "watch";
+  }
+  return "risk";
+}
+
+function metricTableRow(label, value, meaning, valueClass = "") {
+  return `
+    <div class="scenario-table-row">
+      <span class="scenario-mode">${label}</span>
+      <span class="scenario-value ${valueClass}">${value}</span>
+      <span>${meaning}</span>
+    </div>
+  `;
+}
+
+function ltvBandLabel(ltv) {
+  if (!Number.isFinite(ltv)) {
+    return "n/a";
+  }
+  if (ltv < 0.5) {
+    return "Low leverage";
+  }
+  if (ltv < 0.7) {
+    return "Target band";
+  }
+  if (ltv < 0.8) {
+    return "Stretched";
+  }
+  return "Aggressive";
+}
+
+function ltiBandLabel(lti) {
+  if (!Number.isFinite(lti)) {
+    return "No income";
+  }
+  if (lti < 3.5) {
+    return "Conservative";
+  }
+  if (lti <= 4.5) {
+    return "Normal";
+  }
+  return "Stretched";
+}
+
+function monthlyFitLabel(normalSlack) {
+  if (normalSlack >= 1500) {
+    return "Comfortable";
+  }
+  if (normalSlack >= 500) {
+    return "Workable";
+  }
+  if (normalSlack >= 0) {
+    return "Tight";
+  }
+  return "Negative";
+}
+
+function resilienceLabel({ reservePlan, resilience }) {
+  if (reservePlan.reserveGap >= 0 && resilience.runwayLean >= 12) {
+    return "Strong";
+  }
+  if (reservePlan.reserveGap >= 0 && resilience.runwayLean >= 6) {
+    return "Adequate";
+  }
+  if (reservePlan.reserveGap >= -25000 && resilience.runwayLean >= 3) {
+    return "Watch";
+  }
+  return "Weak";
+}
+
+function leverageLabel({ ltv, lti }) {
+  if (!Number.isFinite(lti)) {
+    return "No income";
+  }
+  if (ltv < 0.5 && lti < 3.5) {
+    return "Conservative";
+  }
+  if (ltv < 0.7 && lti <= 4.5) {
+    return "Normal";
+  }
+  if (ltv < 0.8 && lti <= 5) {
+    return "Stretched";
+  }
+  return "Aggressive";
+}
+
+function monthlyInterpretation({ scenarios, resilience }) {
+  if (scenarios.normal.slack < 0) {
+    return `Normal life is negative by ${pounds(Math.abs(scenarios.normal.slack))} per month. The setup only works if you rely on lean mode or future changes.`;
+  }
+  if (scenarios.normal.slack < 500) {
+    return `This house is affordable, but normal life has little spare room. The main risk is month-to-month tightness, not immediate instability.`;
+  }
+  if (resilience.stressedLeanSlack < 0) {
+    return `Normal life works today, but a higher-rate reset would put pressure on the lean fallback.`;
+  }
+  return `Monthly life looks workable. Normal and lean modes stay positive, with lean mode still holding up under a modest rate shock.`;
+}
+
+function resilienceInterpretation({ reservePlan, resilience }) {
+  if (reservePlan.reserveGap < 0 && resilience.runwayLean < 6) {
+    return `Post-purchase resilience looks weak. Liquidity misses the target and the lean runway is only ${monthsText(resilience.runwayLean)}.`;
+  }
+  if (reservePlan.reserveGap < 0) {
+    return `Monthly resilience is reasonable, but the purchase would leave less liquidity than the target.`;
+  }
+  if (resilience.runwayLean >= 12) {
+    return `Strong post-purchase resilience. You are not fragile after buying.`;
+  }
+  return `Resilience remains acceptable after purchase, though the liquid buffer is not especially large relative to monthly burn.`;
+}
+
+// Tab switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', 'false'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.setAttribute('aria-selected', 'true');
+    document.querySelector(`.tab-panel[data-panel="${btn.dataset.tab}"]`).classList.add('active');
+  });
+});
+// Activate first tab on load
+document.querySelector('.tab-panel[data-panel="monthly"]').classList.add('active');
+
+// Advanced drawer toggle
+const advToggle = document.getElementById('advanced-toggle');
+const advDrawer = document.getElementById('advanced-drawer');
+if (advToggle && advDrawer) {
+  advToggle.addEventListener('click', () => {
+    const open = advDrawer.classList.toggle('open');
+    advToggle.setAttribute('aria-expanded', String(open));
+  });
+}
+
+// Mobile inputs drawer
+(function () {
+  const panel   = document.getElementById('controls-panel');
+  const overlay = document.getElementById('inputs-overlay');
+  const openBtn = document.getElementById('inputs-open-btn');
+  const closeBtn = document.getElementById('inputs-close-btn');
+  if (!panel || !overlay || !openBtn) return;
+
+  function openDrawer() {
+    overlay.classList.add('visible');
+    requestAnimationFrame(() => {
+      overlay.classList.add('open');
+      panel.classList.add('drawer-open');
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    overlay.classList.remove('open');
+    panel.classList.remove('drawer-open');
+    overlay.addEventListener('transitionend', () => overlay.classList.remove('visible'), { once: true });
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+})();
+
+// Tooltip system — appended to <body> so it escapes all overflow containers
+(function () {
+  const tip = document.createElement('div');
+  tip.className = 'js-tooltip';
+  document.body.appendChild(tip);
+
+  function show(el) {
+    tip.textContent = el.dataset.tooltip;
+    tip.style.display = 'block';
+    requestAnimationFrame(() => {
+      const r = el.getBoundingClientRect();
+      const tw = tip.offsetWidth;
+      // Centre under the element, nudge if near edges
+      let left = r.left + r.width / 2 - tw / 2;
+      left = Math.max(8, Math.min(left, window.innerWidth - tw - 8));
+      let top = r.bottom + 8;
+      // If it would go off the bottom, flip above
+      if (top + tip.offsetHeight > window.innerHeight - 8) {
+        top = r.top - tip.offsetHeight - 8;
+      }
+      tip.style.left = left + 'px';
+      tip.style.top  = top  + 'px';
+      tip.style.opacity = '1';
+    });
+  }
+
+  function hide() {
+    tip.style.opacity = '0';
+    tip.style.display = 'none';
+  }
+
+  document.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-tooltip]');
+    if (el) show(el);
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest('[data-tooltip]')) hide();
+  });
+})();
     </script>
   </body>
 </html>
