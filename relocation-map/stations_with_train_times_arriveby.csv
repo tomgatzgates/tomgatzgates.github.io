@@ -1,0 +1,430 @@
+Station,County,Line,London_Terminus,Operator,Drive_Time_Horsham_Minutes,Drive_Time_Hertford_Minutes,Latitude,Longitude,Train_Times_To_Terminals,Min_Train_Time_Minutes
+Addlestone,Surrey,Chertsey Loop (SWR),Waterloo,,47,64,51.3731108,-0.4843242,Waterloo:63,63
+Aldershot,Hampshire,Alton Line (SWR),Waterloo,,56,77,51.248366,-0.7557509,Waterloo:50,50
+Alton,Hampshire,Alton Line (SWR),Waterloo,,67,91,51.1519401,-0.9672624,Waterloo:71,71
+Andover,Hampshire,West of England Main Line (SWR),Waterloo,,95,114,51.2116224,-1.4922763,Waterloo:73,73
+Angmering,West Sussex,West Coastway (Southern),Victoria,,29,126,50.829189,-0.483919,Victoria:116,116
+Arundel,West Sussex,Arun Valley / West Coastway (Southern),Victoria,,33,124,50.855171,-0.555119,Victoria:91,91
+Ascot,Berkshire,Reading via Ascot (SWR),Waterloo,,61,68,51.4063262,-0.6758584,Waterloo:61,61
+Ash,Surrey,Alton / North Downs Line (SWR),Waterloo,,53,75,51.2470358,-0.7190764,Waterloo:63,63
+Ashford International,Kent,HS1 (Southeastern),St Pancras International,,78,95,51.1433539,0.8748532,St Pancras International:42,42
+Ash Vale,Surrey,Alton Line (SWR),Waterloo,,56,74,51.264376,-0.7219719,Waterloo:45,45
+Ashford (Surrey),Surrey,SWR,Waterloo,,57,61,51.4274516,-0.4552643,Waterloo:44,44
+Ashtead,Surrey,Epsom / Dorking Line (Southern),Victoria / London Bridge,,31,75,51.31068399999999,-0.296968,"Victoria:54, London Bridge:62",54
+Aylesbury,Buckinghamshire,Chiltern Railways,Marylebone,,93,56,51.8137625,-0.8148232000000001,Marylebone:68,68
+Aylesbury Vale Parkway,Buckinghamshire,Chiltern Railways,Marylebone,,97,61,51.83126129999999,-0.8598608000000001,Marylebone:76,76
+Aylesford,Kent,Medway Valley (Southern),Victoria,,57,70,51.304309,0.47806,Victoria:80,80
+Aylesham,Kent,Chatham Main Line (Southeastern),Victoria,,104,113,51.2274058,1.2096984,Victoria:120,120
+Bagshot,Berkshire,Reading via Ascot (SWR),Waterloo,,55,66,51.360343,-0.697894,Waterloo:71,71
+Balcombe,West Sussex,Brighton Main Line (Southern/Thameslink),Victoria / London Bridge / Blackfriars / St Pancras,,20,90,51.05556,-0.136921,"Victoria:46, London Bridge:42, Blackfriars:48, St Pancras:57",42
+Baldock,Hertfordshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,101,28,51.9895039,-0.189128,"King's Cross:38, St Pancras:39",38
+Banbury,Oxfordshire,Chiltern Railways,Marylebone,,114,101,52.0604142,-1.3276253,Marylebone:76,76
+Barnham,West Sussex,West Coastway (Southern),Victoria,,40,128,50.8308523,-0.6401195,Victoria:88,88
+Basildon,Essex,c2c,Fenchurch Street,,68,46,51.568162,0.456785,Fenchurch Street:44,44
+Basingstoke,Hampshire,South Western Main Line (SWR),Waterloo,,77,93,51.268304,-1.0876824,Waterloo:46,46
+Battle,East Sussex,Hastings Line (Southeastern),Charing Cross / London Bridge,,76,104,50.91301499999999,0.4949607,"Charing Cross:88, London Bridge:83",83
+Beaconsfield,Buckinghamshire,Chiltern Railways,Marylebone,,64,50,51.6023072,-0.6319366,Marylebone:27,27
+Bearsted,Kent,Maidstone East Line (Southeastern),Victoria,,63,81,51.275953,0.5777827,Victoria:76,76
+Beaulieu Park,Essex,Greater Anglia,Liverpool Street,,85,51,51.758064,0.5183559999999999,Liverpool Street:42,42
+Bedford,Bedfordshire,Thameslink,St Pancras / Blackfriars / City Thameslink / Farringdon,,112,54,52.1362511,-0.4794361999999999,"St Pancras:48, Blackfriars:67, City Thameslink:70, Farringdon:71",48
+Bedhampton,Hampshire,Portsmouth Direct (SWR),Waterloo,,60,114,50.8582682,-1.0001658,Waterloo:118,118
+Bekesbourne,Kent,Chatham Main Line (Southeastern),Victoria,,98,107,51.26149299999999,1.1370902,Victoria:114,114
+Beltring,Kent,Medway Valley (Southern),Victoria,,56,75,51.2045414,0.4032836,Victoria:85,85
+Benfleet,Essex,c2c,Fenchurch Street,,73,57,51.544064,0.561905,Fenchurch Street:50,50
+Bentley,Hampshire,Alton Line (SWR),Waterloo,,61,85,51.18129339999999,-0.8682042999999999,Waterloo:64,64
+Berkhamsted,Hertfordshire,West Coast Main Line (LNR),Euston,,79,42,51.76343199999999,-0.562197,Euston:33,33
+Bexhill,East Sussex,Hastings Line (Southeastern),Charing Cross,,71,116,50.841,0.4769685,Charing Cross:121,121
+Bicester North,Oxfordshire,Chiltern Railways,Marylebone,,102,85,51.9034779,-1.1502046,Marylebone:54,54
+Bicester Village,Oxfordshire,Chiltern Railways,Marylebone,,102,82,51.8926017,-1.1495538,Marylebone:71,71
+Biggleswade,Bedfordshire,East Coast Main Line (LNER/Thameslink),King's Cross,,108,35,52.086938,-0.26422,King's Cross:41,41
+Billericay,Essex,Greater Anglia,Liverpool Street,,76,48,51.62873769999999,0.418399,Liverpool Street:37,37
+Billingshurst,West Sussex,Arun Valley (Southern),Victoria,,16,111,51.0152,-0.4502799999999999,Victoria:73,73
+Birchington-on-Sea,Kent,Chatham Main Line (Southeastern),Victoria,,97,104,51.3775244,1.3013298,Victoria:108,108
+Birmingham International,West Midlands,Chiltern Railways,Marylebone,,154,125,52.4507254,-1.7252436,Marylebone:110,110
+Birmingham Moor Street,West Midlands,Chiltern Railways,Marylebone,,166,136,52.4787335,-1.892601,Marylebone:119,119
+Birmingham New Street,West Midlands,Avanti West Coast,Euston,,164,140,52.477754,-1.898958,Euston:87,87
+Birmingham Snow Hill,West Midlands,Chiltern Railways,Marylebone,,170,131,52.4828589,-1.8984066,Marylebone:127,127
+Bishop's Stortford,Hertfordshire,West Anglia Main Line (Greater Anglia),Liverpool Street,,92,21,51.8721635,0.1536502,Liverpool Street:63,63
+Bishopstone,East Sussex,Seaford Branch (Southern),London Bridge / Victoria,,50,127,50.7801919,0.0827024,"London Bridge:99, Victoria:99",99
+Bletchley,Buckinghamshire,West Coast Main Line (LNR),Euston,,110,65,51.9953145,-0.7367237999999999,Euston:40,40
+Bognor Regis,West Sussex,West Coastway (Southern),Victoria,,47,133,50.7865415,-0.6762836999999999,Victoria:112,112
+Bookham,Surrey,New Guildford Line (SWR),Waterloo,,30,78,51.2783826,-0.3733532,Waterloo:61,61
+Bosham,West Sussex,West Coastway (Southern),Victoria,,51,124,50.8332044,-0.8508142999999999,Victoria:103,103
+Bracknell,Berkshire,Reading via Ascot (SWR),Waterloo,,61,71,51.4131118,-0.7516147999999999,Waterloo:70,70
+Braintree,Essex,Greater Anglia,Liverpool Street,,105,43,51.880087,0.5509269,Liverpool Street:69,69
+Braintree Freeport,Essex,Greater Anglia,Liverpool Street,,138,44,51.8692504,0.568346,Liverpool Street:68,68
+Brighton,East Sussex,Brighton Main Line (Southern/Thameslink),Victoria / London Bridge / Blackfriars / St Pancras,,36,116,50.8288519,-0.1410151,"Victoria:65, London Bridge:68, Blackfriars:74, St Pancras:86",65
+Bristol Parkway,South Gloucestershire,GWR,Paddington,,149,146,51.5142739,-2.5432277,Paddington:80,80
+Bristol Temple Meads,Bristol,GWR,Paddington,,152,149,51.4497104,-2.5806191,Paddington:102,102
+Broadstairs,Kent,Chatham Main Line (Southeastern),Victoria / Charing Cross,,108,115,51.360163,1.432038,"Victoria:120, Charing Cross:107",107
+Brockenhurst,Hampshire,South Western Main Line (SWR),Waterloo,,108,137,50.8192106,-1.5754565,Waterloo:101,101
+Bromley South,Greater London,Chatham Main Line (Southeastern),Victoria,,55,70,51.4000729,0.0174195,Victoria:27,27
+Broxbourne,Hertfordshire,West Anglia Main Line (Greater Anglia),Liverpool Street,,90,14,51.746914,-0.01106,Liverpool Street:34,34
+Burgess Hill,West Sussex,Brighton Main Line (Southern/Thameslink),Victoria / London Bridge / St Pancras,,27,105,50.9537232,-0.1273427,"Victoria:54, London Bridge:55, St Pancras:72",54
+Burnham,Buckinghamshire,Elizabeth Line / GWR,Paddington,,63,60,51.5233529,-0.6465506000000001,Paddington:42,42
+Burnham-on-Crouch,Essex,Greater Anglia,Liverpool Street,,96,76,51.628347,0.814539,Liverpool Street:69,69
+Bury St. Edmunds,Suffolk,Greater Anglia,Liverpool Street,,146,72,52.2535507,0.7124832999999999,Liverpool Street:124,124
+Byfleet & New Haw,Surrey,South Western Main Line (SWR),Waterloo,,47,67,51.3498379,-0.4812591999999999,Waterloo:44,44
+Cambridge,Cambridgeshire,Greater Anglia / Thameslink,Liverpool Street / King's Cross / St Pancras,,132,53,52.1942193,0.1374478,"Liverpool Street:77, King's Cross:59, St Pancras:60",59
+Cambridge North,Cambridgeshire,Greater Anglia,Liverpool Street,,135,57,52.2238386,0.1577312,Liverpool Street:89,89
+Canterbury East,Kent,Chatham Main Line (Southeastern),Victoria,,93,100,51.2742989,1.0759899,Victoria:108,108
+Canterbury West,Kent,Southeastern High Speed,St Pancras International,,91,99,51.2841375,1.0754923,St Pancras International:56,56
+Chappel & Wakes Colne,Essex,Greater Anglia,Liverpool Street,,124,63,51.92587409999999,0.7585058000000001,Liverpool Street:68,68
+Charing,Kent,Southeastern,Charing Cross / London Bridge / Victoria,,73,90,51.2081353,0.7903492999999999,"Charing Cross:93, London Bridge:81, Victoria:94",81
+Chatham,Kent,Chatham Main Line (Southeastern),Victoria / Charing Cross,,63,66,51.380952,0.52213,"Victoria:57, Charing Cross:62",57
+Chelmsford,Essex,Greater Anglia,Liverpool Street,,81,46,51.736293,0.4678424,Liverpool Street:39,39
+Cheltenham Spa,Gloucestershire,GWR,Paddington,,150,136,51.89735659999999,-2.0996341,Paddington:125,125
+Chertsey,Surrey,Chertsey Loop (SWR),Waterloo,,48,65,51.3873148,-0.5094561,Waterloo:61,61
+Cheshunt,Hertfordshire,West Anglia Main Line (Greater Anglia),Liverpool Street,,86,15,51.7030511,-0.0239482,Liverpool Street:29,29
+Chichester,West Sussex,West Coastway (Southern),Victoria,,47,127,50.83761000000001,-0.774936,Victoria:96,96
+Chippenham,Wiltshire,GWR,Paddington,,132,128,51.46236630000001,-2.1153249,Paddington:75,75
+Cholsey,Oxfordshire,GWR,Paddington,,95,88,51.57508079999999,-1.1532624,Paddington:62,62
+Christchurch,Dorset,South Western Main Line (SWR),Waterloo,,119,149,50.735777,-1.778586,Waterloo:122,122
+Clacton-on-Sea,Essex,Greater Anglia,Liverpool Street,,121,82,51.79401,1.15412,Liverpool Street:96,96
+Clandon,Surrey,New Guildford Line (SWR),Waterloo,,39,79,51.2639508,-0.5028264,Waterloo:59,59
+Claygate,Surrey,New Guildford Line (SWR),Waterloo,,43,75,51.3610745,-0.3482477,Waterloo:41,41
+Cobham & Stoke D'Abernon,Surrey,New Guildford Line (SWR),Waterloo,,37,74,51.318096,-0.389323,Waterloo:48,48
+Colchester,Essex,Greater Anglia,Liverpool Street,,102,63,51.900702,0.892606,Liverpool Street:55,55
+Colchester Town,Essex,Greater Anglia,Liverpool Street,,104,65,51.8864528,0.9042912999999999,Liverpool Street:74,74
+Cooden Beach,East Sussex,Hastings Line (Southeastern),Charing Cross,,67,119,50.8336911,0.4271553,Charing Cross:131,131
+Cooksbridge,East Sussex,Brighton Main Line (Southern),Victoria / London Bridge,,41,116,50.90375,-0.009179999999999999,"Victoria:70, London Bridge:68",68
+Cosham,Hampshire,Portsmouth Direct (SWR),Waterloo,,62,117,50.8433024,-1.0742463,Waterloo:119,119
+Coulsdon South,Surrey,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge,,32,80,51.31577739999999,-0.1379421,"Victoria:32, London Bridge:29",29
+Coventry,West Midlands,Avanti West Coast / West Midlands Trains,Euston,,145,118,52.4010446,-1.5146755,Euston:64,64
+Crawley,West Sussex,Brighton Main Line / Horsham Line (Southern),Victoria,,15,89,51.1121883,-0.1864694,Victoria:43,43
+Crowborough,East Sussex,Uckfield Line (Southern),London Bridge,,52,89,51.06085299999999,0.165894,London Bridge:71,71
+Cuffley,Hertfordshire,Great Northern (Thameslink),Moorgate / King's Cross,,88,19,51.705037,-0.11246,"Moorgate:42, King's Cross:41",41
+Dartford,Kent,Southeastern,Charing Cross / London Bridge,,55,55,51.44621,0.216872,"Charing Cross:53, London Bridge:37",37
+Datchet,Berkshire,Windsor Line (SWR),Waterloo,,57,54,51.4840262,-0.5795205999999999,Waterloo:59,59
+Deal,Kent,Chatham Main Line (Southeastern),Victoria / Charing Cross,,112,123,51.222491,1.401661,"Victoria:108, Charing Cross:110",108
+Didcot Parkway,Oxfordshire,GWR,Paddington,,103,96,51.61100709999999,-1.2428193,Paddington:43,43
+Diss,Norfolk,Greater Anglia,Liverpool Street,,178,102,52.373676,1.123725,Liverpool Street:99,99
+Dorchester South,Dorset,South Western Main Line (SWR),Waterloo,,149,182,50.70928199999999,-2.43724,Waterloo:356,356
+Dorking,Surrey,Dorking Line (Southern / SWR),Victoria / Waterloo,,22,82,51.2408718,-0.3240387,"Victoria:67, Waterloo:61",61
+Dorking West,Surrey,New Guildford Line (SWR),Waterloo,,22,84,51.2364275,-0.3396402,Waterloo:79,79
+Dover Priory,Kent,Southeastern / HS1,Victoria / Charing Cross / St Pancras International,,95,112,51.1258166,1.3053609,"Victoria:89, Charing Cross:91, St Pancras International:67",67
+Downham Market,Norfolk,Greater Anglia,Liverpool Street,,168,93,52.60409509999999,0.3796495,Liverpool Street:118,118
+Dunton Green,Kent,Tonbridge Line (Southeastern),Charing Cross / London Bridge,,42,64,51.293989,0.168881,"Charing Cross:58, London Bridge:47",47
+Durrington-on-Sea,West Sussex,West Coastway (Southern),Victoria,,30,127,50.81748469999999,-0.4114158,Victoria:92,92
+Earley,Berkshire,Reading via Ascot (SWR),Waterloo,,73,72,51.4409613,-0.9177996999999999,Waterloo:61,61
+Eastbourne,East Sussex,East Coastway (Southern),Victoria / London Bridge,,62,128,50.7694189,0.2811993,"Victoria:115, London Bridge:113",113
+East Croydon,Greater London,Brighton Main Line (Southern / Thameslink / Southeastern),Victoria / London Bridge / Blackfriars / Charing Cross,,46,82,51.3750493,-0.0926978,"Victoria:16, London Bridge:22, Blackfriars:27, Charing Cross:35",16
+East Farleigh,Kent,Medway Valley (Southern),Victoria,,60,77,51.251788,0.4843209999999999,Victoria:94,94
+East Grinstead,West Sussex,Oxted Line (Southern),Victoria / London Bridge,,29,88,51.126464,-0.0174314,"Victoria:57, London Bridge:57",57
+Eastleigh,Hampshire,South Western Main Line (SWR),Waterloo,,90,120,50.967182,-1.374688,Waterloo:82,82
+East Malling,Kent,Maidstone West Line (Southeastern),Charing Cross / London Bridge,,54,72,51.287435,0.440026,"Charing Cross:73, London Bridge:60",60
+Ebbsfleet International,Kent,HS1 (Southeastern),St Pancras International,,54,55,51.4430567,0.3209221,St Pancras International:21,21
+Edenbridge,Surrey,Oxted Line (Southern),Victoria / London Bridge,,39,75,51.20837059999999,0.06038880000000001,"Victoria:67, London Bridge:63",63
+Edenbridge Town,Surrey,Oxted Line (Southern),Victoria / London Bridge,,39,78,51.20008,0.0672,"Victoria:50, London Bridge:46",46
+Effingham Junction,Surrey,New Guildford Line (SWR),Waterloo,,37,73,51.2914781,-0.4196482,Waterloo:55,55
+Egham,Surrey,Windsor / Reading via Ascot (SWR),Waterloo,,54,57,51.4293406,-0.5470285,Waterloo:48,48
+Elmswell,Suffolk,Greater Anglia,Liverpool Street,,155,80,52.23805609999999,0.9126569,Liverpool Street:108,108
+Elstree & Borehamwood,Hertfordshire,Thameslink,St Pancras / Blackfriars,,84,28,51.6531143,-0.2797268,"St Pancras:30, Blackfriars:36",30
+Ely,Cambridgeshire,Greater Anglia / Thameslink,Liverpool Street / King's Cross,,144,71,52.390988,0.2665389,"Liverpool Street:102, King's Cross:83",83
+Emsworth,Hampshire,West Coastway (Southern),Victoria,,56,117,50.848132,-0.937928,Victoria:111,111
+Enfield Lock,Hertfordshire,West Anglia Main Line (Greater Anglia),Liverpool Street,,84,20,51.6682711,-0.0420368,Liverpool Street:48,48
+Epsom,Surrey,Epsom Line (Southern / SWR),Victoria / London Bridge / Waterloo,,38,81,51.33510039999999,-0.2637125,"Victoria:48, London Bridge:58, Waterloo:43",43
+Etchingham,East Sussex,Hastings Line (Southeastern),Charing Cross,,71,93,51.0105991,0.4423045,Charing Cross:76,76
+Ewell East,Surrey,Epsom Line (Southern),London Bridge / Victoria,,41,82,51.34529,-0.2415,"London Bridge:41, Victoria:43",41
+Ewell West,Surrey,Epsom Line (SWR),Waterloo,,41,83,51.3500678,-0.2569679,Waterloo:39,39
+Exeter Central,Devon,GWR,Paddington,,210,229,50.7260089,-3.5332598,Paddington:306,306
+Exeter St. Davids,Devon,GWR,Paddington,,210,230,50.729369,-3.5435122,Paddington:338,338
+Eynsford,Kent,Maidstone East Line (Southeastern),Victoria,,52,60,51.3651346,0.2097801,Victoria:52,52
+Falmer,East Sussex,Brighton Main Line (Southern),Victoria / London Bridge,,34,114,50.8668892,-0.0875363,"Victoria:100, London Bridge:98",98
+Fareham,Hampshire,Fareham Line (SWR / Southern),Waterloo / Victoria,,67,122,50.8530568,-1.1919279,"Waterloo:116, Victoria:139",116
+Farnborough (Main),Hampshire,South Western Main Line (SWR),Waterloo,,62,73,51.2966348,-0.755443,Waterloo:42,42
+Farnborough North,Hampshire,North Downs Line (SWR),Waterloo,,60,71,51.3019894,-0.7429568,Waterloo:64,64
+Farncombe,Surrey,Portsmouth Direct (SWR),Waterloo,,40,84,51.1975213,-0.602507,Waterloo:51,51
+Farnham,Surrey,Alton Line (SWR),Waterloo,,67,122,50.8530568,-1.1919279,Waterloo:116,116
+Farningham Road,Kent,Chatham Main Line (Southeastern),Victoria,,51,56,51.4015639,0.2355141,Victoria:52,52
+Faversham,Kent,Chatham Main Line (Southeastern),Victoria / Charing Cross,,78,85,51.315994,0.889358,"Victoria:82, Charing Cross:88",82
+Faygate,West Sussex,Horsham Line (Southern),Victoria,,7,95,51.09589,-0.26299,Victoria:58,58
+Felixstowe,Suffolk,Greater Anglia,Liverpool Street,,130,91,51.96708,1.35047,Liverpool Street:110,110
+Finsbury Park,Greater London,Great Northern (Thameslink),King's Cross / Moorgate,,89,45,51.5641721,-0.1059154,"King's Cross:12, Moorgate:17",12
+Fishbourne,West Sussex,West Coastway (Southern),Victoria,,47,123,50.8390524,-0.8147871,Victoria:100,100
+Fleet,Hampshire,South Western Main Line (SWR),Waterloo,,63,74,51.2904952,-0.8314113999999999,Waterloo:49,49
+Flitwick,Bedfordshire,Thameslink,St Pancras / Blackfriars,,97,49,52.004605,-0.4979453,"St Pancras:43, Blackfriars:57",43
+Folkestone Central,Kent,Southeastern,Charing Cross / Victoria,,90,107,51.0828474,1.169609,"Charing Cross:80, Victoria:78",78
+Folkestone West,Kent,Southeastern,Charing Cross / Victoria,,88,105,51.084587,1.153935,"Charing Cross:77, Victoria:75",75
+Ford,West Sussex,West Coastway / Arun Valley (Southern),Victoria,,36,127,50.8293679,-0.5779944,Victoria:98,98
+Fratton,Hampshire,Portsmouth Direct (SWR),Waterloo,,65,120,50.79648049999999,-1.073868,Waterloo:101,101
+Frimley,Surrey,SWR,Waterloo,,59,69,51.3118428,-0.7469791,Waterloo:77,77
+Frinton-on-Sea,Essex,Greater Anglia,Liverpool Street,,127,88,51.830433,1.247224,Liverpool Street:115,115
+Gatwick Airport,West Sussex,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,22,85,51.1566363,-0.1611604,"Victoria:40, London Bridge:37, St Pancras:52",37
+Gerrards Cross,Buckinghamshire,Chiltern Railways,Marylebone,,67,53,51.5890655,-0.5552005,Marylebone:33,33
+Gillingham (Kent),Kent,Chatham Main Line (Southeastern),Victoria / Charing Cross,,68,69,51.386322,0.551438,"Victoria:61, Charing Cross:67",61
+Glynde,East Sussex,East Coastway (Southern),Victoria / London Bridge,,42,117,50.8591811,0.0701656,"Victoria:83, London Bridge:81",81
+Godalming,Surrey,Portsmouth Direct (SWR),Waterloo,,37,86,51.18535050000001,-0.6097526,Waterloo:45,45
+Godstone,Surrey,Oxted Line (Southern),London Bridge / Victoria,,32,74,51.21814999999999,-0.05006,"London Bridge:78, Victoria:60",60
+Goring-by-Sea,West Sussex,West Coastway (Southern),Victoria,,29,127,50.8177457,-0.4329551,Victoria:95,95
+Goring & Streatley,Oxfordshire,GWR,Paddington,,95,92,51.5214981,-1.1329594,Paddington:58,58
+Gravesend,Kent,North Kent Line (Southeastern),Charing Cross / London Bridge,,60,61,51.44188399999999,0.370759,"Charing Cross:65, London Bridge:54",54
+Great Chesterford,Essex,West Anglia Main Line (Greater Anglia),Liverpool Street,,111,44,52.062757,0.19682,Liverpool Street:76,76
+Great Missenden,Buckinghamshire,Chiltern Railways,Marylebone,,79,55,51.702655,-0.70319,Marylebone:50,50
+Great Yarmouth,Norfolk,Greater Anglia,Liverpool Street,,227,141,52.6120192,1.720634,Liverpool Street:165,165
+Guildford,Surrey,South Western Main Line / Portsmouth Direct (SWR),Waterloo,,42,79,51.2366845,-0.5803227,Waterloo:39,39
+Haddenham & Thame Parkway,Oxfordshire,Chiltern Railways,Marylebone,,93,68,51.77088639999999,-0.9421125999999999,Marylebone:42,42
+Halesworth,Suffolk,Greater Anglia,Liverpool Street,,203,128,52.343264,1.502642,Liverpool Street:151,151
+Halling,Kent,Medway Valley (Southern),Victoria,,55,65,51.352474,0.444961,Victoria:76,76
+Hampton,Surrey,Shepperton Branch (SWR),Waterloo,,51,67,51.4133939,-0.366712,Waterloo:49,49
+Harpenden,Hertfordshire,Thameslink,St Pancras / Blackfriars,,87,28,51.8149774,-0.3520226,"St Pancras:29, Blackfriars:38",29
+Harrietsham,Kent,Maidstone East Line (Southeastern),Victoria,,64,81,51.2419709,0.6750028,Victoria:85,85
+Harling Road,Norfolk,Greater Anglia,Liverpool Street,,160,85,52.45381760000001,0.9098668000000001,Liverpool Street:148,148
+Harlington,Bedfordshire,Thameslink,St Pancras / Blackfriars,,93,46,51.9617608,-0.4955865,"St Pancras:51, Blackfriars:61",51
+Harlow Mill,Essex,West Anglia Main Line (Greater Anglia),Liverpool Street,,83,17,51.7904146,0.1324026,Liverpool Street:45,45
+Harlow Town,Essex,West Anglia Main Line (Greater Anglia),Liverpool Street,,85,13,51.7810459,0.0951436,Liverpool Street:38,38
+Harpenden,Hertfordshire,Thameslink,St Pancras / Blackfriars,,87,28,51.8149774,-0.3520226,"St Pancras:29, Blackfriars:38",29
+Harwich International,Essex,Greater Anglia,Liverpool Street,,125,86,51.9473174,1.2551671,Liverpool Street:92,92
+Haslemere,Surrey,Portsmouth Direct (SWR),Waterloo,,41,94,51.090856,-0.7133729999999999,Waterloo:56,56
+Hassocks,West Sussex,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,30,110,50.92445110000001,-0.1436141,"Victoria:56, London Bridge:56, St Pancras:74",56
+Hastings,East Sussex,Hastings Line (Southeastern),Charing Cross,,83,115,50.85789,0.57677,Charing Cross:103,103
+Hatfield,Hertfordshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,87,12,51.7639107,-0.2156156,"King's Cross:31, St Pancras:32",31
+Hatfield Peverel,Essex,Greater Anglia,Liverpool Street,,89,54,51.775127,0.5930099999999999,Liverpool Street:46,46
+Havant,Hampshire,Portsmouth Direct (SWR) / West Coastway (Southern),Waterloo / Victoria,,57,117,50.85431029999999,-0.9816018999999999,"Waterloo:91, Victoria:115",91
+Haywards Heath,West Sussex,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,25,100,50.9958936,-0.1005982,"Victoria:47, London Bridge:51, St Pancras:62",47
+Headcorn,Kent,Tonbridge - Hastings Line (Southeastern),Charing Cross / London Bridge,,72,89,51.16943000000001,0.619856,"Charing Cross:73, London Bridge:62",62
+Hemel Hempstead,Hertfordshire,West Coast Main Line (LNR),Euston,,74,38,51.7424378,-0.4908260999999999,Euston:29,29
+Henley-on-Thames,Oxfordshire,Henley Branch (GWR),Paddington,,75,71,51.535764,-0.902894,Paddington:47,47
+Herne Bay,Kent,Chatham Main Line (Southeastern),Victoria,,90,97,51.370922,1.127771,Victoria:99,99
+Hersham,Surrey,South Western Main Line (SWR),Waterloo,,46,73,51.37698899999999,-0.3896294,Waterloo:33,33
+Hertford East,Hertfordshire,West Anglia Main Line (Greater Anglia),Liverpool Street,,95,0,51.7991612,-0.0727813,Liverpool Street:56,56
+Hertford North,Hertfordshire,Great Northern (Thameslink),Moorgate / King's Cross,,94,3,51.7988589,-0.0917571,"Moorgate:51, King's Cross:50",50
+Hever,Kent,Oxted Line (Southern),London Bridge / Victoria,,42,81,51.18141,0.0951,"London Bridge:50, Victoria:54",50
+High Wycombe,Buckinghamshire,Chiltern Railways,Marylebone,,73,60,51.628611,-0.7482289999999999,Marylebone:35,35
+Hildenborough,Kent,Tonbridge Line (Southeastern),Charing Cross / London Bridge,,44,67,51.216814,0.239516,"Charing Cross:45, London Bridge:34",34
+Hilsea,Hampshire,Portsmouth Direct (SWR),Waterloo,,60,115,50.8282659,-1.0587088,Waterloo:108,108
+Hinchley Wood,Surrey,New Guildford Line (SWR),Waterloo,,44,77,51.3766835,-0.3382215,Waterloo:46,46
+Hinton Admiral,Hampshire,South Western Main Line (SWR),Waterloo,,119,148,50.7526437,-1.7139267,Waterloo:117,117
+Hitchin,Hertfordshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,96,27,51.94921,-0.283414,"King's Cross:37, St Pancras:37",37
+Hollingbourne,Kent,Maidstone East Line (Southeastern),Victoria,,62,79,51.2652726,0.6278386000000001,Victoria:80,80
+Holton Heath,Dorset,South Western Main Line (SWR),Waterloo,,132,163,50.7195829,-2.0848527,Waterloo:399,399
+Honeybourne,Worcestershire,GWR,Paddington,,153,140,52.091054,-1.835207,Paddington:103,103
+Hook,Hampshire,South Western Main Line (SWR),Waterloo,,70,87,51.28028519999999,-0.9601643000000001,Waterloo:57,57
+Horley,Surrey,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,23,86,51.173516,-0.172109,"Victoria:34, London Bridge:30, St Pancras:45",30
+Horsham,West Sussex,Horsham Line (Southern),Victoria,,0,102,51.06605649999999,-0.3192175,Victoria:55,55
+Horsley,Surrey,New Guildford Line (SWR),Waterloo,,37,74,51.2793883,-0.435285,Waterloo:55,55
+Hove,East Sussex,West Coastway / Brighton Main Line (Southern),Victoria / London Bridge,,38,118,50.8279319,-0.168749,"Victoria:69, London Bridge:76",69
+Hungerford,Berkshire,GWR,Paddington,,102,99,51.41234499999999,-1.517995,Paddington:67,67
+Hurst Green,Surrey,Oxted Line (Southern),Victoria / London Bridge,,284,249,53.8365781,-2.4796924,"Victoria:362, London Bridge:369",362
+Ipswich,Suffolk,Greater Anglia,Liverpool Street,,124,84,52.0505062,1.1448366,Liverpool Street:75,75
+Kelvedon,Essex,Greater Anglia,Liverpool Street,,93,56,51.84070999999999,0.702413,Liverpool Street:55,55
+Kempton Park,Surrey,Shepperton Branch (SWR),Waterloo,,53,63,51.4210056,-0.409646,Waterloo:65,65
+Kemsing,Kent,Maidstone East Line (Southeastern),Victoria,,47,67,51.3064647,0.216102,Victoria:80,80
+Kenilworth,Warwickshire,Chiltern Railways / West Midlands Trains,Marylebone / Euston,,138,120,52.34279009999999,-1.5725409,"Marylebone:129, Euston:84",84
+King's Lynn,Norfolk,Greater Anglia,Liverpool Street,,182,108,52.7538711,0.4031345,Liverpool Street:136,136
+Kintbury,Berkshire,GWR,Paddington,,102,99,51.396893,-1.442128,Paddington:62,62
+Knebworth,Hertfordshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,93,19,51.8655339,-0.182981,"King's Cross:27, St Pancras:27",27
+Laindon,Essex,c2c,Fenchurch Street,,71,46,51.5677814,0.4237201,Fenchurch Street:39,39
+Lancing,West Sussex,West Coastway (Southern),Victoria,,31,121,50.828179,-0.328092,Victoria:82,82
+Langley,Berkshire,Elizabeth Line / GWR,Paddington,,60,55,51.5080251,-0.5418476999999999,Paddington:35,35
+Leagrave,Bedfordshire,Thameslink,St Pancras / Blackfriars,,88,44,51.9051938,-0.4585044,"St Pancras:43, Blackfriars:48",43
+Leamington Spa,Warwickshire,Chiltern Railways,Marylebone,,134,115,52.2851905,-1.5200789,Marylebone:84,84
+Leatherhead,Surrey,Epsom / Dorking Line (Southern),Victoria / London Bridge,,31,74,51.29640699999999,-0.33112,"Victoria:51, London Bridge:65",51
+Leigh-on-Sea,Essex,c2c,Fenchurch Street,,80,61,51.5474028,0.6472768999999999,Fenchurch Street:69,69
+Leighton Buzzard,Bedfordshire,West Coast Main Line (LNR),Euston,,101,56,51.9196839,-0.6606569999999999,Euston:31,31
+Lenham,Kent,Maidstone East Line (Southeastern),Victoria,,67,84,51.239256,0.7206549999999999,Victoria:88,88
+Letchworth Garden City,Hertfordshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,104,31,51.979074,-0.226624,"King's Cross:31, St Pancras:32",31
+Lewes,East Sussex,Brighton Main Line / East Coastway (Southern),Victoria / London Bridge,,40,115,50.8705905,0.0114514,"Victoria:75, London Bridge:73",73
+Liphook,Hampshire,Portsmouth Direct (SWR),Waterloo,,49,92,51.07661,-0.801777,Waterloo:63,63
+Liss,Hampshire,Portsmouth Direct (SWR),Waterloo,,55,98,51.0436333,-0.8927524,Waterloo:70,70
+Littlehampton,West Sussex,West Coastway (Southern),Victoria,,35,132,50.811057,-0.5386609,Victoria:109,109
+Littlehaven,West Sussex,Horsham Line (Southern),Victoria,,3,98,51.0795805,-0.3078935,Victoria:51,51
+Longfield,Kent,Chatham Main Line (Southeastern),Victoria,,56,57,51.3984535,0.3020453,Victoria:38,38
+Longcross,Surrey,Reading via Ascot (SWR),Waterloo,,50,69,51.378499,-0.5795636,Waterloo:93,93
+Luton,Bedfordshire,Thameslink / East Midlands Railway,St Pancras / Blackfriars,,87,38,51.8786707,-0.4200255,"St Pancras:28, Blackfriars:43",28
+Luton Airport Parkway,Bedfordshire,Thameslink,St Pancras / Blackfriars,,84,33,51.87291339999999,-0.3961861,"St Pancras:29, Blackfriars:56",29
+Maidenhead,Berkshire,GWR / Elizabeth Line,Paddington,,67,64,51.5225605,-0.7243082,Paddington:22,22
+Maidstone Barracks,Kent,Medway Valley (Southern),Victoria,,56,73,51.27713379999999,0.5140449,Victoria:85,85
+Maidstone East,Kent,Maidstone East Line (Southeastern),Victoria,,57,70,51.2774841,0.5202238,Victoria:73,73
+Maidstone West,Kent,Medway Valley (Southern/Southeastern),Victoria / Charing Cross,,57,71,51.2706451,0.5159465999999999,"Victoria:73, Charing Cross:85",73
+Manningtree,Essex,Greater Anglia,Liverpool Street,,118,79,51.9490412,1.0448923,Liverpool Street:66,66
+March,Cambridgeshire,Greater Anglia,Liverpool Street,,171,93,52.55998659999999,0.0912687,Liverpool Street:100,100
+Marden,Kent,Tonbridge Line (Southeastern),Charing Cross / London Bridge,,69,87,51.173613,0.490709,"Charing Cross:63, London Bridge:51",51
+Margate,Kent,Chatham Main Line (Southeastern),Victoria / St Pancras,,103,110,51.3854351,1.3722782,"Victoria:115, St Pancras:89",89
+Marks Tey,Essex,Greater Anglia,Liverpool Street,,96,56,51.8788911,0.7803413,Liverpool Street:60,60
+Marlow,Buckinghamshire,Marlow Branch (GWR),Paddington,,72,60,51.5719443,-0.7769421999999999,Paddington:78,78
+Martins Heron,Berkshire,Reading via Ascot (SWR),Waterloo,,60,71,51.4094039,-0.721989,Waterloo:71,71
+Meldreth,Cambridgeshire,West Anglia Main Line (Greater Anglia),Liverpool Street,,113,34,52.0904173,0.007031300000000001,Liverpool Street:73,73
+Meopham,Kent,Chatham Main Line (Southeastern),Victoria,,54,60,51.370723,0.3604859,Victoria:43,43
+Merstham,Surrey,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,30,79,51.26415,-0.1502,"Victoria:35, London Bridge:33, St Pancras:43",33
+Micheldever,Hampshire,South Western Main Line (SWR),Waterloo,,87,107,51.1485524,-1.2666839,Waterloo:104,104
+Midgham,Berkshire,GWR,Paddington,,87,84,51.3961,-1.1783,Paddington:54,54
+Milford,Surrey,Portsmouth Direct (SWR),Waterloo,,38,84,51.163315,-0.6369279999999999,Waterloo:57,57
+Milton Keynes Central,Buckinghamshire,West Coast Main Line (Avanti / LNR),Euston,,110,67,52.0406224,-0.7594171,Euston:37,37
+Minster,Kent,Chatham Main Line (Southeastern),Victoria,,98,106,51.3292563,1.3171535,Victoria:109,109
+Monks Risborough,Buckinghamshire,Chiltern Railways,Marylebone,,86,59,51.7316874,-0.8222134000000001,Marylebone:83,83
+Moreton,Dorset,South Western Main Line (SWR),Waterloo,,266,231,53.4014487,-3.1115747,Waterloo:447,447
+Moreton-in-Marsh,Gloucestershire,GWR,Paddington,,136,122,51.9899508,-1.703141,Paddington:91,91
+Mortimer,Hampshire,Reading via Alton Line (SWR),Waterloo,,81,78,51.37211569999999,-1.0356935,Waterloo:69,69
+Nailsea & Backwell,North Somerset,GWR,Paddington,,167,164,51.4194195,-2.7504556,Paddington:126,126
+Needham Market,Suffolk,Greater Anglia,Liverpool Street,,130,90,52.155608,1.049566,Liverpool Street:96,96
+Newbury,Berkshire,GWR,Paddington,,97,94,51.401409,-1.3231139,Paddington:61,61
+Newbury Racecourse,Berkshire,GWR,Paddington,,97,94,51.3984799,-1.307276,Paddington:62,62
+Newhaven Harbour,East Sussex,East Coastway / Seaford Branch (Southern),Victoria / London Bridge,,49,126,50.78978,0.05502,"Victoria:96, London Bridge:96",96
+Newhaven Town,East Sussex,East Coastway / Seaford Branch (Southern),Victoria / London Bridge,,47,124,50.79484900000001,0.05497299999999999,"Victoria:96, London Bridge:96",96
+New Milton,Hampshire,South Western Main Line (SWR),Waterloo,,121,150,50.75544619999999,-1.6580637,Waterloo:117,117
+Newport (Essex),Essex,West Anglia Main Line (Greater Anglia),Liverpool Street,,101,34,51.97985749999999,0.2152242,Liverpool Street:67,67
+Normans Bay,East Sussex,East Coastway (Southern),Victoria / London Bridge,,64,127,50.8260599,0.3943801,"Victoria:151, London Bridge:125",125
+Northampton,Northamptonshire,West Coast Main Line (Avanti / LNR),Euston,,126,83,52.2371037,-0.9063141000000001,Euston:57,57
+North Camp,Hampshire,North Downs Line (SWR),Waterloo,,56,71,51.2758354,-0.7311407999999999,Waterloo:58,58
+Northfleet,Kent,North Kent Line (Southeastern),Charing Cross / London Bridge,,55,56,51.44107200000001,0.33694,"Charing Cross:61, London Bridge:50",50
+North Walsham,Norfolk,Greater Anglia,Liverpool Street,,213,135,52.822699,1.3859729,Liverpool Street:399,399
+Norwich,Norfolk,Greater Anglia,Liverpool Street,,192,115,52.62699689999999,1.3065188,Liverpool Street:117,117
+Nutfield,Surrey,Redhill / Tonbridge Line (Southern),London Bridge / Victoria,,34,80,51.2397662,-0.1251628,"London Bridge:59, Victoria:57",57
+Ore,East Sussex,Hastings Line (Southeastern),Charing Cross,,85,115,50.8668752,0.5913632,Charing Cross:107,107
+Orpington,Greater London,Chatham / Tonbridge Line (Southeastern),Charing Cross / Victoria / London Bridge,,46,62,51.37309740000001,0.09755269999999999,"Charing Cross:27, Victoria:47, London Bridge:26",26
+Otford,Kent,Maidstone East Line (Southeastern),Victoria / Charing Cross,,45,65,51.311376,0.189816,"Victoria:43, Charing Cross:44",43
+Oxshott,Surrey,New Guildford Line (SWR),Waterloo,,36,73,51.334488,-0.35836,Waterloo:44,44
+Oxted,Surrey,Oxted Line (Southern),Victoria / London Bridge,,33,76,51.2579001,-0.0048099,"Victoria:39, London Bridge:35",35
+Oxford,Oxfordshire,GWR / Chiltern,Paddington / Marylebone,,103,90,51.7534694,-1.2699454,"Paddington:57, Marylebone:82",57
+Oxford Parkway,Oxfordshire,Chiltern Railways,Marylebone,,98,85,51.8035466,-1.2749826,Marylebone:83,83
+Paddock Wood,Kent,Tonbridge Line (Southeastern),Charing Cross / London Bridge,,61,80,51.1822336,0.3891721,"Charing Cross:57, London Bridge:50",50
+Pangbourne,Oxfordshire,GWR,Paddington,,87,83,51.4854482,-1.0904507,Paddington:54,54
+Parkstone,Dorset,South Western Main Line (SWR),Waterloo,,126,157,50.7325116,-1.952295,Waterloo:159,159
+Pevensey & Westham,East Sussex,East Coastway (Southern),Victoria / London Bridge,,59,122,50.81579,0.32484,"Victoria:107, London Bridge:105",105
+Pevensey Bay,East Sussex,East Coastway (Southern),Victoria / London Bridge,,58,121,50.817713,0.3429056,"Victoria:133, London Bridge:131",131
+Petersfield,Hampshire,Portsmouth Direct (SWR),Waterloo,,56,101,51.00665249999999,-0.9413086,Waterloo:76,76
+Pitsea,Essex,c2c,Fenchurch Street,,67,51,51.56491,0.505078,Fenchurch Street:63,63
+Pluckley,Kent,Tonbridge Line (Southeastern),Charing Cross,,81,98,51.1771537,0.7560578,Charing Cross:99,99
+Plumpton,East Sussex,Brighton Main Line (Southern),Victoria / London Bridge,,36,112,50.9285285,-0.05973599999999999,"Victoria:65, London Bridge:63",63
+Pokesdown,Dorset,South Western Main Line (SWR),Waterloo,,120,150,50.7310092,-1.8250762,Waterloo:126,126
+Polegate,East Sussex,East Coastway (Southern),Victoria / London Bridge,,53,118,50.8212443,0.2451017,"Victoria:92, London Bridge:90",90
+Poole,Dorset,South Western Main Line (SWR),Waterloo,,130,160,50.71505,-1.987248,Waterloo:139,139
+Portchester,Hampshire,Fareham Line (Southern / SWR),Waterloo / Victoria,,66,121,50.849505,-1.1381747,"Waterloo:116, Victoria:133",116
+Portslade,East Sussex,West Coastway (Southern),Victoria,,35,115,50.83563590000001,-0.2053068,Victoria:72,72
+Portsmouth & Southsea,Hampshire,Portsmouth Direct (SWR),Waterloo,,65,119,50.798481,-1.090898,Waterloo:105,105
+Portsmouth Harbour,Hampshire,Portsmouth Direct (SWR),Waterloo,,67,122,50.7972192,-1.1075814,Waterloo:111,111
+Potters Bar,Hertfordshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,85,22,51.696636,-0.175948,"King's Cross:25, St Pancras:26",25
+Preston Park,East Sussex,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,33,113,50.8459931,-0.1550507,"Victoria:63, London Bridge:64, St Pancras:82",63
+Princes Risborough,Buckinghamshire,Chiltern Railways,Marylebone,,86,62,51.724376,-0.834518,Marylebone:47,47
+Prittlewell,Essex,Greater Anglia,Liverpool Street,,84,63,51.5487013,0.7072254,Liverpool Street:68,68
+Pulborough,West Sussex,Arun Valley (Southern),Victoria,,23,114,50.9574366,-0.5164508,Victoria:80,80
+Radlett,Hertfordshire,Thameslink,St Pancras / Blackfriars,,79,29,51.68528209999999,-0.3169061,"St Pancras:34, Blackfriars:40",34
+Radley,Oxfordshire,GWR,Paddington,,105,92,51.6873146,-1.2409066,Paddington:69,69
+Rainham (Kent),Kent,Chatham Main Line (Southeastern),Victoria,,69,74,51.3628659,0.6112649,Victoria:67,67
+Ramsgate,Kent,Chatham Main Line (Southeastern),Victoria / St Pancras,,103,110,51.34084619999999,1.4060028,"Victoria:101, St Pancras:81",81
+Rayleigh,Essex,Greater Anglia,Liverpool Street,,75,54,51.586385,0.6048709999999999,Liverpool Street:49,49
+Reading,Berkshire,GWR / Elizabeth Line / SWR,Paddington / Waterloo,,79,78,51.4580217,-0.9715644999999999,"Paddington:27, Waterloo:54",27
+Redhill,Surrey,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,34,83,51.2403534,-0.1660385,"Victoria:39, London Bridge:37, St Pancras:47",37
+Reigate,Surrey,Redhill / Tonbridge Line (Southern),London Bridge / Victoria,,32,80,51.2419841,-0.203691,"London Bridge:47, Victoria:51",47
+Robertsbridge,East Sussex,Hastings Line (Southeastern),Charing Cross,,72,94,50.985447,0.4744984,Charing Cross:80,80
+Rochester,Kent,Chatham Main Line (Southeastern),Victoria / Charing Cross,,63,63,51.3895363,0.5068368999999999,"Victoria:55, Charing Cross:61",55
+Rochford,Essex,Greater Anglia,Liverpool Street,,85,65,51.582071,0.706515,Liverpool Street:57,57
+Roughton Road,Norfolk,Greater Anglia,Liverpool Street,,219,142,52.9178927,1.2997259,Liverpool Street:448,448
+Rowlands Castle,Hampshire,Portsmouth Direct (SWR),Waterloo,,65,112,50.892059,-0.959088,Waterloo:93,93
+Roydon,Essex,West Anglia Main Line (Greater Anglia),Liverpool Street,,88,15,51.77011940000001,0.0411358,Liverpool Street:37,37
+Royston,Hertfordshire,West Anglia Main Line (Greater Anglia) / Great Northern (Thameslink),Liverpool Street / King's Cross,,111,31,52.05311380000001,-0.0270298,"Liverpool Street:59, King's Cross:41",41
+Rugby,Warwickshire,West Coast Main Line (Avanti),Euston,,144,101,52.37887689999999,-1.2510435,Euston:52,52
+Rye,East Sussex,Marshlink Line (Southeastern),Ashford / Charing Cross,,93,116,50.9523501,0.7307098999999999,"Ashford:66, Charing Cross:90",66
+Salfords,Surrey,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,26,87,51.2008676,-0.166959,"Victoria:50, London Bridge:46, St Pancras:63",46
+Salisbury,Wiltshire,South Western Main Line (SWR),Waterloo,,118,141,51.0703232,-1.8062199,Waterloo:93,93
+Sandhurst,Berkshire,Reading via Ascot (SWR),Waterloo,,63,74,51.3466302,-0.8037620999999999,Waterloo:73,73
+Sandwich,Kent,Chatham Main Line (Southeastern),Victoria / Charing Cross,,107,114,51.2699481,1.3425448,"Victoria:114, Charing Cross:116",114
+Saxmundham,Suffolk,Greater Anglia,Liverpool Street,,149,109,52.2149463,1.4901502,Liverpool Street:136,136
+Seaford,East Sussex,Seaford Branch (Southern),Victoria / London Bridge,,51,127,50.7728931,0.099968,"Victoria:102, London Bridge:102",102
+Seer Green & Jordans,Buckinghamshire,Chiltern Railways,Marylebone,,68,55,51.609844,-0.607798,Marylebone:28,28
+Selling,Kent,Chatham Main Line (Southeastern),Victoria,,81,88,51.2774805,0.9406914999999999,Victoria:99,99
+Sevenoaks,Kent,Maidstone East / Tonbridge Line (Southeastern),Victoria / Charing Cross,,43,66,51.27241000000001,0.190898,"Victoria:53, Charing Cross:38",38
+Shawford,Hampshire,South Western Main Line (SWR),Waterloo,,88,115,51.02220699999999,-1.3280422,Waterloo:78,78
+Sheerness-on-Sea,Kent,Sheerness Branch (Southeastern),Victoria,,75,93,51.441063,0.758563,Victoria:107,107
+Shenfield,Essex,Greater Anglia / Elizabeth Line,Liverpool Street / Paddington,,73,42,51.6304077,0.3298598,"Liverpool Street:30, Paddington:61",30
+Shepherd's Bush,Greater London,Elizabeth Line,Paddington,,68,53,51.5051913,-0.22469,Paddington:15,15
+Shepperton,Surrey,Shepperton Branch (SWR),Waterloo,,50,68,51.389617,-0.4526529999999999,Waterloo:58,58
+Shepreth,Cambridgeshire,West Anglia Main Line (Greater Anglia),Liverpool Street,,115,36,52.114154,0.0311414,Liverpool Street:78,78
+Sherborne,Dorset,Castle Cary Line (SWR),Waterloo,,158,177,50.9439814,-2.5131625,Waterloo:141,141
+Shiplake,Oxfordshire,Henley Branch (GWR),Paddington,,81,76,51.49913369999999,-0.8991182,Paddington:64,64
+Shoreham (Kent),Kent,Maidstone East Line (Southeastern),Victoria,,49,64,51.3333049,0.1779114,Victoria:68,68
+Shoreham-by-Sea,West Sussex,West Coastway (Southern),Victoria,,32,120,50.8342086,-0.2715558,Victoria:77,77
+Sittingbourne,Kent,Chatham Main Line (Southeastern),Victoria,,69,86,51.34197589999999,0.7348686,Victoria:75,75
+Slough,Berkshire,Elizabeth Line / GWR,Paddington,,63,59,51.51053839999999,-0.5950405999999999,Paddington:36,36
+Snodland,Kent,Medway Valley (Southern),Victoria,,53,67,51.3313,0.445068,Victoria:74,74
+Sole Street,Kent,Chatham Main Line (Southeastern),Victoria,,58,60,51.3831535,0.3781042,Victoria:56,56
+Southampton Airport Parkway,Hampshire,South Western Main Line (SWR),Waterloo,,85,121,50.9507896,-1.3630759,Waterloo:74,74
+Southampton Central,Hampshire,South Western Main Line (SWR),Waterloo,,89,128,50.9072342,-1.4133598,Waterloo:83,83
+Southbourne,West Sussex,West Coastway (Southern),Victoria,,55,119,50.8482906,-0.9077739,Victoria:107,107
+Southease,East Sussex,East Coastway / Seaford Branch (Southern),Victoria / London Bridge,,43,122,50.82940019999999,0.0198559,"Victoria:319, London Bridge:320",319
+Southend Central,Essex,c2c,Fenchurch Street,,88,67,51.537247,0.7122052999999999,Fenchurch Street:56,56
+Southend East,Essex,c2c,Fenchurch Street,,88,68,51.53899639999999,0.7317467999999999,Fenchurch Street:55,55
+Southend Victoria,Essex,Greater Anglia,Liverpool Street,,85,64,51.541515,0.71153,Liverpool Street:67,67
+Southminster,Essex,Greater Anglia,Liverpool Street,,95,75,51.662231,0.8300689,Liverpool Street:73,73
+Southwick,West Sussex,West Coastway (Southern),Victoria,,34,119,50.832434,-0.2370139,Victoria:97,97
+St Albans City,Hertfordshire,Thameslink,St Pancras / Blackfriars / King's Cross,,82,25,51.7505022,-0.3272747,"St Pancras:24, Blackfriars:33, King's Cross:24",24
+St Leonards Warrior Square,East Sussex,Hastings Line (Southeastern),Charing Cross,,80,113,50.8556709,0.5604028999999999,Charing Cross:98,98
+St Neots,Cambridgeshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,126,53,52.2300836,-0.265103,"King's Cross:52, St Pancras:53",52
+Staines,Surrey,SWR Windsor / Reading via Ascot,Waterloo,,54,58,51.4323804,-0.5029789,Waterloo:48,48
+Stanford-le-Hope,Essex,c2c,Fenchurch Street,,65,52,51.514121,0.42854,Fenchurch Street:57,57
+Stansted Airport,Essex,Stansted Express (Greater Anglia),Liverpool Street,,96,33,51.8901869,0.2632634,Liverpool Street:57,57
+Stansted Mountfitchet,Essex,West Anglia Main Line (Greater Anglia),Liverpool Street,,91,24,51.9035908,0.1938414,Liverpool Street:58,58
+Staplehurst,Kent,Tonbridge Line (Southeastern),Charing Cross / London Bridge,,73,86,51.162752,0.552848,"Charing Cross:67, London Bridge:57",57
+Stevenage,Hertfordshire,East Coast Main Line (Thameslink / LNER),King's Cross / St Pancras,,96,21,51.9032309,-0.1851995,"King's Cross:27, St Pancras:28",27
+Stone Crossing,Kent,North Kent Line (Southeastern),Charing Cross / London Bridge,,53,50,51.4513377,0.2645006,"Charing Cross:53, London Bridge:42",42
+Stonegate,East Sussex,Hastings Line (Southeastern),Charing Cross,,70,97,51.0199638,0.3638947,Charing Cross:86,86
+Stowmarket,Suffolk,Greater Anglia,Liverpool Street,,161,85,52.18977169999999,1.0000493,Liverpool Street:88,88
+Strood,Kent,Chatham Main Line (Southeastern / Medway Valley Southern),Victoria / Charing Cross,,60,60,51.3967296,0.4844525,"Victoria:78, Charing Cross:77",77
+Sunbury,Surrey,Shepperton Branch (SWR),Waterloo,,52,62,51.4182889,-0.4176791,Waterloo:53,53
+Sunningdale,Berkshire,Reading via Ascot (SWR),Waterloo,,56,63,51.3924544,-0.6301363,Waterloo:58,58
+Sunnymeads,Berkshire,Windsor Line (SWR),Waterloo,,55,57,51.4698217,-0.5589021,Waterloo:57,57
+Surbiton,Surrey,South Western Main Line (SWR),Waterloo,,46,77,51.3924323,-0.3045444,Waterloo:22,22
+Swanley,Kent,Chatham / Maidstone East Line (Southeastern),Victoria / Charing Cross,,47,57,51.396531,0.177326,"Victoria:31, Charing Cross:33",31
+Swanscombe,Kent,North Kent Line (Southeastern),Charing Cross / London Bridge,,55,55,51.4452254,0.3031822,"Charing Cross:59, London Bridge:48",48
+Sway,Hampshire,South Western Main Line (SWR),Waterloo,,116,146,50.7847799,-1.6100209,Waterloo:108,108
+Swindon,Wiltshire,GWR,Paddington,,118,115,51.5657902,-1.7846792,Paddington:55,55
+Taplow,Berkshire,Elizabeth Line / GWR,Paddington,,63,60,51.5235529,-0.6814378999999999,Paddington:44,44
+Taunton,Somerset,GWR,Paddington,,189,201,51.015344,-3.106849,Paddington:181,181
+Teynham,Kent,Chatham Main Line (Southeastern),Victoria,,76,89,51.329413,0.8045319999999999,Victoria:79,79
+Thatcham,Berkshire,GWR,Paddington,,94,91,51.40580500000001,-1.266468,Paddington:57,57
+Theale,Berkshire,GWR,Paddington,,79,76,51.4368102,-1.0709569,Paddington:45,45
+Thetford,Norfolk,Greater Anglia,Liverpool Street,,153,77,52.41902959999999,0.7455067999999999,Liverpool Street:141,141
+Three Bridges,West Sussex,Brighton Main Line (Southern / Thameslink),Victoria / London Bridge / St Pancras,,17,87,51.11818239999999,-0.1615068,"Victoria:40, London Bridge:43, St Pancras:53",40
+Tilbury Town,Essex,c2c,Fenchurch Street,,64,50,51.4622255,0.3540877,Fenchurch Street:47,47
+Tilehurst,Berkshire,GWR,Paddington,,84,81,51.4586929,-1.042536,Paddington:62,62
+Tonbridge,Kent,Tonbridge Line (Southeastern),Charing Cross / London Bridge,,50,73,51.195043,0.27568,"Charing Cross:47, London Bridge:35",35
+Tottenham Hale,Greater London,West Anglia Main Line (Greater Anglia),Liverpool Street,,86,36,51.5893464,-0.0596595,Liverpool Street:20,20
+Totton,Hampshire,South Western Main Line (SWR),Waterloo,,95,125,50.91793089999999,-1.4825255,Waterloo:88,88
+Tring,Hertfordshire,West Coast Main Line (LNR),Euston,,83,47,51.79607799999999,-0.655879,Euston:62,62
+Trowbridge,Wiltshire,GWR,Paddington,,150,153,51.31979279999999,-2.2142796,Paddington:127,127
+Tunbridge Wells,Kent,Hastings Line (Southeastern),Charing Cross,,53,78,51.132377,0.263695,Charing Cross:60,60
+Twyford,Berkshire,GWR / Elizabeth Line,Paddington,,76,73,51.4755668,-0.8631605,Paddington:31,31
+Uckfield,East Sussex,Uckfield Line (Southern),London Bridge,,46,103,50.966414,0.09591300000000001,London Bridge:82,82
+Upper Halliford,Surrey,Shepperton Branch (SWR),Waterloo,,53,63,51.4008975,-0.4321257000000001,Waterloo:70,70
+Upper Warlingham,Surrey,Oxted Line (Southern),Victoria / London Bridge,,34,77,51.308554,-0.07797319999999999,"Victoria:30, London Bridge:30",30
+Virginia Water,Surrey,Reading via Ascot (SWR),Waterloo,,53,60,51.4060025,-0.578607,Waterloo:51,51
+Wadhurst,East Sussex,Hastings Line (Southeastern),Charing Cross,,64,90,51.061756,0.33802,Charing Cross:66,66
+Walton-on-Thames,Surrey,South Western Main Line (SWR),Waterloo,,50,71,51.38847,-0.416969,Waterloo:35,35
+Walton-on-the-Naze,Essex,Greater Anglia,Liverpool Street,,127,88,51.846277,1.2678567,Liverpool Street:118,118
+Ware,Hertfordshire,West Anglia Main Line (Greater Anglia),Liverpool Street,,94,5,51.8080371,-0.0287345,Liverpool Street:50,50
+Wareham,Dorset,South Western Main Line (SWR),Waterloo,,137,168,50.687817,-2.110981,Waterloo:336,336
+Warminster,Wiltshire,GWR,Paddington,,133,153,51.206854,-2.17676,Paddington:147,147
+Warwick,Warwickshire,Chiltern Railways,Marylebone,,132,118,52.286525,-1.5818183,Marylebone:90,90
+Warwick Parkway,Warwickshire,Chiltern Railways,Marylebone,,133,120,52.2861537,-1.6119789,Marylebone:95,95
+Waterbeach,Cambridgeshire,Greater Anglia,Liverpool Street,,135,57,52.26558199999999,0.191002,Liverpool Street:91,91
+Wateringbury,Kent,Medway Valley (Southern),Victoria,,55,74,51.2554621,0.4231473,Victoria:99,99
+Watford Junction,Hertfordshire,West Coast Main Line (LNR),Euston,,74,38,51.66367529999999,-0.3960678,Euston:23,23
+Welwyn Garden City,Hertfordshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,89,15,51.800681,-0.2038783,"King's Cross:35, St Pancras:36",35
+Welwyn North,Hertfordshire,East Coast Main Line (Thameslink),King's Cross / St Pancras,,95,13,51.823502,-0.192067,"King's Cross:21, St Pancras:22",21
+West Byfleet,Surrey,South Western Main Line (SWR),Waterloo,,48,73,51.337352,-0.503315,Waterloo:47,47
+Westbury,Wiltshire,GWR,Paddington,,142,154,51.2664561,-2.1991216,Paddington:102,102
+Westcliff,Essex,c2c,Fenchurch Street,,86,65,51.5373432,0.6914547999999999,Fenchurch Street:52,52
+West Malling,Kent,Maidstone East Line (Southeastern),Victoria,,53,70,51.2915409,0.4191131,Victoria:62,62
+Weston-super-Mare,North Somerset,GWR,Paddington,,180,177,51.3444593,-2.9721312,Paddington:145,145
+West Worthing,West Sussex,West Coastway (Southern),Victoria,,28,125,50.818295,-0.3931343,Victoria:89,89
+Weybridge,Surrey,South Western Main Line (SWR),Waterloo,,49,68,51.3617837,-0.4578637999999999,Waterloo:29,29
+Weymouth,Dorset,South Western Main Line (SWR),Waterloo,,157,189,50.6153617,-2.4542145,Waterloo:370,370
+Whitchurch,Hampshire,South Western Main Line (SWR),Waterloo,,222,188,52.9680161,-2.6717882,Waterloo:369,369
+Windsor & Eton Central,Berkshire,Slough Branch (GWR / Elizabeth Line),Paddington,,62,59,51.4831824,-0.6098428000000001,Paddington:53,53
+Windsor & Eton Riverside,Berkshire,Windsor Line (SWR),Waterloo,,61,58,51.485649,-0.6065170000000001,Waterloo:65,65
+Winchelsea,East Sussex,Marshlink Line (Southeastern),Charing Cross,,93,116,50.93376,0.70229,Charing Cross:97,97
+Winchester,Hampshire,South Western Main Line (SWR),Waterloo,,84,113,51.059771,-1.310142,Waterloo:63,63
+Winchfield,Hampshire,South Western Main Line (SWR),Waterloo,,69,82,51.2845836,-0.9017638000000001,Waterloo:53,53
+Winnersh,Berkshire,Reading via Ascot (SWR),Waterloo,,73,72,51.428089,-0.879365,Waterloo:80,80
+Winnersh Triangle,Berkshire,Reading via Ascot (SWR),Waterloo,,70,69,51.4368114,-0.8914133,Waterloo:82,82
+Witham,Essex,Greater Anglia,Liverpool Street,,92,52,51.8060286,0.6393675,Liverpool Street:48,48
+Witley,Surrey,Portsmouth Direct (SWR),Waterloo,,38,85,51.149517,-0.646547,Waterloo:82,82
+Wivelsfield,East Sussex,Brighton Main Line (Southern),Victoria / London Bridge,,26,105,50.964293,-0.1209313,"Victoria:63, London Bridge:53",53
+Woking,Surrey,South Western Main Line (SWR),Waterloo,,51,73,51.3179972,-0.557175,Waterloo:30,30
+Wokingham,Berkshire,GWR / SWR,Paddington / Waterloo,,69,73,51.4118814,-0.8427482,"Paddington:51, Waterloo:83",51
+Woldingham,Surrey,Oxted Line (Southern),Victoria / London Bridge,,36,80,51.28348070000001,-0.0351973,"Victoria:33, London Bridge:33",33
+Wool,Dorset,South Western Main Line (SWR),Waterloo,,142,174,50.6815912,-2.2212775,Waterloo:343,343
+Worthing,West Sussex,West Coastway (Southern),Victoria,,30,128,50.81840039999999,-0.3760343,Victoria:86,86
+Wraysbury,Berkshire,Windsor Line (SWR),Waterloo,,51,56,51.454957,-0.55494,Waterloo:53,53
+Wye,Kent,Tonbridge Line (Southeastern),Charing Cross / London Bridge,,80,98,51.1850349,0.9293729000000001,"Charing Cross:99, London Bridge:87",87
