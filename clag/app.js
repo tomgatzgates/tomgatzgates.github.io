@@ -41,6 +41,59 @@ function bidOrder(ri) {
   return order; // last = dealer
 }
 
+// ─── TRUMPS ────────────────────────────────────────────────────────────────────
+// The app is a score-keeper, not a dealer, so whoever turns the trump card taps
+// it here. Card count + trump are shown on the bid and trick-entry screens.
+
+const SUITS = [
+  { id:'S',  sym:'♠', cls:'blk', label:'Spades'   },
+  { id:'H',  sym:'♥', cls:'red', label:'Hearts'   },
+  { id:'D',  sym:'♦', cls:'red', label:'Diamonds' },
+  { id:'C',  sym:'♣', cls:'blk', label:'Clubs'    },
+  { id:'NT', sym:'NT', cls:'nt', label:'No Trumps' },
+];
+
+// Rounds with no trump suit at all.
+const trumpLocked = round => round.special==='notrumps' || round.special==='misere_nt';
+
+// Build the trumps array for a fresh game (locked rounds default to No Trumps).
+const freshTrumps = rounds => rounds.map(r => trumpLocked(r) ? 'NT' : null);
+
+// Back-fill trumps on older saved games that predate this feature.
+function ensureTrumps() {
+  if (G && !Array.isArray(G.trumps)) G.trumps = freshTrumps(G.rounds);
+}
+
+function renderTrumpBar(prefix, ri) {
+  const el = document.getElementById(`${prefix}-trump`);
+  if (!el) return;
+  const round = G.rounds[ri];
+  const locked = trumpLocked(round);
+  const sel = locked ? 'NT' : (G.trumps[ri] || null);
+  const chips = SUITS.map(s => {
+    const on = sel === s.id;
+    return `<button type="button" class="trump-chip ${s.cls}${on?' on':''}"
+      ${locked?'disabled':''} onclick="setTrump(${ri},'${s.id}')"
+      aria-label="${s.label}" aria-pressed="${on}">${s.sym}</button>`;
+  }).join('');
+  el.innerHTML = `
+    <div class="trump-bar-inner">
+      <div class="tb-cards"><span class="tb-label">CARDS</span><span class="tb-num">${round.cards}</span></div>
+      <div class="tb-pick">
+        <span class="tb-label">TRUMP</span>
+        <div class="tb-chips">${chips}</div>
+      </div>
+    </div>`;
+}
+
+function setTrump(ri, suit) {
+  if (trumpLocked(G.rounds[ri])) return;
+  G.trumps[ri] = suit;
+  save();
+  renderTrumpBar('bid', ri);
+  renderTrumpBar('tricks', ri);
+}
+
 // ─── SCREENS ─────────────────────────────────────────────────────────────────
 
 function show(id) {
@@ -95,6 +148,7 @@ function resumeGame() {
   const sv = loadSave();
   if (!sv) return;
   G = sv;
+  ensureTrumps();
   document.getElementById('resume-banner').style.display = 'none';
   goPhase(G.phase||'bid');
 }
@@ -123,6 +177,7 @@ function startGame() {
     currentRound: 0,
     phase: 'bid',
     variation: SCORING[variation] ? variation : 'english',
+    trumps: freshTrumps(rounds),
     scores: rounds.map(()=>players.map(()=>({bid:0, tricks:0}))),
   };
 
@@ -173,6 +228,7 @@ function renderBid() {
   document.getElementById('bid-rdesc').textContent = round.desc;
   document.getElementById('bid-sbadge').innerHTML = round.special
     ? `<div class="sbadge">⚡ ${round.desc}</div>` : '';
+  renderTrumpBar('bid', ri);
 
   const order = bidOrder(ri);
   const dealer = dealerFor(ri);
@@ -293,6 +349,7 @@ function renderTricks() {
   document.getElementById('tricks-rname').textContent = round.name;
   document.getElementById('tricks-sbadge').innerHTML = round.special
     ? `<div class="sbadge">⚡ ${round.desc}</div>` : '';
+  renderTrumpBar('tricks', ri);
 
   const c = document.getElementById('tricks-players');
   c.innerHTML = '';
