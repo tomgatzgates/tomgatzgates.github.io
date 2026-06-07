@@ -431,6 +431,7 @@ white-space: nowrap;
 .sc-table td.rtd { white-space: nowrap; font-size: 0.66rem; }
 .sc-table td.rtd .rn { font-family: 'Special Elite', cursive; color: var(--cream); }
 .sc-table td.rtd .rc { color: var(--cream-dim); font-size: 0.6rem; }
+.sc-table td.rtd .rc .suit-red { color: #d8654f; }
 .sc-table td.ptd { text-align: center; }
 .spts { font-family: 'Oswald', sans-serif; font-size: 0.95rem; font-weight: 600; }
 .spts.hit { color: var(--amber); }

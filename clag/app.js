@@ -94,6 +94,15 @@ function setTrump(ri, suit) {
   renderTrumpBar('tricks', ri);
 }
 
+// Display name for a round's trump (faint subtext on the scorecard).
+function trumpName(ri) {
+  const s = SUITS.find(x => x.id === (G.trumps && G.trumps[ri]));
+  if (!s) return '—';
+  if (s.id === 'NT') return 'No Trumps';
+  const sym = s.cls === 'red' ? `<span class="suit-red">${s.sym}</span>` : s.sym;
+  return `${sym} ${s.label}`;
+}
+
 // ─── SCREENS ─────────────────────────────────────────────────────────────────
 
 function show(id) {
@@ -517,7 +526,7 @@ function buildScoreTable(tableId, upTo) {
     if (ri>upTo) return;
     const cur = ri===upTo;
     h += `<tr${cur?' style="background:rgba(232,168,32,0.05)"':''}>
-      <td class="rtd"><span class="rn">${ri+1}. ${round.name}</span><br><span class="rc">${round.cards}c</span></td>`;
+      <td class="rtd"><span class="rn">${ri+1}. ${round.name}</span><br><span class="rc">${trumpName(ri)}</span></td>`;
 
     players.forEach((_,pi) => {
       const e = scores[ri][pi];
