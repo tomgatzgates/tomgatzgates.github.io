@@ -1,48 +1,16 @@
-// ─── ROUND DEFINITIONS ────────────────────────────────────────────────────────
+// ─── SCORING CORE ─────────────────────────────────────────────────────────────
+// Round definitions and all scoring maths live in clag/scoring.js (loaded first),
+// so the rules logic can be unit-tested with `node --test clag/scoring.test.js`.
 
-const FOSS_SPECIALS = [
-  { name:'NO TRUMPS',     cards:7, special:'notrumps',    desc:'No trump suit — highest of led suit wins' },
-  { name:"GUESS 'EM",    cards:7, special:'guess',        desc:'Trumps revealed only after all bids are locked in' },
-  { name:'MISÈRE NT',    cards:7, special:'misere_nt',    desc:'No trumps — −2 per trick. +10 for taking zero.' },
-  { name:'MISÈRE',       cards:7, special:'misere',       desc:'Trumps apply — −3 per trick. +10 for taking zero.' },
-  { name:'BLIND',        cards:7, special:'blind',        desc:'Bid before receiving your cards' },
-  { name:"ROLL 'EM",     cards:7, special:'rollem',       desc:'Stack face-down — play from the top in order' },
-];
-const MCLEOD_SPECIALS = [
-  { name:'NO TRUMPS',    cards:7, special:'notrumps',    desc:'No trump suit — highest of led suit wins' },
-  { name:'MISÈRE',       cards:7, special:'misere',      desc:'Trumps apply — +10 for taking zero tricks' },
-  { name:'GUESS TRUMPS', cards:7, special:'guess',       desc:'Trumps revealed only after all bids are locked in' },
-  { name:'BLIND',        cards:7, special:'blind',       desc:'Bid before receiving your cards' },
-  { name:'TWOS WILD',    cards:7, special:'twos',        desc:'Played Twos: name rank/suit — beats the natural card' },
-  { name:'ACES LOW',     cards:7, special:'aceslow',     desc:'Aces rank as the lowest cards in the deck' },
-  { name:'DEALER CALLS', cards:7, special:'dealercalls', desc:'Dealer names trumps after viewing their hand' },
-  { name:'MOST TRICKS',  cards:7, special:'mosttricks',  desc:'No bidding — player taking the most tricks scores 10' },
-];
-const SCOTTISH_SPECIALS = [
-  { name:'NO TRUMPS',    cards:7, special:'notrumps',  desc:'No trump suit — highest of led suit wins' },
-  { name:'MISÈRE',       cards:7, special:'misere',    desc:'−2 per trick. +10 for taking zero tricks.' },
-  { name:"GUESS 'EM",   cards:7, special:'guess',      desc:'Bid before trumps are revealed' },
-  { name:'BLIND',        cards:7, special:'blind',     desc:'Bid without seeing cards or trumps' },
-];
-
-const mk = n => ({ name:`${n} CARD${n>1?'S':''}`, cards:n, special:null, desc:`Standard — ${n} card${n>1?'s':''} each` });
-
-function buildRounds(type) {
-  const up   = [1,2,3,4,5,6,7].map(mk);
-  const down = [7,6,5,4,3,2,1].map(mk);
-  if (type==='standard6') return [...up,   ...FOSS_SPECIALS,    ...down];
-  if (type==='standard8') return [...up,   ...MCLEOD_SPECIALS,  ...down];
-  if (type==='scottish')  return [...down, ...SCOTTISH_SPECIALS, ...up];
-  if (type==='quick')     return [...up.slice(0,5), ...FOSS_SPECIALS.slice(0,3), ...down.slice(0,5)];
-  return [...up, ...FOSS_SPECIALS, ...down];
-}
+const { buildRounds, isMisere, isMostTricks, roundScore, mostTricksWinner,
+        playerTotal: scorePlayerTotal, SCORING } = ClagScoring;
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
 
 let G = null;                   // game state
 let scReturnPhase = null;       // which phase the scorecard "Back" returns to
 
-const SAVE_KEY  = 'clag_v3';
+const SAVE_KEY  = 'clag_v4';
 const NAMES_KEY = 'clag_names';
 
 const save      = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(G)); } catch(e){} };
@@ -51,46 +19,17 @@ const clearSave = () => localStorage.removeItem(SAVE_KEY);
 const saveNames = n  => { try { localStorage.setItem(NAMES_KEY, JSON.stringify(n)); } catch(e){} };
 const loadNames = () => { try { return JSON.parse(localStorage.getItem(NAMES_KEY))||[]; } catch(e){ return []; } };
 
-// ─── SCORING ──────────────────────────────────────────────────────────────────
+// ─── SCORING (thin wrappers over the ClagScoring core, bound to game state) ─────
 
-const isMisere     = r => r.special==='misere' || r.special==='misere_nt';
-const isMostTricks = r => r.special==='mosttricks';
+// Points for one player in the current game's chosen variation.
+const ptsFor = (round, entry) => roundScore(round, entry, G.variation);
 
-function roundPts(round, entry, perTrick) {
-  const t = parseInt(entry.tricks);
-  if (isNaN(t)) return null;
-  if (isMostTricks(round)) return 0; // handled at round level
+// Resolve the "most tricks" deal for a given round index across all players.
+const mostTricksFor = ri => mostTricksWinner(G.scores[ri]);
 
-  if (round.special === 'misere_nt') return t===0 ? 10 : t*-2;
-  if (round.special === 'misere')    return t===0 ? 10 : t*-3;
-
-  const b = parseInt(entry.bid);
-  if (isNaN(b)) return null;
-  return b===t ? 10 + t*perTrick : 0;
-}
-
-function mostTricksWinner(ri) {
-  const counts = G.players.map((_,pi) => parseInt(G.scores[ri][pi].tricks)||0);
-  const max = Math.max(...counts);
-  const sole = counts.filter(c=>c===max).length === 1;
-  return { counts, max, sole };
-}
-
-function playerTotal(pi, upTo) {
-  let t = 0;
-  for (let ri=0; ri<=upTo; ri++) {
-    const r = G.rounds[ri], e = G.scores[ri][pi];
-    if (isMostTricks(r)) {
-      if (e.tricks===''||e.tricks===null||e.tricks===undefined) continue;
-      const {counts,max,sole} = mostTricksWinner(ri);
-      if (counts[pi]===max && sole) t+=10;
-    } else {
-      const p = roundPts(r, e, G.perTrick);
-      if (p!==null) t+=p;
-    }
-  }
-  return t;
-}
+// Running total for player `pi` across rounds 0..upTo.
+const playerTotal = (pi, upTo) =>
+  scorePlayerTotal(G.rounds, G.scores, pi, upTo, G.variation);
 
 // ─── BID ORDER / DEALER ───────────────────────────────────────────────────────
 
@@ -158,7 +97,7 @@ function startGame() {
     if (v) players.push(v);
   }
   const gameType = document.querySelector('input[name="gametype"]:checked').value;
-  const perTrick = parseInt(document.querySelector('input[name="scoring"]:checked').value);
+  const variation = document.querySelector('input[name="scoring"]:checked').value;
   const rounds = buildRounds(gameType);
 
   G = {
@@ -166,7 +105,7 @@ function startGame() {
     rounds,
     currentRound: 0,
     phase: 'bid',
-    perTrick,
+    variation: SCORING[variation] ? variation : 'english',
     scores: rounds.map(()=>players.map(()=>({bid:0, tricks:0}))),
   };
 
@@ -416,15 +355,16 @@ function updateTrickIndicators() {
       return;
     }
     if (mis) {
-      const pts = round.special==='misere_nt' ? (tricks===0?10:tricks*-2) : (tricks===0?10:tricks*-3);
+      const pts = ptsFor(round, {bid:0, tricks});
       if (sub) { sub.textContent=`${pts>=0?'+':''}${pts} pts`; sub.className=`ssub ${tricks===0?'hit':'miss'}`; }
       if (ind) { ind.textContent=tricks===0?'✓':'✗'; ind.style.color=tricks===0?'var(--green-bright)':'var(--red)'; }
       return;
     }
     const hit = tricks===bid;
+    const pts = ptsFor(round, {bid, tricks});
     if (sub) {
-      if (hit) { const p=10+tricks*G.perTrick; sub.textContent=`Bid ${bid} ✓ +${p} pts`; sub.className='ssub hit'; }
-      else      { sub.textContent=`Bid ${bid} — 0 pts`; sub.className='ssub miss'; }
+      if (hit) { sub.textContent=`Bid ${bid} ✓ +${pts} pts`; sub.className='ssub hit'; }
+      else      { sub.textContent=`Bid ${bid} — ${pts>0?'+'+pts:'0'} pts`; sub.className='ssub miss'; }
     }
     if (ind) { ind.textContent=hit?'✓':(tricks>bid?'↑':'↓'); ind.style.color=hit?'var(--green-bright)':'var(--cream-dim)'; }
   });
@@ -467,7 +407,7 @@ function renderScorecard() {
 }
 
 function buildScoreTable(tableId, upTo) {
-  const { players, rounds, scores, perTrick } = G;
+  const { players, rounds, scores } = G;
   const totals = players.map((_,pi)=>playerTotal(pi,upTo));
   const sorted = [...totals].sort((a,b)=>b-a);
 
@@ -486,7 +426,7 @@ function buildScoreTable(tableId, upTo) {
       if (isMostTricks(round)) {
         const t = parseInt(e.tricks);
         if (!isNaN(t)) {
-          const {counts,max,sole} = mostTricksWinner(ri);
+          const {counts,max,sole} = mostTricksFor(ri);
           const won = counts[pi]===max && sole;
           const run = playerTotal(pi,ri);
           cell = `<span class="spts ${won?'hit':'miss'}">${won?'+10':'0'}</span>
@@ -494,7 +434,7 @@ function buildScoreTable(tableId, upTo) {
             <span class="srun">${run}</span>`;
         } else { cell='—'; }
       } else {
-        const pts = roundPts(round,e,perTrick);
+        const pts = ptsFor(round,e);
         if (pts===null) { cell='—'; }
         else {
           const bid=parseInt(e.bid), tr2=parseInt(e.tricks);
@@ -551,6 +491,20 @@ function resetGame() {
   show('setup-screen');
   initSetup();
 }
+
+// ─── RULES (available at any time) ─────────────────────────────────────────────
+
+function openRules() {
+  const m = document.getElementById('rules-modal');
+  m.classList.add('open');
+  m.setAttribute('aria-hidden', 'false');
+}
+function closeRules() {
+  const m = document.getElementById('rules-modal');
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden', 'true');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeRules(); });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 initSetup();

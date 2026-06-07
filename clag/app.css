@@ -482,3 +482,65 @@ text-align: left;
 .stand-row.p1 .stand-rank { color: var(--amber); }
 .stand-name { font-family: 'Special Elite', cursive; font-size: 0.95rem; flex: 1; }
 .stand-pts { font-family: 'Oswald', sans-serif; font-size: 1.15rem; font-weight: 600; color: var(--amber); }
+
+/* ─── RULES (floating button + modal) ──────────────────────────────────────── */
+.rules-fab {
+  position: fixed; right: 14px; bottom: 14px; z-index: 50;
+  font-family: 'Oswald', sans-serif; font-size: 0.66rem; font-weight: 600;
+  letter-spacing: 0.12em; color: var(--ink); background: var(--amber);
+  border: none; border-radius: 999px; padding: 10px 16px; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.45);
+}
+.rules-fab:active { background: var(--amber-dim); }
+
+.rules-modal { position: fixed; inset: 0; z-index: 60; display: none; }
+.rules-modal.open { display: block; }
+.rules-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.7); }
+.rules-sheet {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: min(640px, 92vw); max-height: 88vh; display: flex; flex-direction: column;
+  background: var(--panel); border: 1px solid var(--amber-dim);
+  border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+.rules-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; border-bottom: 1px solid rgba(232,168,32,0.25);
+}
+.rules-title {
+  font-family: 'Oswald', sans-serif; font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 0.12em; color: var(--amber);
+}
+.rules-close {
+  background: none; border: none; color: var(--cream-dim); font-size: 1.1rem;
+  cursor: pointer; line-height: 1; padding: 4px 6px;
+}
+.rules-close:active { color: var(--cream); }
+.rules-body { padding: 4px 18px 20px; overflow-y: auto; color: var(--cream); }
+.rules-body h3 {
+  font-family: 'Oswald', sans-serif; font-size: 0.74rem; font-weight: 600;
+  letter-spacing: 0.1em; color: var(--amber); margin: 18px 0 6px;
+  text-transform: uppercase;
+}
+.rules-body p { font-size: 0.78rem; line-height: 1.6; color: var(--cream); margin: 0 0 8px; }
+.rules-body ul { margin: 0 0 8px; padding-left: 18px; }
+.rules-body li { font-size: 0.78rem; line-height: 1.55; color: var(--cream); margin-bottom: 4px; }
+.rules-body strong { color: var(--amber); font-weight: 400; }
+.rules-body em { color: var(--green-bright); font-style: normal; }
+
+.rules-score { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0 8px; }
+.rules-score-card {
+  background: var(--ink); border: 1px solid rgba(232,168,32,0.2);
+  border-radius: 6px; padding: 10px 12px;
+}
+.rsc-name {
+  font-family: 'Oswald', sans-serif; font-size: 0.7rem; font-weight: 600;
+  letter-spacing: 0.08em; color: var(--cream); margin-bottom: 6px;
+}
+.rsc-name span { color: var(--cream-dim); font-weight: 400; font-size: 0.6rem; }
+.rules-score-card ul { padding-left: 16px; margin: 0; }
+.rules-score-card li { font-size: 0.72rem; }
+
+.rules-src { font-size: 0.68rem; color: var(--cream-dim); margin-top: 14px; }
+.rules-src a { color: var(--amber-dim); }
+
+@media (max-width: 480px) { .rules-score { grid-template-columns: 1fr; } }

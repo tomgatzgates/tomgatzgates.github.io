@@ -63,10 +63,10 @@
   <div class="panel">
     <div class="slabel">Scoring</div>
     <div class="radio-grid">
-      <label class="rcard"><input type="radio" name="scoring" value="2" checked>
-        <span class="rlabel"><span class="rlabel-title">STANDARD</span><span class="rlabel-sub">+10 bid / +2 trick</span></span></label>
-      <label class="rcard"><input type="radio" name="scoring" value="1">
-        <span class="rlabel"><span class="rlabel-title">SCOTTISH</span><span class="rlabel-sub">+10 bid / +1 trick</span></span></label>
+      <label class="rcard"><input type="radio" name="scoring" value="english" checked>
+        <span class="rlabel"><span class="rlabel-title">ENGLISH</span><span class="rlabel-sub">Foss — bid +10 &amp; +2/trick · miss 0</span></span></label>
+      <label class="rcard"><input type="radio" name="scoring" value="pagat">
+        <span class="rlabel"><span class="rlabel-title">PAGAT</span><span class="rlabel-sub">McLeod — +1/trick always · +10 if exact</span></span></label>
     </div>
   </div>
   <button class="btn btn-primary" onclick="startGame()">▶ BEGIN SORTIE</button>
@@ -141,6 +141,74 @@
 
 </div><!-- /container -->
 
+<!-- RULES — available at any time -->
+<button class="rules-fab" type="button" onclick="openRules()" aria-label="Show rules">📖 RULES</button>
+
+<div id="rules-modal" class="rules-modal" aria-hidden="true">
+  <div class="rules-backdrop" onclick="closeRules()"></div>
+  <div class="rules-sheet" role="dialog" aria-modal="true" aria-label="Clag rules">
+    <div class="rules-head">
+      <div class="rules-title">CLAG — FIELD MANUAL</div>
+      <button class="rules-close" type="button" onclick="closeRules()" aria-label="Close rules">✕</button>
+    </div>
+    <div class="rules-body">
+
+      <h3>Objective</h3>
+      <p>Win exactly the number of tricks you bid — no more, no fewer. Highest score after the final deal wins.</p>
+
+      <h3>The deal</h3>
+      <p>3–7 players, standard 52-card pack, aces high. The number of cards dealt changes each round:</p>
+      <ul>
+        <li><strong>Standard (Foss, 20 rounds):</strong> deal 1 card up to 7, six special deals, then 7 back down to 1.</li>
+        <li><strong>Extended (McLeod, 22 rounds):</strong> as above with eight special deals in the middle.</li>
+        <li><strong>Scottish (18 rounds):</strong> deal 7 down to 1, four special deals, then 1 back up to 7 — so the big, skilful hands fall at the <em>end</em>.</li>
+        <li><strong>Quick (13 rounds):</strong> 1→5, three specials, 5→1.</li>
+      </ul>
+      <p>After each deal the next card is turned to set the trump suit (except where a special deal says otherwise).</p>
+
+      <h3>Bidding</h3>
+      <p>Starting with eldest hand (left of the dealer) and going clockwise, each player nominates how many tricks they expect to win. <strong>The dealer bids last and may not make the bids add up to the number of cards dealt</strong> — so it is impossible for everyone to make their bid.</p>
+
+      <h3>Play</h3>
+      <p>Eldest hand leads. Follow suit if you can; otherwise play anything. A trick is won by the highest trump played, or if none, the highest card of the suit led. The winner leads to the next trick.</p>
+
+      <h3>Scoring — two variations</h3>
+      <div class="rules-score">
+        <div class="rules-score-card">
+          <div class="rsc-name">ENGLISH <span>(Foss / Wikipedia)</span></div>
+          <ul>
+            <li>Bid made exactly: <strong>10 + 2 per trick</strong> (bid 2, take 2 → 14).</li>
+            <li>Bid missed: <strong>0</strong> — trick points are lost entirely.</li>
+          </ul>
+        </div>
+        <div class="rules-score-card">
+          <div class="rsc-name">PAGAT <span>(McLeod)</span></div>
+          <ul>
+            <li><strong>1 point for every trick won</strong>, always.</li>
+            <li>Bid made exactly: <strong>+10 bonus</strong> (bid 2, take 2 → 12).</li>
+            <li>Bid missed: you still keep 1/trick (bid 3, take 2 → 2).</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Special deals</h3>
+      <ul>
+        <li><strong>No Trumps:</strong> no trump suit — highest card of the led suit wins.</li>
+        <li><strong>Guess 'Em / Guess Trumps:</strong> bid before the trump suit is revealed.</li>
+        <li><strong>Blind:</strong> bid before looking at your cards.</li>
+        <li><strong>Misère:</strong> everyone is forced to bid 0. Take no tricks → <strong>+10</strong>; otherwise lose the deal's penalty per trick (−2, or −3 in the trumped Foss misère).</li>
+        <li><strong>Most Tricks:</strong> no bidding — the sole player with the most tricks scores 10; a tie for most scores nobody anything.</li>
+        <li><strong>Roll 'Em, Twos Wild, Aces Low, Dealer Calls:</strong> play twists that don't change scoring.</li>
+      </ul>
+
+      <p class="rules-src">Rules condensed from
+        <a href="https://en.wikipedia.org/wiki/Clag_(card_game)" target="_blank" rel="noopener">Wikipedia</a> and
+        <a href="https://www.pagat.com/exact/clag.html" target="_blank" rel="noopener">pagat.com</a>.</p>
+    </div>
+  </div>
+</div>
+
+<script src="clag/scoring.js"></script>
 <script src="clag/app.js"></script>
 
 </body>
