@@ -297,15 +297,24 @@ function renderTricks() {
   const c = document.getElementById('tricks-players');
   c.innerHTML = '';
 
-  G.players.forEach((name,pi) => {
+  // Order top→bottom as first-to-play down to dealer (same as bidding order).
+  const order = bidOrder(ri);
+  const dealer = dealerFor(ri);
+
+  order.forEach((pi, oi) => {
+    const name = G.players[pi];
+    const isDealer = pi === dealer;
+    const isEldest = oi === 0;
     const bid = parseInt(G.scores[ri][pi].bid)||0;
     const val = parseInt(G.scores[ri][pi].tricks)||0;
+    const tag = isDealer ? 'DEALER' : (isEldest ? 'LEADS FIRST' : '');
     const row = document.createElement('div');
-    row.className = 'stepper-row';
+    row.className = 'stepper-row' + (isDealer?' is-dealer':(isEldest?' is-eldest':''));
     row.id = `tr${pi}`;
     row.innerHTML = `
       <div class="sinfo">
         <div class="sname">${name.toUpperCase()}</div>
+        ${tag ? `<div class="stag">${tag}</div>` : ''}
         <div class="ssub" id="tsub${pi}">${mis?'Must take 0': hn?'Most tricks wins':`Bid: ${bid}`}</div>
       </div>
       <div class="scontrols">
