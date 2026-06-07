@@ -208,11 +208,26 @@ function scorecardBack() {
 function scorecardAdvance() {
   if (G.currentRound === G.rounds.length-1) { showGameOver(); return; }
   G.currentRound++;
-  // fresh entries for new round (keep defaults at 0)
-  G.players.forEach((_,pi)=>{ G.scores[G.currentRound][pi]={bid:0,tricks:0}; });
+  // Entries for every round are pre-initialised at startGame, so don't reset
+  // here — that would wipe data the user entered before stepping back.
   scReturnPhase = null;
   save();
   goPhase('bid');
+}
+
+// Step back one place in the timeline to correct a mistake:
+//   tricks → bid (same round); bid (or a no-bid "most tricks" round) → the
+//   previous round's trick entry. All previously entered values are preserved.
+function stepBack() {
+  const round = G.rounds[G.currentRound];
+  if (G.phase === 'tricks' && !isMostTricks(round)) { goPhase('bid'); return; }
+  if (G.currentRound > 0) { G.currentRound--; save(); goPhase('tricks'); }
+}
+
+// Is there an earlier step to go back to from the given phase?
+function canStepBack(phase) {
+  if (G.currentRound > 0) return true;
+  return phase === 'tricks' && !isMostTricks(G.rounds[G.currentRound]);
 }
 
 // ─── BID SCREEN ───────────────────────────────────────────────────────────────
@@ -229,6 +244,7 @@ function renderBid() {
   document.getElementById('bid-sbadge').innerHTML = round.special
     ? `<div class="sbadge">⚡ ${round.desc}</div>` : '';
   renderTrumpBar('bid', ri);
+  document.getElementById('btn-bid-back').style.display = canStepBack('bid') ? '' : 'none';
 
   const order = bidOrder(ri);
   const dealer = dealerFor(ri);
@@ -350,6 +366,7 @@ function renderTricks() {
   document.getElementById('tricks-sbadge').innerHTML = round.special
     ? `<div class="sbadge">⚡ ${round.desc}</div>` : '';
   renderTrumpBar('tricks', ri);
+  document.getElementById('btn-tricks-back').style.display = canStepBack('tricks') ? '' : 'none';
 
   const c = document.getElementById('tricks-players');
   c.innerHTML = '';

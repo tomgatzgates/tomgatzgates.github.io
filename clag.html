@@ -87,7 +87,10 @@
   <div id="bid-trump" class="trump-bar"></div>
   <div id="bid-bar"></div>
   <div id="bid-players"></div>
-  <button class="btn btn-primary mt14" id="btn-confirm-bids" onclick="confirmBids()">CONFIRM BIDS →</button>
+  <div class="btn-row mt14">
+    <button class="btn btn-secondary" id="btn-bid-back" onclick="stepBack()" style="display:none">◀ BACK</button>
+    <button class="btn btn-primary" id="btn-confirm-bids" onclick="confirmBids()">CONFIRM BIDS →</button>
+  </div>
   <button class="btn btn-ghost mt8" onclick="openScorecard('bid')">VIEW SCORECARD</button>
 </div>
 
@@ -105,7 +108,10 @@
   <div id="tricks-trump" class="trump-bar"></div>
   <div id="tricks-bar"></div>
   <div id="tricks-players"></div>
-  <button class="btn btn-primary mt14" onclick="confirmTricks()">CONFIRM TRICKS →</button>
+  <div class="btn-row mt14">
+    <button class="btn btn-secondary" id="btn-tricks-back" onclick="stepBack()" style="display:none">◀ BACK</button>
+    <button class="btn btn-primary" onclick="confirmTricks()">CONFIRM TRICKS →</button>
+  </div>
   <button class="btn btn-ghost mt8" onclick="openScorecard('tricks')">VIEW SCORECARD</button>
 </div>
 
