@@ -139,6 +139,15 @@ width: 100%; outline: none;
 letter-spacing: 0.04em;
 }
 .pinput-row input::placeholder { color: var(--cream-dim); opacity: 0.45; }
+.pmove { display: flex; gap: 4px; flex-shrink: 0; }
+.pmove-btn {
+  background: rgba(0,0,0,0.3); border: 1px solid var(--border-dim);
+  color: var(--cream-dim); font-size: 0.7rem; line-height: 1;
+  width: 28px; height: 28px; cursor: pointer; border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+}
+.pmove-btn:active:not(:disabled) { border-color: var(--amber); color: var(--amber); }
+.pmove-btn:disabled { opacity: 0.25; cursor: default; }
 
 /* ── RADIO CARDS ── */
 .radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }

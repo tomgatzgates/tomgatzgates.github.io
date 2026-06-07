@@ -61,7 +61,11 @@ function initSetup() {
     d.innerHTML = `<span class="pnum">P${i+1}</span>
       <input type="text" id="pi${i}" value="${saved[i]||''}"
         placeholder="${i<3?'Required':'Optional'}"
-        maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false">`;
+        maxlength="14" autocomplete="off" autocorrect="off" spellcheck="false">
+      <div class="pmove">
+        <button type="button" class="pmove-btn" onclick="movePlayer(${i},-1)" aria-label="Move up" ${i===0?'disabled':''}>▲</button>
+        <button type="button" class="pmove-btn" onclick="movePlayer(${i},1)" aria-label="Move down" ${i===6?'disabled':''}>▼</button>
+      </div>`;
     c.appendChild(d);
   }
 
@@ -74,6 +78,17 @@ function initSetup() {
   } else {
     banner.style.display = 'none';
   }
+}
+
+// Swap a player's name with the adjacent slot, so seating/dealer order can be
+// rearranged after typing. Empty slots swap fine (the name just shifts).
+function movePlayer(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j > 6) return;
+  const a = document.getElementById(`pi${i}`);
+  const b = document.getElementById(`pi${j}`);
+  if (!a || !b) return;
+  [a.value, b.value] = [b.value, a.value];
 }
 
 function resumeGame() {
@@ -90,12 +105,14 @@ function discardSave() {
 }
 
 function startGame() {
+  // Collect non-empty names in slot order (seating/play order). Reordering may
+  // leave gaps, so compact rather than requiring specific slots to be filled.
   const players = [];
   for (let i=0; i<7; i++) {
     const v = document.getElementById(`pi${i}`).value.trim();
-    if (i<3 && !v) { alert(`Player ${i+1} name is required.`); return; }
     if (v) players.push(v);
   }
+  if (players.length < 3) { alert('Enter at least 3 player names.'); return; }
   const gameType = document.querySelector('input[name="gametype"]:checked').value;
   const variation = document.querySelector('input[name="scoring"]:checked').value;
   const rounds = buildRounds(gameType);
